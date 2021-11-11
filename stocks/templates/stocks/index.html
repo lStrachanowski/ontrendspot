@@ -1,8 +1,4 @@
-{% load static %}
-<html>
-<body>
-
-    <img src= "{% static '/img/logo.svg' %}">
-    <p>Index</p>
-</body>
-</html>
+{% extends "stocks/base.html" %}
+{% block content %}
+<h1>Index</h1>
+{% endblock %}
