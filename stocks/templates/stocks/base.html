@@ -22,7 +22,19 @@
 </head>
 
 <body>
-  <img src= "{% static '/img/logo.svg' %}">
+  <div class="header-container">
+    <div class="logo-container">
+      <img src= "{% static '/img/logo.svg' %}" class="logo">
+    </div>
+    <div class="menu-container">
+      <div class="menu-bar-wrapper">
+        <div class="menu-bar"></div>
+        <div class="menu-bar"></div>
+        <div class="menu-bar"></div>
+      </div>
+    </div>
+  </div>
+  
   {% block content %}
   {% endblock %}
   <script src="{% static '/js/main.js' %}"></script>
