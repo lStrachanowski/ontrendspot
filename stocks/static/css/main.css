@@ -41,6 +41,13 @@ a{
     width: 10%;
 }
 
+.menu-bar-wrapper{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .menu-bar{
     width: 52px;
     height: 6px;
@@ -49,11 +56,9 @@ a{
     margin: 3.15%;
 }
 
-.menu-bar-wrapper{
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.menu-bar-wrapper:hover > .menu-bar{
+    background: #6453A9;
+    transition: 0.35s;
 }
 
 .user-icon-container{
@@ -62,7 +67,9 @@ a{
 
 .user-icon{
     width: 80%;
+    cursor: pointer;
 }
+
 
 .footer{
     display: flex;
@@ -101,6 +108,13 @@ a{
     align-items: center;
     padding: 1%;
 }
+
+.base-position{
+    display: flex;
+    flex-direction: row;
+    padding: 3% 10%;
+}
+
 
 @media only screen and (max-width: 768px) {
 
