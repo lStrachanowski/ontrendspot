@@ -8,6 +8,6 @@ urlpatterns = [
     path('reset', views.reset, name = 'reset'),
     path('list', views.list, name="list"),
     path('daydetails', views.daydetails, name="daydetails"),
-    path('stocks/<str:stockname>', views.stock )
+    path('stocks/<str:stockname>', views.stock, name="stock" )
 
 ]
