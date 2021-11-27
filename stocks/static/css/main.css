@@ -248,4 +248,15 @@ h1{
     width: 30%;
 }
 
+.footer-space{
+    padding: 0% 3%;
+}
+
+.stock-name-size{
+    font-size: 1.25em;
+}
+.index-stock-container-data{
+    font-size: 0.85em;
+}
+
 }
