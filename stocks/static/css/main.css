@@ -172,6 +172,10 @@ input:placeholder {
     align-items: center;
 }
 
+.violet{
+    background-color: #6453A9;
+}
+
 .index-stock-container-element{
     width: 50%;
 }
