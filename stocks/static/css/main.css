@@ -24,7 +24,24 @@ h1{
     font-family: Roboto-Regular;
 }
 
+input {
+    font-size: 1.2em;
+}
 
+input:placeholder {
+    color: #DFDFDF;
+    font-size: 1.2em;
+    font-family: Roboto-Bold;
+    margin-left: 5%;
+}
+
+.light-green-color{
+    background-color: #A9C1CA;
+}
+
+.mint-color{
+    background-color: #61AEC9;
+}
 
 .header-container{
     display: flex;
@@ -78,8 +95,9 @@ h1{
 
 .base-position{
     display: flex;
+    align-items: center;
     flex-direction: column;
-    padding: 3% 10%;
+    padding: 3% 10% 1% 10%;
     background: #D3E1E6;
 }
 
@@ -169,6 +187,12 @@ h1{
     font-size: 2em;
 }
 
+.index-stock-button-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .button-style{
     display: flex;
     background: #FFFFFF;
@@ -197,12 +221,81 @@ h1{
     color: white;
 }
 
-.index-stock-button-container{
+.newssocial-container{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    min-height: 17vh;
+}
+
+.newsletter-container{
+    display: flex;
+    flex-direction: row;
+    width: 65%;
+    align-items: center;
+    background-color: #A9C1CA;
+    min-height: 17vh;
+    justify-content: center;
+}
+
+.newsletter-position{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+}
+
+.newsletter-font{
+    padding: 1% 0% 2% 0%;
+    font-family: Roboto-Bold;
+    font-size: 1.3em;
+}
+
+.newsletter-input{
+    background: white;
+    border: 1px solid rgba(93, 93, 93, 0.35);
+    box-sizing: border-box;
+    box-shadow: inset 2px 3px 4px rgba(0, 0, 0, 0.25);
     width: 100%;
+    height: 5vh;
+}
+
+.newsletter-button{
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #E33D3D;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    font-family: Roboto-Regular;
+    color: white;
+    height: 5.5vh;
+    width: 14%;
+    margin-left: 5%;
 }
+
+.newsletter-button:hover{
+    cursor: pointer;
+    transition: 0.35s;
+    background-color: #872525 ;
+}
+
+.socialmedia-container{
+    background-color: #61AEC9;
+    min-height: 17vh;
+    width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.socialmedia-icon{
+    cursor: pointer;
+    width: 15%;
+    height: auto;
+}
+
+
 @media only screen and (max-width: 768px) {
 
 .header-container{
@@ -259,4 +352,39 @@ h1{
     font-size: 0.85em;
 }
 
+.newssocial-container{
+    flex-direction: column;
+}
+
+.newsletter-container{
+    width: 100%;
+}
+
+.socialmedia-container{
+    width: 100%;
+    height: 15vh;
+}
+
+.socialmedia-icon{
+    max-width: 50px;
+}
+
+.newsletter-container{
+    flex-direction: column;
+}
+
+.newsletter-position{
+    width: 90%;
+    min-height: 100px;
+}
+
+.newsletter-button {
+    margin: 3%;
+    width: 26%;
+    min-height: 45px;
+}
+
+.newsletter-input {
+    min-height: 45px;
+}
 }
