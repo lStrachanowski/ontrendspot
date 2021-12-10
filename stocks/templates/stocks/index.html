@@ -38,20 +38,20 @@
                     <a href="{% url 'stock' 'allegro' %}">
                         <img src="{% static '/img/chart.jpg'%}" class="index-stock-image">
                     </a>
-                        <div class="index-stock-container-data">
-                            <div class="index-stock-container-element">
-                                20.09.2021
-                            </div>
-                            <div class="index-stock-container-element-right">
-                                <div class="stock-name-size">
-                                    <a href="{% url 'stock' 'allegro' %}">Allegro</a>
-                                </div>
-                                <div>
-                                    comments (21)
-                                </div>
-
-                            </div>
+                    <div class="index-stock-container-data">
+                        <div class="index-stock-container-element">
+                            20.09.2021
                         </div>
+                        <div class="index-stock-container-element-right">
+                            <div class="stock-name-size">
+                                <a href="{% url 'stock' 'allegro' %}">Allegro</a>
+                            </div>
+                            <div>
+                                comments (21)
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
                 <div class="index-stock-button-container">
                     <div class="button-style">
@@ -82,16 +82,16 @@
         <div class="newsletter-button">
             Subscribe
         </div>
-       
+
     </div>
     <div class="socialmedia-container">
-        <img src="{% static '/img/facebook.svg'%}" class="socialmedia-icon"  />
+        <img src="{% static '/img/facebook.svg'%}" class="socialmedia-icon" />
         <img src="{% static '/img/twitter.svg'%}" class="socialmedia-icon" />
     </div>
-    
+
 </div>
 
-<div class="base-position">
+<div class="base-position white">
     <h1>Średnie dnia</h1>
     <div class="index-stoc-container-wrapper">
         <div class="index-stock-position">
@@ -128,20 +128,20 @@
                     <a href="{% url 'stock' 'allegro' %}">
                         <img src="{% static '/img/chart.jpg'%}" class="index-stock-image">
                     </a>
-                        <div class="index-stock-container-data violet">
-                            <div class="index-stock-container-element">
-                                20.09.2021
-                            </div>
-                            <div class="index-stock-container-element-right">
-                                <div class="stock-name-size">
-                                    <a href="{% url 'stock' 'allegro' %}">PKN Orlen</a>
-                                </div>
-                                <div>
-                                    comments (0)
-                                </div>
-
-                            </div>
+                    <div class="index-stock-container-data violet">
+                        <div class="index-stock-container-element">
+                            20.09.2021
                         </div>
+                        <div class="index-stock-container-element-right">
+                            <div class="stock-name-size">
+                                <a href="{% url 'stock' 'allegro' %}">PKN Orlen</a>
+                            </div>
+                            <div>
+                                comments (0)
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
                 <div class="index-stock-button-container">
                     <div class="button-style">
@@ -159,4 +159,78 @@
         </div>
     </div>
 </div>
-    {% endblock %}
+
+
+<div class="base-position white">
+    <h1>Formacje świecowe</h1>
+    <div class="index-stoc-container-wrapper">
+        <div class="index-stock-position">
+            <div class="formation-container">
+                <div class="formation-header">
+                    Formacje wzrostowe
+                </div>
+                <div class="formation-content">
+                    <div class="formation-stock-ticker">PKO</div>
+                    <div>Harami wzrostowe</div>
+                    <div>20.09.2021</div>
+                </div>
+                <div class="formation-content">
+                    <div class="formation-stock-ticker">PKO</div>
+                    <div>Harami wzrostowe</div>
+                    <div>20.09.2021</div>
+                </div>
+                <div class="formation-content">
+                    <div class="formation-stock-ticker">PKO</div>
+                    <div>Harami wzrostowe</div>
+                    <div>20.09.2021</div>
+                </div>
+            </div>
+            
+
+            <div class="index-stock-button-container">
+                <div class="button-style">
+                    więcej
+                </div>
+            </div>
+        </div>
+
+        <div class="index-stock-position">
+            <div class="index-stock-position">
+                <div class="formation-container">
+                    <div class="formation-header">
+                        Formacje spadkowe
+                    </div>
+                    <div class="formation-content">
+                        <div class="formation-stock-ticker">PKO</div>
+                        <div>Harami wzrostowe</div>
+                        <div>20.09.2021</div>
+                    </div>
+                    <div class="formation-content">
+                        <div class="formation-stock-ticker">PKO</div>
+                        <div>Harami wzrostowe</div>
+                        <div>20.09.2021</div>
+                    </div>
+                    <div class="formation-content">
+                        <div class="formation-stock-ticker">PKO</div>
+                        <div>Harami wzrostowe</div>
+                        <div>20.09.2021</div>
+                    </div>
+                </div>
+            
+                <div class="index-stock-button-container">
+                    <div class="button-style">
+                        więcej
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="index-stock-button-container">
+        <div class="button-style button-style-more">
+            pozostałe dni
+        </div>
+    </div>
+</div>
+{% endblock %}
