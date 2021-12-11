@@ -43,6 +43,15 @@ input:placeholder {
     background-color: #61AEC9;
 }
 
+.greey-color{
+    background-color: #FCFCFC;
+}
+
+.darkgreen-color{
+    background-color: #D3E1E6;
+}
+
+
 .header-container{
     display: flex;
     flex-direction: row;
@@ -98,7 +107,6 @@ input:placeholder {
     align-items: center;
     flex-direction: column;
     padding: 1.5% 10% 1.5% 10%;
-    background: #D3E1E6;
 }
 
 .white{
@@ -309,10 +317,9 @@ input:placeholder {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-radius: 20px 20px 0px 0px;
-    filter: drop-shadow(0px 4px 4px rgba(175, 174, 174, 0.75));
-    border: 1px solid #EBE9E9
-    ;
+    border-radius: 15px;
+    border: 1px solid #EBE9E9;
+    box-shadow: 4px 4px 4px rgb(127 120 120 / 20%)
 }
 
 .formation-header{
@@ -320,7 +327,7 @@ input:placeholder {
     justify-content: center;
     align-items: center;
     background: #46C2BB;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 15px 15px 0px 0px;
     color: white;
     font-family: Roboto-Bold;
     width: 30vw;
