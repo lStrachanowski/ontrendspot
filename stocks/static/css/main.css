@@ -35,6 +35,9 @@ input:placeholder {
     margin-left: 5%;
 }
 
+.red-color{
+    background: #E33D3D;
+}
 .light-green-color{
     background-color: #A9C1CA;
 }
@@ -51,6 +54,26 @@ input:placeholder {
     background-color: #D3E1E6;
 }
 
+.greey-color-list{
+    background: #F0F0F0;
+}
+
+.formation-header-color{
+    background: #46C2BB;
+}
+
+.white-font-color{
+    color: white;
+}
+
+.blue-button-color{
+    background-color: #5370A9;
+}
+
+/* 
+.blue-button-color{
+    background-color: #41454D;
+} */
 
 .header-container{
     display: flex;
@@ -58,6 +81,7 @@ input:placeholder {
     padding: 2% 4%;
     box-shadow: 0px 4px 4px rgba(127, 120, 120, 0.2);
     align-items: center;
+    position: relative;
 }
 
 .logo-container{
@@ -163,6 +187,7 @@ input:placeholder {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    margin: 2%;
 }
 .index-stock-container{
     width: 90%;
@@ -278,11 +303,10 @@ input:placeholder {
     height: 5vh;
 }
 
-.newsletter-button{
+.button-with-shadow{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #E33D3D;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     font-family: Roboto-Regular;
@@ -292,10 +316,21 @@ input:placeholder {
     margin-left: 5%;
 }
 
-.newsletter-button:hover{
+.button-with-shadow:hover{
     cursor: pointer;
     transition: 0.35s;
     background-color: #872525 ;
+}
+
+.formation-content-list > .button-with-shadow:hover{
+    background-color: #61AEC9;
+}
+
+.button-with-shadow-list{
+    width: auto;
+    padding: 6% 20%;
+    margin-left: 0%;
+    min-width: 90px;
 }
 
 .socialmedia-container{
@@ -326,13 +361,16 @@ input:placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #46C2BB;
     border-radius: 15px 15px 0px 0px;
-    color: white;
     font-family: Roboto-Bold;
     width: 30vw;
     height: 9vh;
     font-size: 1.25em;
+}
+
+
+.formation-header-list{
+    width: auto;
 }
 
 .formation-content{
@@ -343,10 +381,23 @@ input:placeholder {
     margin: 4% 2%;
 }
 
+.formation-content-list{
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+}
+
 .formation-stock-ticker{
     font-weight: bold;
 }
 
+.list-buttons-container{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 10%;
+    min-width: 35vw;
+}
 
 @media only screen and (max-width: 768px) {
 
@@ -430,7 +481,7 @@ input:placeholder {
     min-height: 100px;
 }
 
-.newsletter-button {
+.button-with-shadow{
     margin: 3%;
     width: 26%;
     min-height: 45px;
@@ -444,12 +495,21 @@ input:placeholder {
     width: 70vw;
 }
 
+.formation-header-list{
+    width: auto;
+}
+
 .formation-content {
     font-size: 0.85em;
 }
 
 .button-style {
     font-size: 0.85em;
+}
+
+.button-with-shadow-list {
+    width: auto;
+    padding: 4% 10%;
 }
 
 }
