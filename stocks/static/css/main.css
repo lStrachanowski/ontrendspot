@@ -70,10 +70,20 @@ input:placeholder {
     background-color: #5370A9;
 }
 
-/* 
-.blue-button-color{
-    background-color: #41454D;
-} */
+.blue-color{
+    color: #5370A9;
+}
+
+.green-font-color{
+    color: #03AF29;
+}
+
+.red-font-color{
+    color: #e70505;
+}
+.darker-greey{
+    color: #575757;;
+}
 
 .header-container{
     display: flex;
@@ -399,6 +409,70 @@ input:placeholder {
     min-width: 35vw;
 }
 
+.arrow-position{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.day-text{
+    font-family: Roboto-Bold;
+    font-size: 1.25em;
+    padding: 0.5% 4%;
+}
+
+.back-arrow{
+    cursor: pointer;
+}
+
+.left-position{
+    align-items: flex-start;
+}
+
+.center-position{
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
+.stock-font{
+    font-family: Roboto-Bold;
+    font-size: 1.75em;
+}
+
+.day-data{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+}
+
+.day-data-position{
+    display: flex;
+    flex-direction: row;
+}
+
+.share-size{
+    width: 5%;
+    margin: 1% 5% 1% 0%;
+    cursor: pointer;
+}
+
+.share-position{
+    display: flex;
+    width: 100%;
+    justify-content: right;
+    align-items: center;
+}
+
+.day-text-font {
+    font-family: 'Roboto';
+    margin-left: 3%;
+}
+
+
+
 @media only screen and (max-width: 768px) {
 
 .header-container{
@@ -510,6 +584,18 @@ input:placeholder {
 .button-with-shadow-list {
     width: auto;
     padding: 4% 10%;
+}
+
+.share-size {
+    width: 7%;
+}
+
+.day-data-position {
+    flex-direction: column;
+}
+
+.day-text {
+    font-size: 1.0em;
 }
 
 }
