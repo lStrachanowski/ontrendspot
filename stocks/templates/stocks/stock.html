@@ -1,6 +1,98 @@
 {% extends "stocks/base.html" %}
+{% load static %}
 {% block content %}
-<p>Stock</p> Name : {{name}}
-{% endblock %}
 
-    
+<div class="base-position greey-color left-position">
+    <div class="arrow-position">
+        <img src="{% static '/img/back_arrow.svg' %}" class="back-arrow" />
+        <p class="day-text darker-greey">wróć</p>
+    </div>
+    <div>
+
+    </div>
+    <div class="day-text darker-greey stock-font">{{name}} <span class="green-font-color">19.85 PLN (4,85%)</span></div>
+    <div class="center-position">
+        <img src="{% static 'img/chart.jpg' %}" class="index-stock-image" />
+    </div>
+    <div class="day-data day-text">
+        <div class="day-data-position ">
+            <div>O firmie </div>
+        </div><br>
+        <div class="day-data-position">
+            <div class="addres-postion">
+                <div class="day-text-font darker-greey">PKP Cargo SA<br>
+                    Grójecka 17<br>
+                    02-021 Warszawa Polska </div>
+            </div><br>
+            <div class="addres-postion">
+                <div> ISIN: PLPKPCR00011 <br>
+                    SYMBOL: PKP</div>
+            </div>
+
+        </div><br>
+        <div class="day-data-position">
+            <div>Telefon: </div>
+            <div class="day-text-font darker-greey"> +48 223 914 667</div>
+        </div>
+        <div class="day-data-position">
+            <div>Email: </div>
+            <div class="day-text-font darker-greey"> relacje.inwestorskie@pkp-cargo.eu</div>
+        </div>
+        <div class="day-data-position">
+            <div>Strona www: </div>
+            <div class="day-text-font darker-greey"> http://www.pkpcargo.com/</div>
+        </div>
+    </div>
+</div>
+<div class=" stock-hit-list mint-color">
+    <div class="formation-stock-ticker day-text-font">Lista wpisów</div>
+    <div class="entry-item white-background">
+        <div class="entry-item-date mint-color-font  formation-stock-ticker day-text-font ">20.09.2020</div>
+        <div class="darker-greey entry-item-message day-text-font ">Wolumen wiekszy o 157% od średniej tygodniowej.
+        </div>
+    </div>
+
+    <div class="entry-item white-background">
+        <div class="entry-item-date mint-color-font  formation-stock-ticker day-text-font ">20.09.2020</div>
+        <div class="darker-greey entry-item-message day-text-font ">Wolumen wiekszy o 157% od średniej tygodniowej.
+        </div>
+    </div>
+
+    <div class="entry-item white-background">
+        <div class="entry-item-date mint-color-font  formation-stock-ticker day-text-font ">20.09.2020</div>
+        <div class="darker-greey entry-item-message day-text-font ">Wolumen wiekszy o 157% od średniej tygodniowej.
+        </div>
+    </div>
+    <div class="index-stock-button-container">
+        <div class="button-style button-style-more">
+            pokaż więcej
+        </div>
+    </div>
+</div>
+
+
+<div class=" stock-hit-list ">
+    <div class="formation-stock-ticker day-text-font">Komentarze</div>
+    <div class="entry-item entry-item-comment">
+        <div class=" entry-item-message day-text-font day-text-font-padding">Podpisana nowa umowa na nowe relacje. Musiało urosnąć. </div>
+        <div class="formation-stock-ticker day-text-font day-text-font-padding ">Jan  20.09.2020</div>   
+    </div>
+
+    <div class="index-stock-button-container">
+        <div class="button-style button-style-more">
+            pokaż więcej
+        </div>
+    </div>
+</div>
+
+<div class=" stock-hit-list ">
+    <div class="formation-stock-ticker day-text-font">Dodaj komentarz</div>
+        <textarea id="comment" name="w3recommentview" rows="4" cols="50">
+        </textarea>
+    <div class="index-stock-button-container">
+        <div class="button-style button-style-more">
+            dodaj
+        </div>
+    </div>
+</div>
+{% endblock %}
