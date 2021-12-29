@@ -431,6 +431,7 @@ input:placeholder {
 
 .back-arrow{
     cursor: pointer;
+    width: 5%;
 }
 
 .left-position{
@@ -545,6 +546,41 @@ textarea {
     font-size: 1.25em;
   }
 
+.input-box{
+    width: 50%;
+    min-height: 60vh;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px #CACACA;
+    margin: 1% 0% 5% 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+input, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: inset 2px 3px 4px rgba(0, 0, 0, 0.25);
+  }
+
+.input-container{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 80%;
+    margin: 2% 0%;
+}
+
+.input-center-text{
+    align-items: center;
+    margin: 1% 0%;
+}
 @media only screen and (max-width: 768px) {
 
 .header-container{
@@ -685,5 +721,16 @@ textarea {
     align-items: center;
 }
 
+.back-arrow{
+    width: 8%;
+}
+
+.input-box{
+    width: 90%;
+  }
+
+.base-position-mobile{
+    padding: 0%;
+}
 
 }
