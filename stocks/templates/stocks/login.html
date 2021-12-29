@@ -1,29 +1,66 @@
 {% extends "stocks/base.html" %}
 {% block content %}
 <div class="base-position darkgreen-color base-position-mobile">
-    <h1>Login</h1>
-    <div class="input-box">
+    <h1 id="caption">Login</h1>
+    <div class="input-box" id="loginForm">
         <div class="input-container">
             <label for="email" class="day-text-font ">Email</label>
             <input type="text" id="email">
         </div>
-        
+
         <div class="input-container">
             <label for="pass" class="day-text-font ">Password</label>
             <input type="password" id="pass">
         </div>
 
+
+        <div class="index-stock-button-container">
+            <div class="button-style">
+                Login
+            </div>
+        </div>
         <div class="input-container input-center-text">
-                <a href="" class="darker-greey day-text-font ">Nie pamiętam hasła</a>
+            <a href="" class="darker-greey day-text-font ">Nie pamiętam hasła.</a>
+        </div>
+
+        <div class="input-container input-center-text">
+            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Nie masz konta ? Zarejestruj się.</div>
+        </div>
+    </div>
+
+    <div class="input-box" id="registerForm">
+        <div class="input-container">
+            <label for="name" class="day-text-font ">Name</label>
+            <input type="text" id="registerUserName">
+        </div>
+        <div class="input-container">
+            <label for="email" class="day-text-font ">Email</label>
+            <input type="text" id="registerEmail">
+        </div>
+
+        <div class="input-container">
+            <label for="pass" class="day-text-font ">Password</label>
+            <input type="password" id="registerPass">
+        </div>
+
+        <div class="input-container">
+            <label for="pass" class="day-text-font ">Confirm password</label>
+            <input type="password" id="registerConfimrPass">
         </div>
 
 
         <div class="index-stock-button-container">
-            <div class="button-style button-style-more">
-                Login
+            <div class="button-style">
+                Register
             </div>
         </div>
+
+        <div class="input-container input-center-text">
+            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
+        </div>
     </div>
+
+    
 </div>
 
 {% endblock %}

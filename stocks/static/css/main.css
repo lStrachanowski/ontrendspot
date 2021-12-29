@@ -577,9 +577,17 @@ input, select {
     margin: 2% 0%;
 }
 
+.input-container:first-child {
+    margin: 4% 0% 2% 0%;
+}
+
 .input-center-text{
     align-items: center;
     margin: 1% 0%;
+}
+
+.cursor{
+    cursor: pointer;
 }
 @media only screen and (max-width: 768px) {
 
