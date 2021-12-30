@@ -2,36 +2,41 @@
 let value = false;
 document.getElementById("registerForm").style.display = "none";
 let formsToggle = () =>{
+    let login = document.getElementById("loginForm");
+    let caption = document.getElementById("caption");
+    let register = document.getElementById("registerForm");
+
     if (value == false){
         // Login form
-        document.getElementById("loginForm").style.animation = "fadeOut 0.7s";
-        document.getElementById("caption").style.animation = "fadeOut 0.7s";
+        login.style.animation = "fadeOut 0.7s";
+        caption.style.animation = "fadeOut 0.7s";
         setTimeout(()=>{
-            document.getElementById("loginForm").style.display = "none";
+            // elements[0].style.display = "none";
+            login.style.display = "none";
         },650);
 
         setTimeout(()=>{
         // Register form
-        document.getElementById("registerForm").style.animation = "fadeIn 0.7s";
-        document.getElementById("caption").style.animation = "fadeIn 0.7s";
-        document.getElementById("registerForm").style.display = "flex";
-        document.getElementById("caption").innerHTML  = "Register";
+        register.style.animation = "fadeIn 0.7s";
+        caption.style.animation = "fadeIn 0.7s";
+        register.style.display = "flex";
+        caption.innerHTML  = "Register";
         },650);
 
     }else{
         // Login form
-        document.getElementById("registerForm").style.animation = "fadeOut 0.7s";
-        document.getElementById("caption").style.animation = "fadeOut 0.7s";
+        register.style.animation = "fadeOut 0.7s";
+        caption.style.animation = "fadeOut 0.7s";
         setTimeout(()=>{
-            document.getElementById("registerForm").style.display = "none";
+            register.style.display = "none";
         },650);
 
         setTimeout(()=>{
             // Register form
-            document.getElementById("loginForm").style.animation = "fadeIn 0.7s";
-            document.getElementById("caption").style.animation = "fadeIn 0.7s";
-            document.getElementById("loginForm").style.display = "flex";
-            document.getElementById("caption").innerHTML  = "Login";
+            login.style.animation = "fadeIn 0.7s";
+            caption.style.animation = "fadeIn 0.7s";
+            login.style.display = "flex";
+            caption.innerHTML  = "Login";
         },650);
 
 
