@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="input-container input-center-text">
-            <a href="" class="darker-greey day-text-font ">Nie pamiętam hasła.</a>
+            <div class="darker-greey day-text-font cursor" onclick="promptToggle()">Nie pamiętam hasła.</div>
         </div>
 
         <div class="input-container input-center-text">
@@ -63,6 +63,22 @@
 
         <div class="input-container input-center-text">
             <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
+        </div>
+
+        
+    </div>
+    <div class="input-box auto-height" id="promptForm">
+        <div class="input-container">
+            <label for="pass" class="day-text-font ">Enter email</label>
+            <input type="password" id="promptEmail">
+        </div>
+        <div class="index-stock-button-container">
+            <div class="button-style" onclick="promptToggle()">
+                OK
+            </div>
+            <div class="button-style" onclick="promptToggle()">
+                Cancel
+            </div>
         </div>
     </div>
 

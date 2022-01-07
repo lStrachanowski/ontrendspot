@@ -600,6 +600,10 @@ input[type=text],input[type=password], select {
 .cursor{
     cursor: pointer;
 }
+
+.auto-height{
+    min-height: auto;
+}
 @media only screen and (max-width: 768px) {
 
 .header-container{
