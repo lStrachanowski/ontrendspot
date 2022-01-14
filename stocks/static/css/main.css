@@ -93,6 +93,7 @@ input:placeholder {
     background-color: white;
 }
 
+
 @keyframes fadeOut {
     from {opacity: 1;}
     to {opacity: 0;}
@@ -569,7 +570,7 @@ textarea {
     align-items: center;
   }
 
-input[type=text],input[type=password], select {
+input, select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -604,6 +605,69 @@ input[type=text],input[type=password], select {
 .auto-height{
     min-height: auto;
 }
+
+.width-75{
+    min-width: 75vw;
+}
+
+.width-10percent{
+    width: 10%;
+}
+
+.account-grid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    margin: 1%;
+}
+
+.account-grid > input{
+    width: 40%;
+    justify-content: space-evenly;
+}
+
+.button-account{
+        display: flex;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);;
+        border: 1px solid #C4BCBC;
+        box-sizing: border-box;
+        border-radius: 15px;
+        font-family: Roboto-Regular;
+        min-width: 25%;
+        height: 40px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1% 2%;
+        word-break: break-all;
+        cursor: pointer;
+        margin: 3%;
+        color: white;
+        overflow-wrap: break-word;
+}
+
+.account-center-text{
+    align-items: center;
+    margin: 1% 15%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.account-center-text-edit{
+    margin: 1% 0%;
+}
+
+
+
+.label-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
 @media only screen and (max-width: 768px) {
 
 .header-container{
@@ -646,7 +710,7 @@ input[type=text],input[type=password], select {
 }
 
 .button-style-more{
-    width: 30%;
+    width: 35%;
 }
 
 .footer-space{
@@ -754,6 +818,19 @@ input[type=text],input[type=password], select {
 
 .base-position-mobile{
     padding: 0%;
+}
+
+.account-grid {
+    flex-direction: column;
+    width: 100%;
+}
+
+.button-account{
+    width: 45%;
+}
+
+.entry-item{
+    width: 90%;
 }
 
 }

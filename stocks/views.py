@@ -11,6 +11,9 @@ def login(request):
 def account(request):
     return render(request, 'stocks/account.html')
 
+def edit(request):
+    return render(request, 'stocks/edit.html')
+
 def reset(request):
     return render(request, 'stocks/reset.html')
 

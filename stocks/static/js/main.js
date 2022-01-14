@@ -1,12 +1,65 @@
 // Is toggling login form to register form 
 let value = false;
 let toggleValue = false;
+let nameValue = false;
+let emailValue = false;
 let login = document.getElementById("loginForm");
 let caption = document.getElementById("caption");
 let register = document.getElementById("registerForm");
 let prompt = document.getElementById("promptForm");
-register.style.display = "none";
-prompt.style.display = "none";
+let nameField = document.getElementById("name_field");
+let nameFieldInput = document.getElementById("name_field_input");
+let emailField = document.getElementById("email_field");
+let emailFieldInput = document.getElementById("email_field_input");
+
+if(emailFieldInput){
+    emailFieldInput.style.display = "none";
+}
+
+if(nameField){
+    nameFieldInput.style.display = "none";
+}
+
+if (register){
+    register.style.display = "none";
+}
+
+if(prompt){
+    prompt.style.display = "none";
+}
+
+let editName = () => {
+    if(nameValue == false){
+        nameField.style.display = "none";
+        nameFieldInput.style.display = "flex";
+    }
+    nameValue = !nameValue;
+}
+
+let editNameCancel = () => {
+    if(nameValue == true){
+        nameField.style.display = "flex";
+        nameFieldInput.style.display = "none";
+    }
+    nameValue = !nameValue;
+}
+
+let editEmail = () => {
+    if(emailValue == false){
+        emailField.style.display = "none";
+        emailFieldInput.style.display = "flex";
+    }
+    emailValue = !emailValue;
+}
+
+let editEmailCancel = () => {
+    if(emailValue == true){
+        emailField.style.display = "flex";
+        emailFieldInput.style.display = "none";
+    }
+    emailValue = !emailValue;
+}
+
 
 let formsToggle = () => {
     if (value == false) {
