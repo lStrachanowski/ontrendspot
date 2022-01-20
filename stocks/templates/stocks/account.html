@@ -48,7 +48,7 @@
                         <div class="label-container">
                             <div class="day-text-font ">Password: *********</div>
                         </div>
-                        <div class="button-account blue-button-color">Edit</div>
+                        <div class="button-account blue-button-color" onclick="changePassword()">Edit</div>
     
                     </div>
                 </div>
@@ -78,8 +78,36 @@
 
             </div>
         </div>
-
     </div>
-
+    <div class="input-top prompt-background" id="promptBox">
+        <div class="input-box " id="changePasswordForm">
+            <div class="input-container">
+                <label for="pass" class="day-text-font ">Old password</label>
+                <input type="password" id="oldPass">
+            </div>
+            <div class="input-container">
+                <label for="pass" class="day-text-font ">New password</label>
+                <input type="password" id="newPass">
+            </div>
+    
+            <div class="input-container">
+                <label for="pass" class="day-text-font ">Confirm password</label>
+                <input type="password" id="confirmNewPass">
+            </div>
+    
+    
+            <div class="index-stock-button-container">
+                <div class="button-style" id="saveButton" onclick="passwordSave()">
+                    Save
+                </div>
+    
+                <div class="button-style" id="cancelButton" onclick="passwordCancel()">
+                    Cancel
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 {% endblock %}
