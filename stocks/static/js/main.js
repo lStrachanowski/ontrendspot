@@ -35,6 +35,7 @@ if(prompt){
 }
 
 let changePassword = () =>{
+    disableScroll();
     if(passwordValue == false){
         passwordPrompt.style.display = "flex";
     }
@@ -45,6 +46,7 @@ let changePassword = () =>{
 let passwordSave = () =>{
     if(passwordValue == true){
         passwordPrompt.style.display = "none";
+        enableScroll();
     }
     passwordValue = !passwordValue;
 }
@@ -52,6 +54,7 @@ let passwordSave = () =>{
 let passwordCancel = () =>{
     if(passwordValue == true){
         passwordPrompt.style.display = "none";
+        enableScroll();
     }
     passwordValue = !passwordValue;
 }
@@ -160,4 +163,19 @@ let promptToggle = () => {
 
     };
     toggleValue = !toggleValue;
+}
+
+function disableScroll(){
+    // To get the scroll position of current webpage
+    TopScroll = window.pageYOffset || document.documentElement.scrollTop;
+    LeftScroll = window.pageXOffset || document.documentElement.scrollLeft,
+    
+    // if scroll happens, set it to the previous value
+    window.onscroll = function() {
+    window.scrollTo(LeftScroll, TopScroll);
+            };
+}
+    
+function enableScroll(){
+    window.onscroll = function() {};
 }
