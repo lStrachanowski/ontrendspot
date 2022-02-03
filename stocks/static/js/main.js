@@ -4,6 +4,7 @@ let toggleValue = false;
 let nameValue = false;
 let emailValue = false;
 let passwordValue = false;
+let menuValue = false;
 let login = document.getElementById("loginForm");
 let caption = document.getElementById("caption");
 let register = document.getElementById("registerForm");
@@ -13,7 +14,11 @@ let nameFieldInput = document.getElementById("name_field_input");
 let emailField = document.getElementById("email_field");
 let emailFieldInput = document.getElementById("email_field_input");
 let passwordPrompt = document.getElementById("promptBox");
+let siteMenu = document.getElementById("siteMenu");
 
+if(siteMenu){
+    siteMenu.style.display = "none";
+}
 if(passwordPrompt){
     passwordPrompt.style.display = "none";
 }
@@ -32,6 +37,18 @@ if (register){
 
 if(prompt){
     prompt.style.display = "none";
+}
+
+let showMenu = () =>{
+    if (menuValue == false){
+        siteMenu.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }else{
+        siteMenu.style.display = "none";
+        document.body.style.overflow = "visible";
+    }
+    menuValue = !menuValue;
+
 }
 
 let changePassword = () =>{

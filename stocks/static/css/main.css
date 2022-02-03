@@ -12,7 +12,7 @@
 
 body {
     margin: 0;
-    padding: 0;
+    padding: 0; 
 }
 
 a{
@@ -398,6 +398,47 @@ input:placeholder {
     font-size: 1.25em;
 }
 
+.main-menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto-Bold;
+    font-size: 1.25em;
+    margin-top: 1%;
+    transition: 0.25s;
+}
+.main-menu:hover{
+    color: #03AF29;
+}
+
+.close {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.4;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+  .close:hover {
+    opacity: 1;
+  }
+  .close:before, .close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 53px;
+    width: 6px;
+    background-color: rgb(255, 255, 255);
+  }
+  .close:before {
+    transform: rotate(45deg);
+  }
+  .close:after {
+    transform: rotate(-45deg);
+  }
+
 
 .formation-header-list{
     width: auto;
@@ -690,6 +731,20 @@ input[type="password"], input[type="text"]{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+}
+
+.menu-background{
+    background-color: #6453A9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position:absolute ;
+    z-index:10;
+    overflow: hidden; 
+    flex-direction: column;
+    opacity: 0.95;
 }
 
 @media only screen and (max-width: 768px) {

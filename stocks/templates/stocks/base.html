@@ -22,6 +22,23 @@
 </head>
 
 <body>
+
+  <div class="menu-background" id="siteMenu" >
+    <div class="close" onclick="showMenu()"></div>
+    <div class="main-menu white-font-color cursor"> 
+      O nas
+    </div>
+    <br>
+    <div class="main-menu white-font-color cursor">
+      Zestawienie wskaźników
+    </div>
+    <br>
+    <div class="main-menu white-font-color cursor">
+      Kontakt
+    </div>
+    
+  </div>
+
   <div class="header-container">
     <div class="logo-container">
       <a href="{% url 'index' %}">
@@ -33,13 +50,15 @@
     </div>
 
     <div class="menu-container">
-      <div class="menu-bar-wrapper">
+      <div class="menu-bar-wrapper" onclick="showMenu()">
         <div class="menu-bar"></div>
         <div class="menu-bar"></div>
         <div class="menu-bar"></div>
       </div>
     </div>
   </div>
+
+ 
   
   {% block content %}
   {% endblock %}
