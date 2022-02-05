@@ -12,8 +12,8 @@
                         <div class="label-container">
                             <div class="day-text-font ">Name : Lukasz</div>
                         </div>
-                        <div class="button-account blue-button-color" onclick="editName()">Edit</div>
-                  
+                        <button class="button-account blue-button-color" onclick="editName()">Edit</button>
+
                     </div>
 
                     <div class="account-grid" id="name_field_input">
@@ -21,8 +21,8 @@
                             <label for="name_input" class="day-text-font ">Name:</label>
                             <input type="text" id="name_input">
                         </div>
-                        <div class="button-account blue-button-color">Save</div>
-                       <div class="button-account red-color" onclick="editNameCancel()">Cancel</div> 
+                        <button class="button-account blue-button-color">Save</button>
+                        <button class="button-account red-color" onclick="editNameCancel()">Cancel</button>
                     </div>
 
                     <div class="account-grid" id="email_field">
@@ -30,8 +30,8 @@
                             <div class="day-text-font ">Email: luksza@op.pl</div>
                         </div>
 
-                        <div class="blue-button-color button-account" onclick="editEmail()">Edit</div>
-          
+                        <button class="blue-button-color button-account" onclick="editEmail()">Edit</button>
+
                     </div>
 
                     <div class="account-grid" id="email_field_input">
@@ -40,16 +40,16 @@
                             <input type="text" id="email_input">
                         </div>
 
-                        <div class="blue-button-color button-account">Save</div>
-                        <div class="button-account red-color" onclick="editEmailCancel()">Cancel</div>
+                        <button class="blue-button-color button-account">Save</button>
+                        <button class="button-account red-color" onclick="editEmailCancel()">Cancel</button>
                     </div>
-                    
+
                     <div class="account-grid" id="password_field">
                         <div class="label-container">
                             <div class="day-text-font ">Password: *********</div>
                         </div>
-                        <div class="button-account blue-button-color" onclick="changePassword()">Edit</div>
-    
+                        <button class="button-account blue-button-color" onclick="changePassword()">Edit</button>
+
                     </div>
                 </div>
                 <div>
@@ -70,9 +70,9 @@
                             X</div>
                     </div>
                     <div class="index-stock-button-container">
-                        <div class="button-style button-style-more">
+                        <button class="button-style button-style-more">
                             pokaż więcej
-                        </div>
+                        </button>
                     </div>
                 </div>
 
@@ -89,21 +89,21 @@
                 <label for="pass" class="day-text-font ">New password</label>
                 <input type="password" id="newPass">
             </div>
-    
+
             <div class="input-container">
                 <label for="pass" class="day-text-font ">Confirm password</label>
                 <input type="password" id="confirmNewPass">
             </div>
-    
-    
+
+
             <div class="index-stock-button-container">
-                <div class="button-style" id="saveButton" onclick="passwordSave()">
+                <button class="button-style" id="saveButton" onclick="passwordSave()">
                     Save
-                </div>
-    
-                <div class="button-style" id="cancelButton" onclick="passwordCancel()">
+                </button>
+
+                <button class="button-style" id="cancelButton" onclick="passwordCancel()">
                     Cancel
-                </div>
+                </button>
             </div>
         </div>
     </div>
