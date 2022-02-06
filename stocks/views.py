@@ -9,6 +9,9 @@ def index(request):
 def login(request):
     return render(request, 'stocks/login.html')
 
+def register(request):
+    return render(request, 'stocks/register.html')
+
 def account(request):
     return render(request, 'stocks/account.html')
 

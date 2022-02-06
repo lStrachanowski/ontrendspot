@@ -15,6 +15,8 @@ let emailField = document.getElementById("email_field");
 let emailFieldInput = document.getElementById("email_field_input");
 let passwordPrompt = document.getElementById("promptBox");
 let siteMenu = document.getElementById("siteMenu");
+let registerForm = document.getElementById("register");
+
 
 if(siteMenu){
     siteMenu.style.display = "none";
@@ -195,4 +197,11 @@ function disableScroll(){
     
 function enableScroll(){
     window.onscroll = function() {};
+}
+
+if (registerForm){
+    login.style.display = "none";
+    register.style.display = "flex";
+    caption.innerHTML = "Register";
+    value = true;   
 }
