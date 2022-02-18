@@ -181,6 +181,10 @@ input:placeholder {
     padding: 1.5% 10% 1.5% 10%;
 }
 
+.base-position-height{
+    height: 80vh;
+}
+
 .white{
     background: white;
 }
