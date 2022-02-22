@@ -2,20 +2,21 @@
 {% block content %}
 <div class="base-position darkgreen-color base-position-mobile base-position-height">
     <h1 id="caption">Login</h1>
-    <div class="input-box" id="loginForm">
+    <form  class="input-box" id="loginForm" method="post">
+        {% csrf_token %}
         <div class="input-container">
             <label for="email" class="day-text-font ">Email</label>
-            <input type="text" id="email">
+            <input type="text" id="email" name="email">
         </div>
 
         <div class="input-container">
             <label for="pass" class="day-text-font ">Password</label>
-            <input type="password" id="pass">
+            <input type="password" id="pass" name="password">
         </div>
 
 
         <div class="index-stock-button-container">
-            <button class="button-style">
+            <button class="button-style" type="submit" name="login_button">
                 Login
             </button>
         </div>
@@ -24,39 +25,39 @@
         </div>
 
         <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Nie masz konta ? Zarejestruj się.</div>
+            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Nie masz konta ? Zarejestruj się.
+            </div>
         </div>
-    </div>
-
-    <div class="input-box" id="registerForm">
+    </form>
+    
+    <form class="input-box" id="registerForm" method="post">
+        {% csrf_token %}
         <div class="input-container">
             <label for="name" class="day-text-font ">Name</label>
-            <input type="text" id="registerUserName">
+            <input type="text" id="registerUserName" name="name">
         </div>
         <div class="input-container">
             <label for="email" class="day-text-font ">Email</label>
-            <input type="text" id="registerEmail">
+            <input type="text" id="registerEmail" name="email">
         </div>
 
         <div class="input-container">
             <label for="pass" class="day-text-font ">Password</label>
-            <input type="password" id="registerPass">
+            <input type="password" id="registerPass" name="password">
         </div>
 
         <div class="input-container">
             <label for="pass" class="day-text-font ">Confirm password</label>
-            <input type="password" id="registerConfimrPass">
+            <input type="password" id="registerConfimrPass" name="confirm_password">
         </div>
 
         <div>
             <input type="checkbox" id="termsAgree" name="termsAgree" value="ok">
             <label for="termsAgree" class="day-text-font"> Accept therms and conditions</label>
         </div>
-           
-        
 
         <div class="index-stock-button-container">
-            <button class="button-style">
+            <button class="button-style" type="submit" name="register_button">
                 Register
             </button>
         </div>
@@ -64,9 +65,8 @@
         <div class="input-container input-center-text">
             <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
         </div>
+    </form>
 
-        
-    </div>
     <div class="input-box auto-height" id="promptForm">
         <div class="input-container">
             <label for="pass" class="day-text-font ">Enter email</label>
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    
+
 </div>
 
 {% endblock %}
