@@ -1,6 +1,6 @@
 {% extends "stocks/base.html" %}
 {% block content %}
-<div class="base-position darkgreen-color base-position-mobile" id="register">
+<div class="base-position darkgreen-color base-position-mobile base-position-height" id="register">
     <h1 id="caption">Login</h1>
     <form  class="input-box" id="loginForm" method="post">
         {% csrf_token %}
@@ -66,20 +66,22 @@
             <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
         </div>
     </form>
-    <div class="input-box auto-height" id="promptForm">
+
+    <form class="input-box auto-height" id="promptForm" method="post">
+        {% csrf_token %}
         <div class="input-container">
             <label for="pass" class="day-text-font ">Enter email</label>
-            <input type="password" id="promptEmail">
+            <input type="email" id="promptEmail" name="email">
         </div>
         <div class="index-stock-button-container">
-            <button class="button-style" onclick="promptToggle()">
+            <button class="button-style" onclick="promptToggle()" name="reset_button_confirmation">
                 OK
             </button>
-            <button class="button-style" onclick="promptToggle()">
+            <button class="button-style" onclick="promptToggle()" name="reset_button_cancellation">
                 Cancel
             </button>
         </div>
-    </div>
+    </form>
 
     
 </div>

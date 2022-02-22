@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, ResetForm
 
 # Create your views here.
 
@@ -26,6 +26,15 @@ def login(request):
             else:
                 print(form.errors)
             return render(request, 'stocks/register.html')
+        if 'reset_button_confirmation' in request.POST:
+            form = ResetForm(request.POST)
+            if form.is_valid():
+                print(form.cleaned_data['email'])
+            else:
+                print(form.errors)
+            return render(request, 'stocks/reset.html')
+        if 'reset_button_cancellation' in request.POST:
+            return render(request, 'stocks/login')
     return render(request, 'stocks/login.html')
     
 
@@ -41,13 +50,22 @@ def register(request):
             else:
                 print(form.errors)
         if 'login_button' in request.POST :
-                form = LoginForm(request.POST)
-                if form.is_valid():
-                    print(form.cleaned_data['email'])
-                    print(form.cleaned_data['password'])
-                else:
-                    print(form.errors)
-                return render(request, 'stocks/login.html')
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                print(form.cleaned_data['email'])
+                print(form.cleaned_data['password'])
+            else:
+                print(form.errors)
+            return render(request, 'stocks/login.html')
+        if 'reset_button_confirmation' in request.POST:
+            form = ResetForm(request.POST)
+            if form.is_valid():
+                print(form.cleaned_data['email'])
+            else:
+                print(form.errors)
+            return render(request, 'stocks/reset.html')
+        if 'reset_button_cancellation' in request.POST:
+            return render(request, 'stocks/login')
     return render(request, 'stocks/register.html')
 
 def account(request):

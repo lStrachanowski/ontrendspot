@@ -67,20 +67,21 @@
         </div>
     </form>
 
-    <div class="input-box auto-height" id="promptForm">
+    <form class="input-box auto-height" id="promptForm" method="post">
+        {% csrf_token %}
         <div class="input-container">
             <label for="pass" class="day-text-font ">Enter email</label>
-            <input type="password" id="promptEmail">
+            <input type="email" id="promptEmail" name="email">
         </div>
         <div class="index-stock-button-container">
-            <button class="button-style" onclick="promptToggle()">
+            <button class="button-style" onclick="promptToggle()" name="reset_button_confirmation">
                 OK
             </button>
-            <button class="button-style" onclick="promptToggle()">
+            <button class="button-style" onclick="promptToggle()" name="reset_button_cancellation">
                 Cancel
             </button>
         </div>
-    </div>
+    </form>
 
 
 </div>
