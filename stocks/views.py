@@ -34,7 +34,7 @@ def login(request):
                 print(form.errors)
             return render(request, 'stocks/reset.html')
         if 'reset_button_cancellation' in request.POST:
-            return render(request, 'stocks/login')
+            return render(request, 'stocks/login.html')
     return render(request, 'stocks/login.html')
     
 
@@ -65,7 +65,7 @@ def register(request):
                 print(form.errors)
             return render(request, 'stocks/reset.html')
         if 'reset_button_cancellation' in request.POST:
-            return render(request, 'stocks/login')
+            return render(request, 'stocks/login.html')
     return render(request, 'stocks/register.html')
 
 def account(request):
