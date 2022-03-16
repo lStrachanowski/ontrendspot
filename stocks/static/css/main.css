@@ -39,6 +39,7 @@ input:placeholder {
     display: flex;
     align-items: flex-end;
     flex-direction: row;
+    width: 5em;
 }
 
 .login-options-option{
@@ -122,6 +123,15 @@ input:placeholder {
     to {opacity: 1;}
   }
   
+.error_message {
+    color: red;
+    margin: 0.1em;
+}
+
+.asteriskField {
+    display: none;
+}
+
 .header-container{
     display: flex;
     flex-direction: row;
@@ -143,6 +153,7 @@ input:placeholder {
 .menu-container{
     width: 10%;
     margin-left: 1.5%;
+    padding: 0% 1.5%;
 }
 
 .menu-bar-wrapper{
@@ -684,6 +695,16 @@ input[type="password"], input[type="text"],input[type="email"]{
     margin: 2% 0%;
 }
 
+.confirmation-box{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 80%;
+    font-family: Roboto-Regular;
+    font-size: 1.0em;
+    color: #575757;
+}
+
 .input-container:first-child {
     margin: 4% 0% 2% 0%;
 }
@@ -755,7 +776,12 @@ input[type="password"], input[type="text"],input[type="email"]{
     margin: 1% 0%;
 }
 
-
+.checkmark{
+    font-size: 2em;
+    color: #03AF29;
+    font-weight: bold;
+    padding: 5%;
+}
 
 .label-container{
     display: flex;
@@ -782,9 +808,17 @@ input[type="password"], input[type="text"],input[type="email"]{
 
 @media only screen and (max-width: 768px) {
 
+.login-options-option{
+    margin-right: 0%;
+    margin: 5%;
+}
 
 .login-link{
     color: #ffffff;
+}
+
+.login-options{
+    display: none;
 }
 
 .login-options-mobile{
@@ -796,6 +830,8 @@ input[type="password"], input[type="text"],input[type="email"]{
     position: absolute;
     top: 200px;
     font-size: 1.5em;
+    width: 100%;
+    justify-content: center;
 }
 
 .header-container{

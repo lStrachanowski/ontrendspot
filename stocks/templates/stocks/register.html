@@ -2,7 +2,7 @@
 {% block content %}
 <div class="base-position darkgreen-color base-position-mobile base-position-height" id="register">
     <h1 id="caption">Login</h1>
-    <form  class="input-box" id="loginForm" method="post">
+    <form class="input-box" id="loginForm" method="post">
         {% csrf_token %}
         <div class="input-container">
             <label for="email" class="day-text-font ">Email</label>
@@ -45,7 +45,9 @@
             <label for="pass" class="day-text-font ">Password</label>
             <input type="password" id="registerPass" name="password">
         </div>
-
+        {% if form.non_field_errors %}
+        <p class="error_message">{{ form.non_field_errors.as_text}}</p>
+        {% endif %}
         <div class="input-container">
             <label for="pass" class="day-text-font ">Confirm password</label>
             <input type="password" id="registerConfimrPass" name="confirm_password">
@@ -55,13 +57,12 @@
             <input type="checkbox" id="termsAgree" name="termsAgree" value="ok">
             <label for="termsAgree" class="day-text-font"> Accept therms and conditions</label>
         </div>
-
+        
         <div class="index-stock-button-container">
             <button class="button-style" type="submit" name="register_button">
                 Register
             </button>
         </div>
-
         <div class="input-container input-center-text">
             <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
         </div>
@@ -83,7 +84,7 @@
         </div>
     </form>
 
-    
+
 </div>
 
 {% endblock %}
