@@ -73,12 +73,14 @@ def register(request):
         if 'login_button' in request.POST :
             form = LoginForm(request.POST)
             if form.is_valid():
-                email = form.cleaned_data['email']
+                user = form.cleaned_data['user']
                 password = form.cleaned_data['password']
-                user = authenticate(request, username=email, password=password)
+                user = authenticate(request, username=user, password=password)
+                print(user)
                 if user is not None:
-                    # login(request, user)
-                    print("logged in")
+                    login(request, user)
+                    response = redirect('/')
+                    return response
             else:
                 print(form.errors)
             return render(request, 'stocks/login.html')
