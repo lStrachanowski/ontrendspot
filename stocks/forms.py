@@ -6,6 +6,14 @@ from django.core.exceptions import ValidationError
 class LoginForm(forms.Form):
     user = forms.CharField(max_length=30)
     password = forms.CharField(widget=forms.PasswordInput)
+    def clean(self):
+        cleaned_data = super().clean()
+        user = cleaned_data.get('user')
+        password = cleaned_data.get('password')
+        if not user:
+            raise ValidationError("Enter user name")
+        if not password:
+            raise ValidationError("Enter password")
 
 class RegisterForm(forms.Form):
     name = forms.CharField(max_length=30)

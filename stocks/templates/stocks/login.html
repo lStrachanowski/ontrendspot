@@ -2,19 +2,33 @@
 {% block content %}
 <div class="base-position darkgreen-color base-position-mobile base-position-height">
     <h1 id="caption">Login</h1>
-    <form  class="input-box" id="loginForm" method="post">
+    <form class="input-box" id="loginForm" method="post">
         {% csrf_token %}
+
         <div class="input-container">
             <label for="user" class="day-text-font ">Username</label>
             <input type="text" id="user" name="user">
         </div>
-
+        {% if form.non_field_errors %}
+        <p class="error_message">{{ form.non_field_errors.as_text}}</p>
+        {% endif %}
         <div class="input-container">
             <label for="pass" class="day-text-font ">Password</label>
             <input type="password" id="pass" name="password">
         </div>
+        {% if form.non_field_errors %}
+        <p class="error_message">{{ form.non_field_errors.as_text}}</p>
+        {% endif %}
 
+        {% if form.errors %}
+        {% for field in form %}
 
+        {% for error in field.errors %}
+        {{field.label}}: {{ error|escape }}
+        {% endfor %}
+
+        {% endfor %}
+        {% endif %}
         <div class="index-stock-button-container">
             <button class="button-style" type="submit" name="login_button">
                 Login
@@ -28,8 +42,11 @@
             <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Nie masz konta ? Zarejestruj się.
             </div>
         </div>
+
+
+
     </form>
-    
+
     <form class="input-box" id="registerForm" method="post">
         {% csrf_token %}
         <div class="input-container">
