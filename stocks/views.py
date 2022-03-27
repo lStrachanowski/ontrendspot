@@ -4,6 +4,7 @@ from .forms import LoginForm, RegisterForm, ResetForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -125,7 +126,8 @@ def confirmation(request):
     if request.method == "POST":
         response = redirect('/')
         return response
-        
+
+@login_required(login_url='/login')      
 def account(request):
     return render(request, 'stocks/account.html')
 

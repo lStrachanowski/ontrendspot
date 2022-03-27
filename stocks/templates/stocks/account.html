@@ -10,7 +10,7 @@
                 <div class="account-center-text">
                     <div class="account-grid" id="name_field">
                         <div class="label-container">
-                            <div class="day-text-font ">Name : Lukasz</div>
+                            <div class="day-text-font ">Name : {{ user.username }}</div>
                         </div>
                         <button class="button-account blue-button-color" onclick="editName()">Edit</button>
 
@@ -27,7 +27,7 @@
 
                     <div class="account-grid" id="email_field">
                         <div class="label-container">
-                            <div class="day-text-font ">Email: luksza@op.pl</div>
+                            <div class="day-text-font ">Email: {{ user.email }}</div>
                         </div>
 
                         <button class="blue-button-color button-account" onclick="editEmail()">Edit</button>
