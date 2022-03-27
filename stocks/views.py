@@ -13,7 +13,7 @@ def index(request):
 
 def login_auth(request):
     if request.method == "POST" :
-        if 'login_button' in request.POST :
+        if 'login_button' in request.POST:
             form = LoginForm(request.POST)
             if form.is_valid():
                 user = form.cleaned_data['user']
@@ -30,15 +30,20 @@ def login_auth(request):
                 f = {'form':form}
                 return render(request, 'stocks/login.html', context=f)   
 
-        if 'register_button' in request.POST :
+        if 'register_button' in request.POST:
             form = RegisterForm(request.POST)
             if form.is_valid():
                 name = form.cleaned_data['name']
                 email = form.cleaned_data['email']
                 password = form.cleaned_data['password']
-                user = User.objects.create_user(name, email,password)
-                response = redirect('/confirmation')
-                return response
+                try:
+                    user = User.objects.create_user(name, email,password)
+                    response = redirect('/confirmation')
+                    return response
+                except:
+                    if User.objects.filter(username = name).exists():
+                        f = {'message_text':'Username is already taken!'}
+                        return render(request, 'stocks/error.html', context=f)  
             else: 
                 f = {'form':form}
                 return render(request, 'stocks/register.html', context=f)
