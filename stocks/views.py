@@ -76,7 +76,7 @@ def register(request):
         return render(request, 'stocks/register.html')
     if request.method == "POST":
         if 'register_button' in request.POST :
-            form = RegisterForm(request.POST)
+            form = RegisterForm(request.POST )
             if form.is_valid():
                 name = form.cleaned_data['name']
                 email = form.cleaned_data['email']
