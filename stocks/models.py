@@ -4,9 +4,10 @@ class Stock(models.Model):
     name = models.CharField(max_length=50)
     stock_symbol = models.CharField(max_length=10, primary_key=True)
     isin = models.CharField(max_length=20)
-    address = models.CharField(max_length=250)
-    phone = models.CharField(max_length=30)
-    email = models.CharField(max_length=20)
+    address = models.CharField(max_length=250, blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    email = models.CharField(max_length=20 , blank=True)
+    website = models.CharField(max_length=50, blank=True)
 
 class Comments(models.Model):
     user_id = models.IntegerField()
