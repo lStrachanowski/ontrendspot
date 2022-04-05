@@ -10,7 +10,7 @@
     <div>
 
     </div>
-    <div class="day-text darker-greey stock-font">{{name}} <span class="green-font-color">19.85 PLN (4,85%)</span></div>
+    <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} <span class="green-font-color">19.85 PLN (4,85%)</span></div>
     <div class="center-position">
         <img src="{% static 'img/chart.jpg' %}" class="index-stock-image" />
     </div>
@@ -20,27 +20,31 @@
         </div><br>
         <div class="day-data-position">
             <div class="addres-postion">
-                <div class="day-text-font darker-greey">PKP Cargo SA<br>
-                    Grójecka 17<br>
-                    02-021 Warszawa Polska </div>
+                <div class="day-text-font darker-greey">{{stock.name}}<br>
+                    
+                    {{stock.address_split.0}} {{stock.address_split.1}}<br>
+                    {{stock.address_split.2}} {{stock.address_split.3}}<br>
+                    {{stock.address_split.4}}
+                    </div>
+                    
             </div><br>
             <div class="addres-postion">
-                <div> ISIN: PLPKPCR00011 <br>
-                    SYMBOL: PKP</div>
+                <div> ISIN: {{stock.isin}} <br>
+                    SYMBOL: {{stock.stock_symbol}}</div>
             </div>
 
         </div><br>
         <div class="day-data-position">
             <div>Telefon: </div>
-            <div class="day-text-font darker-greey"> +48 223 914 667</div>
+            <div class="day-text-font darker-greey"> {{stock.phone}}</div>
         </div>
         <div class="day-data-position">
             <div>Email: </div>
-            <div class="day-text-font darker-greey"> relacje.inwestorskie@pkp-cargo.eu</div>
+            <div class="day-text-font darker-greey"> {{stock.email}}</div>
         </div>
         <div class="day-data-position">
             <div>Strona www: </div>
-            <div class="day-text-font darker-greey"> http://www.pkpcargo.com/</div>
+            <div class="day-text-font darker-greey"> {{stock.website}}</div>
         </div>
     </div>
 </div>

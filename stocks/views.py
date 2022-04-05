@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .models import Stock
 
 # Create your views here.
 
@@ -144,5 +145,7 @@ def daydetails(request, date):
     return render(request, 'stocks/daydetails.html')
 
 def stock(request, stockname):
-    context = {"name":stockname}
+    context = {"stock":Stock.objects.get(stock_symbol=stockname.upper())}
+    p = Stock.objects.get(stock_symbol=stockname.upper())
+    print(p.address_split())
     return render(request, 'stocks/stock.html',context )

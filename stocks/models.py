@@ -8,6 +8,9 @@ class Stock(models.Model):
     phone = models.CharField(max_length=30, blank=True)
     email = models.CharField(max_length=20 , blank=True)
     website = models.CharField(max_length=50, blank=True)
+    def address_split(self):
+        return self.address.split()
+
 
 class Comments(models.Model):
     user_id = models.IntegerField()
