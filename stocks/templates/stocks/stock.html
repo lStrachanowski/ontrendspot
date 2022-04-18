@@ -11,8 +11,10 @@
 
     </div>
     <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} <span class="green-font-color">19.85 PLN (4,85%)</span></div>
+ 
     <div class="center-position">
-        <img src="{% static 'img/chart.jpg' %}" class="index-stock-image" />
+        <img src="/static/img/{{stock.stock_symbol}}.svg" class="index-stock-chart" />
+        
     </div>
     <div class="day-data day-text">
         <div class="day-data-position ">
@@ -99,4 +101,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

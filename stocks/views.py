@@ -1,5 +1,6 @@
 from distutils import errors
 from django.shortcuts import render
+from sqlalchemy import false
 from .forms import LoginForm, RegisterForm, ResetForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -7,10 +8,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db
+from .charts import candle_chart
+
+import pandas as pd
+from datetime import datetime
 
 # Create your views here.
 
 def index(request):
+    candle_chart('pkn', 30, False)
+    candle_chart('pkp', 30, False)
     context = {"day":20092021}
     return render(request, 'stocks/index.html', context)
 
@@ -146,5 +153,6 @@ def daydetails(request, date):
     return render(request, 'stocks/daydetails.html')
 
 def stock(request, stockname):
+    candle_chart(stockname, 90, True)
     context = {"stock":Stock.objects.get(stock_symbol=stockname.upper())}
     return render(request, 'stocks/stock.html',context )

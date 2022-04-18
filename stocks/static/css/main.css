@@ -261,8 +261,15 @@ input:placeholder {
 }
 
 .index-stock-image{
-    width: 100%;
+    width: 85%;
+    margin-left: 7.5%;
+    margin-top: 2.5%;
 }
+
+.index-stock-chart{
+    width: 85%;
+}
+
 .index-stock-container-data{
     font-family: Roboto-Regular;
     color: white;
