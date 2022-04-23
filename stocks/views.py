@@ -48,6 +48,8 @@ def login_auth(request):
                 password = form.cleaned_data['password']
                 try:
                     user = User.objects.create_user(name, email,password)
+                    user.is_active = False
+                    user.save()
                     response = redirect('/confirmation')
                     return response
                 except:
@@ -92,6 +94,8 @@ def register(request):
                 password = form.cleaned_data['password']
                 try:
                     user = User.objects.create_user(name, email,password)
+                    user.is_active = False
+                    user.save()
                     response = redirect('/confirmation')
                     return response
                 except:
