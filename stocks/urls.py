@@ -13,5 +13,6 @@ urlpatterns = [
     path('<int:date>/candles', views.daydetails, name="daydetails"),
     path('stocks/<str:stockname>', views.stock, name="stock" ),
     path('confirmation', views.confirmation, name="confirmation" ),
-    path('logout', views.logout_view, name="logout")
+    path('logout', views.logout_view, name="logout"),
+    path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate')
 ]

@@ -127,3 +127,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 102400
+
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.wp.pl'  
+EMAIL_HOST_USER = 'harmanaudio.11@wp.pl'  
+EMAIL_HOST_PASSWORD = '1q2w3e4r1q2w3e4r+'  
+EMAIL_PORT = 587  

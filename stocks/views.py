@@ -13,7 +13,31 @@ from .charts import candle_chart
 import pandas as pd
 from datetime import datetime
 
+from django.contrib.sites.shortcuts import get_current_site  
+from django.utils.encoding import force_bytes, force_text  
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
+from django.template.loader import render_to_string  
+from .token import account_activation_token  
+from django.contrib.auth.models import User  
+from django.core.mail import EmailMessage  
+from django.http import HttpResponse  
+
 # Create your views here.
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        # return redirect('home')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 def index(request):
     candle_chart('pkn', 30, False)
@@ -26,15 +50,16 @@ def login_auth(request):
         if 'login_button' in request.POST:
             form = LoginForm(request.POST)
             if form.is_valid():
-                user = form.cleaned_data['user']
+                user_name = form.cleaned_data['user']
                 password = form.cleaned_data['password']
-                user = authenticate(request, username=user, password=password)
+                user = authenticate(request, username=user_name, password=password)
                 if user is not None:
-                    login(request, user)
-                    response = redirect('/')
-                    return response
+                    if user.is_active:   
+                        login(request, user)
+                        response = redirect('/')
+                        return response
                 else:
-                    f = {'message_text':'Invalid user or password'}
+                    f = {'message_text':'Invalid user, password or account was not activated.'}
                     return render(request, 'stocks/error.html', context=f)   
             else:
                 f = {'form':form}
@@ -96,9 +121,25 @@ def register(request):
                     user = User.objects.create_user(name, email,password)
                     user.is_active = False
                     user.save()
+
+                    current_site = get_current_site(request)  
+                    mail_subject = 'Activation link has been sent to your email id'  
+                    message = render_to_string('stocks/account_activate_email.html', {  
+                        'user': user,  
+                        'domain': current_site.domain,  
+                        'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
+                        'token':account_activation_token.make_token(user),  
+                    })   
+                    print('test')
+                    print(message)
+                    # email_message = EmailMessage(  
+                    #             mail_subject, message, to=[email]  
+                    # )  
+                    # email_message.send()  
                     response = redirect('/confirmation')
                     return response
-                except:
+                except Exception as e: 
+                    print('Failed: '+ str(e))
                     if User.objects.filter(username = name).exists():
                         f = {'message_text':'Username is already taken!'}
                         return render(request, 'stocks/error.html', context=f)  
@@ -109,13 +150,17 @@ def register(request):
         if 'login_button' in request.POST :
             form = LoginForm(request.POST)
             if form.is_valid():
-                user = form.cleaned_data['user']
+                user_name = form.cleaned_data['user']
                 password = form.cleaned_data['password']
-                user = authenticate(request, username=user, password=password)
+                user = authenticate(request, username=user_name, password=password)
                 if user is not None:
-                    login(request, user)
-                    response = redirect('/')
-                    return response
+                    if user.is_active:   
+                        login(request, user)
+                        response = redirect('/')
+                        return response
+                else:
+                    f = {'message_text':'Invalid user, password or account was not activated.'}
+                    return render(request, 'stocks/error.html', context=f)
             else:
                 return render(request, 'stocks/login.html')
 
