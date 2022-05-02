@@ -60,7 +60,7 @@ def login_auth(request):
                         return response
                 else:
                     f = {'message_text':'Invalid user, password or account was not activated.'}
-                    return render(request, 'stocks/error.html', context=f)   
+                    return render(request, 'stocks/message.html', context=f)   
             else:
                 f = {'form':form}
                 return render(request, 'stocks/login.html', context=f)   
@@ -80,7 +80,7 @@ def login_auth(request):
                 except:
                     if User.objects.filter(username = name).exists():
                         f = {'message_text':'Username is already taken!'}
-                        return render(request, 'stocks/error.html', context=f)  
+                        return render(request, 'stocks/message.html', context=f)  
             else: 
                 f = {'form':form}
                 return render(request, 'stocks/register.html', context=f)
@@ -142,7 +142,7 @@ def register(request):
                     print('Failed: '+ str(e))
                     if User.objects.filter(username = name).exists():
                         f = {'message_text':'Username is already taken!'}
-                        return render(request, 'stocks/error.html', context=f)  
+                        return render(request, 'stocks/message.html', context=f)  
             else: 
                 f = {'form':form}
                 return render(request, 'stocks/register.html', context=f)
@@ -160,7 +160,7 @@ def register(request):
                         return response
                 else:
                     f = {'message_text':'Invalid user, password or account was not activated.'}
-                    return render(request, 'stocks/error.html', context=f)
+                    return render(request, 'stocks/message.html', context=f)
             else:
                 return render(request, 'stocks/login.html')
 
