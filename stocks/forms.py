@@ -19,7 +19,16 @@ class RegisterForm(forms.Form):
         confirm_password = cleaned_data.get('confirm_password')
         if password != confirm_password:
             raise ValidationError("Passwords don`t match!")
-        
+
+class ResetEmail(forms.Form):
+    email = forms.EmailField(max_length=254)
 
 class ResetForm(forms.Form):
-    email = forms.EmailField(max_length=254)
+    password = forms.CharField(max_length=254)
+    confirm_password = forms.CharField(max_length=254)
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            raise ValidationError("Passwords don`t match!")
