@@ -21,7 +21,6 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse  
 from django.shortcuts import redirect
 
-# Create your views here.
 
 def activate(request, uidb64, token):
     try:

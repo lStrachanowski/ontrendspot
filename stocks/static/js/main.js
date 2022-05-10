@@ -17,61 +17,69 @@ let passwordPrompt = document.getElementById("promptBox");
 let siteMenu = document.getElementById("siteMenu");
 let registerForm = document.getElementById("register");
 
+if (registerForm) {
+    login.style.display = "none";
+    register.style.display = "flex";
+    caption.innerHTML = "Register";
+    value = true;
+}
 
-if(siteMenu){
+if (siteMenu) {
     siteMenu.style.display = "none";
 }
-if(passwordPrompt){
+if (passwordPrompt) {
     passwordPrompt.style.display = "none";
 }
 
-if(emailFieldInput){
+if (emailFieldInput) {
     emailFieldInput.style.display = "none";
 }
 
-if(nameField){
+if (nameField) {
     nameFieldInput.style.display = "none";
 }
 
-if (register){
+if (register) {
     register.style.display = "none";
 }
 
-if(prompt){
+if (prompt) {
     prompt.style.display = "none";
 }
 
-let showMenu = () =>{
-    if (menuValue == false){
+let showMenu = () => {
+    if (menuValue == false) {
         siteMenu.style.display = "flex";
+        siteMenu.style.width = "100vw";
         document.body.style.overflow = "hidden";
-    }else{
+    } else {
         siteMenu.style.display = "none";
+        siteMenu.style.width = "0";
         document.body.style.overflow = "visible";
     }
     menuValue = !menuValue;
 
 }
 
-let changePassword = () =>{
+let changePassword = () => {
     disableScroll();
-    if(passwordValue == false){
+    if (passwordValue == false) {
         passwordPrompt.style.display = "flex";
     }
     passwordValue = !passwordValue;
 
 }
 
-let passwordSave = () =>{
-    if(passwordValue == true){
+let passwordSave = () => {
+    if (passwordValue == true) {
         passwordPrompt.style.display = "none";
         enableScroll();
     }
     passwordValue = !passwordValue;
 }
 
-let passwordCancel = () =>{
-    if(passwordValue == true){
+let passwordCancel = () => {
+    if (passwordValue == true) {
         passwordPrompt.style.display = "none";
         enableScroll();
     }
@@ -79,7 +87,7 @@ let passwordCancel = () =>{
 }
 
 let editName = () => {
-    if(nameValue == false){
+    if (nameValue == false) {
         nameField.style.display = "none";
         nameFieldInput.style.display = "flex";
     }
@@ -87,7 +95,7 @@ let editName = () => {
 }
 
 let editNameCancel = () => {
-    if(nameValue == true){
+    if (nameValue == true) {
         nameField.style.display = "flex";
         nameFieldInput.style.display = "none";
     }
@@ -95,7 +103,7 @@ let editNameCancel = () => {
 }
 
 let editEmail = () => {
-    if(emailValue == false){
+    if (emailValue == false) {
         emailField.style.display = "none";
         emailFieldInput.style.display = "flex";
     }
@@ -103,7 +111,7 @@ let editEmail = () => {
 }
 
 let editEmailCancel = () => {
-    if(emailValue == true){
+    if (emailValue == true) {
         emailField.style.display = "flex";
         emailFieldInput.style.display = "none";
     }
@@ -184,24 +192,32 @@ let promptToggle = () => {
     toggleValue = !toggleValue;
 }
 
-function disableScroll(){
+function disableScroll() {
     // To get the scroll position of current webpage
     TopScroll = window.pageYOffset || document.documentElement.scrollTop;
     LeftScroll = window.pageXOffset || document.documentElement.scrollLeft,
-    
-    // if scroll happens, set it to the previous value
-    window.onscroll = function() {
-    window.scrollTo(LeftScroll, TopScroll);
-            };
-}
-    
-function enableScroll(){
-    window.onscroll = function() {};
+
+        // if scroll happens, set it to the previous value
+        window.onscroll = function () {
+            window.scrollTo(LeftScroll, TopScroll);
+        };
 }
 
-if (registerForm){
-    login.style.display = "none";
-    register.style.display = "flex";
-    caption.innerHTML = "Register";
-    value = true;   
+function enableScroll() {
+    window.onscroll = function () { };
 }
+
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const loader_count = document.getElementsByClassName("loader").length
+            for (i = 0; i < loader_count; i++) {
+                document.getElementsByClassName("loader")[i].style.display = 'none';
+                document.getElementsByClassName('index-stoc-container-wrapper')[i].style.visibility = "visible";
+                document.getElementsByClassName('button-style-more')[i].style.visibility = "visible";
+            }
+
+        }
+};
+xhttp.open("GET", "/", true);
+xhttp.send();
