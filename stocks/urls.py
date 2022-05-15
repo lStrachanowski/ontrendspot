@@ -15,5 +15,6 @@ urlpatterns = [
     path('confirmation', views.confirmation, name="confirmation" ),
     path('logout', views.logout_view, name="logout"),
     path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
-    path('reset_link/<slug:uidb64>/<slug:token>/', views.reset , name="reset")
+    path('reset_link/<slug:uidb64>/<slug:token>/', views.reset , name="reset"),
+    path('update', views.update_name, name="update")
 ]

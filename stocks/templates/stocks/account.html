@@ -1,6 +1,7 @@
 {% extends "stocks/base.html" %}
 {% block content %}
 <div class="base-position">
+    <div class="loader" id="loader">Loading...</div>
     <div class="index-stoc-container-wrapper">
         <div class="index-stock-position">
             <div class="formation-container">
@@ -10,20 +11,21 @@
                 <div class="account-center-text">
                     <div class="account-grid" id="name_field">
                         <div class="label-container">
-                            <div class="day-text-font ">Name : {{ user.username }}</div>
+                            <div class="day-text-font " id="user_name">Name : {{ user.username }}</div>
                         </div>
                         <button class="button-account blue-button-color" onclick="editName()">Edit</button>
-
                     </div>
 
-                    <div class="account-grid" id="name_field_input">
+                    <form class="account-grid" id="name_field_input" method="post">
+                        {% csrf_token %}
                         <div class="label-container">
                             <label for="name_input" class="day-text-font ">Name:</label>
-                            <input type="text" id="name_input">
+                            
+                            <input type="text" name="new_name" id="name_input">
                         </div>
-                        <button class="button-account blue-button-color">Save</button>
-                        <button class="button-account red-color" onclick="editNameCancel()">Cancel</button>
-                    </div>
+                        <button class="button-account blue-button-color" type="submit" name="user_name_save" onclick= "updateUser()">Save</button>
+                        <button class="button-account red-color" type="button"  onclick="editNameCancel()">Cancel</button>
+                    </form>
 
                     <div class="account-grid" id="email_field">
                         <div class="label-container">
@@ -34,15 +36,16 @@
 
                     </div>
 
-                    <div class="account-grid" id="email_field_input">
+                    <form class="account-grid" id="email_field_input" method="post">
+                        {% csrf_token %}
                         <div class="label-container">
                             <label for="pass" class="day-text-font ">Email:</label>
-                            <input type="text" id="email_input">
+                            <input type="email" id="email_input">
                         </div>
 
-                        <button class="blue-button-color button-account">Save</button>
-                        <button class="button-account red-color" onclick="editEmailCancel()">Cancel</button>
-                    </div>
+                        <button class="blue-button-color button-account" name="user_email_save">Save</button>
+                        <button class="button-account red-color" type="button"  onclick="editEmailCancel()">Cancel</button>
+                    </form>
 
                     <div class="account-grid" id="password_field">
                         <div class="label-container">

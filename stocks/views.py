@@ -1,7 +1,8 @@
 from distutils import errors
+from unicodedata import name
 from django.shortcuts import render
-from sqlalchemy import false
-from .forms import LoginForm, RegisterForm, ResetForm, ResetEmail
+from sqlalchemy import JSON, false
+from .forms import LoginForm, RegisterForm, ResetForm, ResetEmail, FieldCheck
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
@@ -20,6 +21,7 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage  
 from django.http import HttpResponse  
 from django.shortcuts import redirect
+from django.http import JsonResponse
 
 
 def activate(request, uidb64, token):
@@ -114,7 +116,6 @@ def login_auth(request):
             form = ResetEmail(request.POST)
             if form.is_valid():
                 email = form.cleaned_data['email']
-                print(email)
                 user = User.objects.get(email__exact=email)
                 current_site = get_current_site(request)  
                 message = render_to_string('stocks/account_reset_email.html', {  
@@ -218,8 +219,26 @@ def confirmation(request):
         response = redirect('/')
         return response
 
+def update_name(request):
+    return JsonResponse({'user':request.user.username})
+
 @login_required(login_url='/login')      
 def account(request):
+    if request.method == "POST":
+        form = FieldCheck(request.POST)
+        if 'user_name_save' in request.POST:
+            if form.is_valid():
+                new_name = form.cleaned_data['new_name']
+                try:
+                    User.objects.get(username = new_name)
+                except User.DoesNotExist:
+                    new_user = User.objects.get(username = request.user.username)
+                    new_user.username = new_name
+                    new_user.save()
+            else:
+                print('error')
+        if 'user_email_save' in request.POST:
+            print('save email')
     return render(request, 'stocks/account.html')
 
 def edit(request):

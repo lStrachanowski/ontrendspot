@@ -216,8 +216,26 @@ xhttp.onreadystatechange = function () {
                 document.getElementsByClassName('index-stoc-container-wrapper')[i].style.visibility = "visible";
                 document.getElementsByClassName('button-style-more')[i].style.visibility = "visible";
             }
-
+        }
+        if (document.getElementById("user_name")!== null){
+            updateUser();
         }
 };
 xhttp.open("GET", "/", true);
 xhttp.send();
+
+xhttp.open("GET", "/account", true);
+xhttp.send();
+
+function updateUser(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let user_name = JSON.parse(this.responseText)['user'];
+            const loader_count = document.getElementById("user_name")
+            loader_count.innerHTML = "Name : " + user_name;
+            }
+        }
+    xhttp.open("GET", "/update", true);
+    xhttp.send();
+}
