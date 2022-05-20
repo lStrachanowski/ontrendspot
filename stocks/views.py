@@ -231,7 +231,8 @@ def account(request):
                 new_name = form.cleaned_data['new_name']
                 try:
                     User.objects.get(username = new_name)
-                    print("Exist")
+                    f = {'message_text':'User exists, choose other name.'}
+                    return render(request, 'stocks/message.html', context=f)  
                 except User.DoesNotExist:
                     new_user = User.objects.get(username = request.user.username)
                     new_user.username = new_name
