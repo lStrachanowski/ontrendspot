@@ -231,12 +231,14 @@ def account(request):
                 new_name = form.cleaned_data['new_name']
                 try:
                     User.objects.get(username = new_name)
+                    print("Exist")
                 except User.DoesNotExist:
                     new_user = User.objects.get(username = request.user.username)
                     new_user.username = new_name
                     new_user.save()
             else:
-                print('error')
+                f = {'message_text':'Invalid username'}
+                return render(request, 'stocks/message.html', context=f)   
         if 'user_email_save' in request.POST:
             print('save email')
     return render(request, 'stocks/account.html')

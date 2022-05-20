@@ -40,7 +40,13 @@ if (nameField) {
 }
 
 if (register) {
-    register.style.display = "none";
+    site_url = window.location.pathname.split('/')[1];
+    if (site_url === "register"){
+        register.style.display = "flex";
+    }else{
+        register.style.display = "none";
+    }
+    
 }
 
 if (prompt) {
@@ -226,6 +232,7 @@ xhttp.send();
 
 xhttp.open("GET", "/account", true);
 xhttp.send();
+
 
 function updateUser(){
     var xhttp = new XMLHttpRequest();
