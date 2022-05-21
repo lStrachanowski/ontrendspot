@@ -122,7 +122,14 @@ input:placeholder {
     from {opacity: 0;}
     to {opacity: 1;}
   }
-  
+
+.center_404{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+
 .error_message {
     color: red;
     margin: 0.1em;
