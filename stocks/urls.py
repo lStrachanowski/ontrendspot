@@ -2,6 +2,8 @@ from unicodedata import name
 from django.urls import path
 from . import views
 
+
+
 urlpatterns = [
     path('', views.index , name="index"),
     path('login', views.login_auth, name = "login" ),
@@ -18,3 +20,4 @@ urlpatterns = [
     path('reset_link/<slug:uidb64>/<slug:token>/', views.reset , name="reset"),
     path('update', views.update_name, name="update")
 ]
+

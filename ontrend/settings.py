@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -56,7 +56,7 @@ ROOT_URLCONF = 'ontrend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,3 +133,4 @@ EMAIL_HOST = 'smtp.wp.pl'
 EMAIL_HOST_USER = 'harmanaudio.11@wp.pl'  
 EMAIL_HOST_PASSWORD = '1q2w3e4r1q2w3e4r+'  
 EMAIL_PORT = 587  
+

@@ -33,7 +33,6 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
         # return redirect('home')
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
@@ -257,3 +256,13 @@ def stock(request, stockname):
     candle_chart(stockname, 90, True)
     context = {"stock":Stock.objects.get(stock_symbol=stockname.upper())}
     return render(request, 'stocks/stock.html',context )
+
+
+def csrf_failure(request, reason=""):
+    if 'error_confirm_button' in request.POST:
+        return render(request, 'stocks/index.html')
+    f = {'message_text':'Something went wrong'}
+    return render(request, 'stocks/message.html', context=f) 
+
+def page_not_found(request, exception=None):
+    return render(request, 'stocks/404.html', status=404)

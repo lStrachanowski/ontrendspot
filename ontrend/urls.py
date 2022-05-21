@@ -20,3 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('stocks.urls'))
 ]
+
+handler404 = 'stocks.views.page_not_found'
+CSRF_FAILURE_VIEW = 'stocks.views.csrf_failure'
