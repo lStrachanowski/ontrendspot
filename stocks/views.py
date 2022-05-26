@@ -30,13 +30,18 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+    if 'error_confirm_button' in request.POST:
+        return redirect('index')
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        f = {'message_text':'Thank you for your email confirmation. Now you can login your account.'}
+        return render(request, 'stocks/message.html', context=f)
     else:
-        return HttpResponse('Activation link is invalid!')
+        f = {'message_text':'Activation link is invalid!'}
+        return render(request, 'stocks/message.html', context=f)
+
 
 def reset(request, uidb64, token):
     if request.method == "GET":
@@ -48,7 +53,8 @@ def reset(request, uidb64, token):
         if user is not None and account_activation_token.check_token(user, token):
             return render(request, 'stocks/change_password.html') 
         else:
-            return HttpResponse('Reset link is invalid!')  
+            f = {'message_text':'Reset link is invalid!'}
+            return render(request, 'stocks/message.html', context=f)
     if request.method == "POST":
         if 'change_password_button' in request.POST:
             form = ResetForm(request.POST)
@@ -58,12 +64,13 @@ def reset(request, uidb64, token):
                 u = User.objects.get(pk=uid)
                 u.set_password(password)
                 u.save()
-                return HttpResponse('Password changed')
+                f = {'message_text':'Password changed'}
+                return render(request, 'stocks/message.html', context=f)
             else:
                 f = {'message_text':'Invalid form ??'}
                 return render(request, 'stocks/message.html', context=f)  
         if 'error_confirm_button' in request.POST:
-            return redirect('login')
+    	    return redirect('index')
     
 def index(request):
     candle_chart('pkn', 30, False)
@@ -123,7 +130,8 @@ def login_auth(request):
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
                 'token':account_activation_token.make_token(user),  })   
                 print(message)
-                return HttpResponse('Check mailbox, password reset link was sent.')
+                f = {'message_text':'Check mailbox, password reset link was sent.'}
+                return render(request, 'stocks/message.html', context=f)
             else:
                 print(form.errors)
             return render(request, 'stocks/reset.html')
