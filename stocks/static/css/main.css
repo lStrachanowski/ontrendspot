@@ -200,7 +200,7 @@ input:placeholder {
 }
 
 .base-position-height{
-    height: 80vh;
+    min-height: 80vh;
 }
 
 .white{

@@ -37,15 +37,41 @@
             <label for="name" class="day-text-font ">Name</label>
             <input type="text" id="registerUserName" name="name" value="{{ form.name.value }}">
         </div>
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "name" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
         <div class="input-container">
             <label for="email" class="day-text-font ">Email</label>
             <input type="text" id="registerEmail" name="email" value="{{ form.email.value }}">
         </div>
-        
+
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "email" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+
         <div class="input-container">
             <label for="pass" class="day-text-font ">Password</label>
             <input type="password" id="registerPass" name="password">
         </div>
+
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "password" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
         {% if form.non_field_errors %}
         <p class="error_message">{{ form.non_field_errors.as_text}}</p>
         {% endif %}
@@ -54,11 +80,19 @@
             <input type="password" id="registerConfimrPass" name="confirm_password">
         </div>
 
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "confirm_password" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
         <div>
             <input type="checkbox" id="termsAgree" name="termsAgree" value="ok">
             <label for="termsAgree" class="day-text-font"> Accept therms and conditions</label>
         </div>
-        
+
         <div class="index-stock-button-container">
             <button class="button-style" type="submit" name="register_button">
                 Register
