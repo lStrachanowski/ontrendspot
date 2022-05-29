@@ -1,4 +1,5 @@
 from distutils import errors
+from logging import error
 from unicodedata import name
 from django.shortcuts import render
 from sqlalchemy import JSON, false
@@ -102,22 +103,23 @@ def login_auth(request):
             form = ResetEmail(request.POST)
             if form.is_valid():
                 email = form.cleaned_data['email']
-                user = User.objects.get(email__exact=email)
-                current_site = get_current_site(request)  
-                message = render_to_string('stocks/account_reset_email.html', {  
-                'user': user,  
-                'domain': current_site.domain,  
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
-                'token':account_activation_token.make_token(user),  })   
-                print(message)
-                f = {'message_text':'Check mailbox, password reset link was sent.'}
-                return render(request, 'stocks/message.html', context=f)
+                try:
+                    user = User.objects.get(email__exact=email)
+                    current_site = get_current_site(request)  
+                    message = render_to_string('stocks/account_reset_email.html', {  
+                    'user': user,  
+                    'domain': current_site.domain,  
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
+                    'token':account_activation_token.make_token(user),  })   
+                    print(message)
+                    f = {'message_text':'Check mailbox, password reset link was sent.'}
+                    return render(request, 'stocks/message.html', context=f)
+                except User.DoesNotExist:
+                    f = {'message_text':"No account registred with this email"}
+                    return render(request, 'stocks/message.html', context=f)
             else:
-                print(form.errors)
-                return render(request, 'stocks/reset.html')
-
-        if 'reset_button_cancellation' in request.POST:
-            return render(request, 'stocks/login.html')
+                f = {'message_text':form.errors.as_text}
+                return render(request, 'stocks/message.html', context=f) 
 
         if 'error_confirm_button' in request.POST:
             return render(request, 'stocks/login.html')

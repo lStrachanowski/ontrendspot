@@ -54,12 +54,12 @@
             <label for="pass" class="day-text-font ">Enter email</label>
             <input type="email" id="promptEmail" name="email">
         </div>
+        {% if form.errors %}
+            {{error}}
+        {% endif %}
         <div class="index-stock-button-container">
-            <button class="button-style" onclick="" name="reset_button_confirmation">
+            <button class="button-style" name="reset_button_confirmation">
                 OK
-            </button>
-            <button class="button-style" onclick="promptToggle()" name="reset_button_cancellation">
-                Cancel
             </button>
         </div>
     </form>

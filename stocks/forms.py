@@ -14,11 +14,9 @@ class RegisterForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     def clean(self):
-        error_list = []
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         confirm_password = cleaned_data.get('confirm_password')
-        name = cleaned_data.get("name")
         if password != confirm_password:
             raise ValidationError("Passwords don`t match!")
 
