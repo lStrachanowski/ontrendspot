@@ -43,48 +43,8 @@
         </div>
 
         <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Nie masz konta ? Zarejestruj się.
-            </div>
-        </div>
-
-
-
-    </form>
-
-    <form class="input-box" id="registerForm" method="post">
-        {% csrf_token %}
-        <div class="input-container">
-            <label for="name" class="day-text-font ">Name</label>
-            <input type="text" id="registerUserName" name="name">
-        </div>
-        <div class="input-container">
-            <label for="email" class="day-text-font ">Email</label>
-            <input type="text" id="registerEmail" name="email">
-        </div>
-
-        <div class="input-container">
-            <label for="pass" class="day-text-font ">Password</label>
-            <input type="password" id="registerPass" name="password">
-        </div>
-
-        <div class="input-container">
-            <label for="pass" class="day-text-font ">Confirm password</label>
-            <input type="password" id="registerConfimrPass" name="confirm_password">
-        </div>
-
-        <div>
-            <input type="checkbox" id="termsAgree" name="termsAgree" value="ok">
-            <label for="termsAgree" class="day-text-font"> Accept therms and conditions</label>
-        </div>
-
-        <div class="index-stock-button-container">
-            <button class="button-style" type="submit" name="register_button">
-                Register
-            </button>
-        </div>
-
-        <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
+            <a class="darker-greey day-text-font cursor" href="{% url 'register' %}">Nie masz konta ? Zarejestruj się.
+            </a>
         </div>
     </form>
 
@@ -95,7 +55,7 @@
             <input type="email" id="promptEmail" name="email">
         </div>
         <div class="index-stock-button-container">
-            <button class="button-style" onclick="promptToggle()" name="reset_button_confirmation">
+            <button class="button-style" onclick="" name="reset_button_confirmation">
                 OK
             </button>
             <button class="button-style" onclick="promptToggle()" name="reset_button_cancellation">

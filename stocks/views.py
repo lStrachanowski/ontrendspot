@@ -97,27 +97,7 @@ def login_auth(request):
             else:
                 f = {'form':form}
                 return render(request, 'stocks/login.html', context=f)   
-
-        if 'register_button' in request.POST:
-            form = RegisterForm(request.POST)
-            if form.is_valid():
-                name = form.cleaned_data['name']
-                email = form.cleaned_data['email']
-                password = form.cleaned_data['password']
-                try:
-                    user = User.objects.create_user(name, email,password)
-                    user.is_active = False
-                    user.save()
-                    response = redirect('/confirmation')
-                    return response
-                except:
-                    if User.objects.filter(username = name).exists():
-                        f = {'message_text':'Username is already taken!'}
-                        return render(request, 'stocks/message.html', context=f)  
-            else: 
-                f = {'form':form}
-                return render(request, 'stocks/register.html', context=f)
-
+ 
         if 'reset_button_confirmation' in request.POST:
             form = ResetEmail(request.POST)
             if form.is_valid():
@@ -134,7 +114,7 @@ def login_auth(request):
                 return render(request, 'stocks/message.html', context=f)
             else:
                 print(form.errors)
-            return render(request, 'stocks/reset.html')
+                return render(request, 'stocks/reset.html')
 
         if 'reset_button_cancellation' in request.POST:
             return render(request, 'stocks/login.html')
@@ -188,36 +168,6 @@ def register(request):
                 f = {'form':form}
                 return render(request, 'stocks/register.html', context=f)
 
-        if 'login_button' in request.POST :
-            form = LoginForm(request.POST)
-            if form.is_valid():
-                user_name = form.cleaned_data['user']
-                password = form.cleaned_data['password']
-                user = authenticate(request, username=user_name, password=password)
-                if user is not None:
-                    if user.is_active:   
-                        login(request, user)
-                        response = redirect('/')
-                        return response
-                else:
-                    f = {'message_text':'Invalid user, password or account was not activated.'}
-                    return render(request, 'stocks/message.html', context=f)
-            else:
-                return render(request, 'stocks/login.html')
-
-        if 'reset_button_confirmation' in request.POST:
-            form = ResetForm(request.POST)
-            if form.is_valid():
-                print(form.cleaned_data['email'])
-            else:
-                print(form.errors)
-            return render(request, 'stocks/reset.html')
-
-        if 'reset_button_cancellation' in request.POST:
-            return render(request, 'stocks/login.html')
-
-        if 'error_confirm_button' in request.POST:
-            return render(request, 'stocks/register.html')
     
 def confirmation(request):
     if request.method == "GET":

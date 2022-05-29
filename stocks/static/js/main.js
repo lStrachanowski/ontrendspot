@@ -7,7 +7,6 @@ let passwordValue = false;
 let menuValue = false;
 let login = document.getElementById("loginForm");
 let caption = document.getElementById("caption");
-let register = document.getElementById("registerForm");
 let prompt = document.getElementById("promptForm");
 let nameField = document.getElementById("name_field");
 let nameFieldInput = document.getElementById("name_field_input");
@@ -15,14 +14,7 @@ let emailField = document.getElementById("email_field");
 let emailFieldInput = document.getElementById("email_field_input");
 let passwordPrompt = document.getElementById("promptBox");
 let siteMenu = document.getElementById("siteMenu");
-let registerForm = document.getElementById("register");
 
-if (registerForm) {
-    login.style.display = "none";
-    register.style.display = "flex";
-    caption.innerHTML = "Register";
-    value = true;
-}
 
 if (siteMenu) {
     siteMenu.style.display = "none";
@@ -37,16 +29,6 @@ if (emailFieldInput) {
 
 if (nameField) {
     nameFieldInput.style.display = "none";
-}
-
-if (register) {
-    site_url = window.location.pathname.split('/')[1];
-    if (site_url === "register"){
-        register.style.display = "flex";
-    }else{
-        register.style.display = "none";
-    }
-    
 }
 
 if (prompt) {
@@ -124,45 +106,6 @@ let editEmailCancel = () => {
     emailValue = !emailValue;
 }
 
-
-let formsToggle = () => {
-    if (value == false) {
-        // Login form
-        login.style.animation = "fadeOut 0.7s";
-        caption.style.animation = "fadeOut 0.7s";
-        setTimeout(() => {
-            login.style.display = "none";
-        }, 650);
-
-        setTimeout(() => {
-            // Register form
-            register.style.animation = "fadeIn 0.7s";
-            caption.style.animation = "fadeIn 0.7s";
-            register.style.display = "flex";
-            caption.innerHTML = "Register";
-        }, 650);
-
-    } else {
-        // Login form
-        register.style.animation = "fadeOut 0.7s";
-        caption.style.animation = "fadeOut 0.7s";
-        setTimeout(() => {
-            register.style.display = "none";
-        }, 650);
-
-        setTimeout(() => {
-            // Register form
-            login.style.animation = "fadeIn 0.7s";
-            caption.style.animation = "fadeIn 0.7s";
-            login.style.display = "flex";
-            caption.innerHTML = "Login";
-        }, 650);
-
-
-    }
-    value = !value;
-}
-
 let promptToggle = () => {
     if (toggleValue == false) {
         // Login form
@@ -185,15 +128,6 @@ let promptToggle = () => {
         setTimeout(() => {
             prompt.style.display = "none";
         }, 650);
-
-        setTimeout(() => {
-            // Register form
-            login.style.animation = "fadeIn 0.7s";
-            caption.style.animation = "fadeIn 0.7s";
-            login.style.display = "flex";
-            caption.innerHTML = "Login";
-        }, 650);
-
     };
     toggleValue = !toggleValue;
 }
@@ -222,7 +156,7 @@ xhttp.onreadystatechange = function () {
                 document.getElementsByClassName('index-stoc-container-wrapper')[i].style.visibility = "visible";
                 let more_button = document.getElementsByClassName('index-button');
                 if (more_button.length > 0){
-                    document.getElementsByClassName('button-style-more')[i].style.visibility = "visible";
+                    document.getElementsByClassName('index-button')[i].style.visibility = "visible";
                 }
             }
         }
