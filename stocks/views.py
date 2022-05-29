@@ -148,30 +148,33 @@ def register(request):
                 name = form.cleaned_data['name']
                 email = form.cleaned_data['email']
                 password = form.cleaned_data['password']
-                try:
-                    user = User.objects.create_user(name, email, password)
-                    user.is_active = False
-                    user.save()
-                    current_site = get_current_site(request)
-                    mail_subject = 'Activation link has been sent to your email id'
-                    message = render_to_string('stocks/account_activate_email.html', {
-                        'user': user,
-                        'domain': current_site.domain,
-                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                        'token': account_activation_token.make_token(user),
-                    })
-                    # email_message = EmailMessage(
-                    #             mail_subject, message, to=[email]
-                    # )
-                    # email_message.send()
-                    print(message)
-                    response = redirect('/confirmation')
-                    return response
-                except Exception as e:
-                    print('Failed: ' + str(e))
-                    if User.objects.filter(username=name).exists():
-                        f = {'message_text': 'Username is already taken!'}
-                        return render(request, 'stocks/message.html', context=f)
+                if User.objects.filter(email__exact=email).exists():
+                    f = {'message_text': 'Email address is already taken!'}
+                    return render(request, 'stocks/message.html', context=f)
+                else:
+                    try:
+                        user = User.objects.create_user(name, email, password)
+                        user.is_active = False
+                        user.save()
+                        current_site = get_current_site(request)
+                        mail_subject = 'Activation link has been sent to your email id'
+                        message = render_to_string('stocks/account_activate_email.html', {
+                            'user': user,
+                            'domain': current_site.domain,
+                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                            'token': account_activation_token.make_token(user),
+                        })
+                        # email_message = EmailMessage(
+                        #             mail_subject, message, to=[email]
+                        # )
+                        # email_message.send()
+                        print(message)
+                        response = redirect('/confirmation')
+                        return response
+                    except Exception as e:
+                        if User.objects.filter(username=name).exists():
+                            f = {'message_text': 'Username is already taken!'}
+                            return render(request, 'stocks/message.html', context=f)
             else:
                 f = {'form': form}
                 return render(request, 'stocks/register.html', context=f)
