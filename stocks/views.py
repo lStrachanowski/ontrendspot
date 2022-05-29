@@ -175,6 +175,9 @@ def register(request):
             else:
                 f = {'form': form}
                 return render(request, 'stocks/register.html', context=f)
+        
+        if 'error_confirm_button' in request.POST:
+            return render(request, 'stocks/register.html')
 
 
 def confirmation(request):
