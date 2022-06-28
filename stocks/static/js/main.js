@@ -153,7 +153,7 @@ xhttp.onreadystatechange = function () {
             const loader_count = document.getElementsByClassName("loader").length;
             for (i = 0; i < loader_count; i++) {
                 document.getElementsByClassName("loader")[i].style.display = 'none';
-                document.getElementsByClassName('index-stoc-container-wrapper')[i].style.visibility = "visible";
+                document.getElementsByClassName('content')[i].style.visibility = "visible";
                 let more_button = document.getElementsByClassName('index-button');
                 if (more_button.length > 0){
                     document.getElementsByClassName('index-button')[i].style.visibility = "visible";
@@ -167,11 +167,7 @@ xhttp.onreadystatechange = function () {
 xhttp.open("GET", "/", true);
 xhttp.send();
 
-xhttp.open("GET", "/account", true);
-xhttp.send();
 
-xhttp.open("GET", "/list", true);
-xhttp.send();
 
 
 function updateUser(){

@@ -1,8 +1,8 @@
 {% extends "stocks/base.html" %}
 {% load static %}
 {% block content %}
-
-<div class="base-position greey-color left-position">
+<div class="loader" id="loader">Loading...</div>
+<div class="base-position greey-color left-position content">
     <div class="arrow-position">
         <img src="{% static '/img/back_arrow.svg' %}" class="back-arrow" onclick='location.href = "/list";'/>
         <p class="day-text darker-greey">wróć</p>
@@ -20,7 +20,8 @@
         <div class="day-data-position ">
             <div>O firmie </div>
         </div><br>
-        <div class="day-data-position">
+        <div class="loader" id="loader">Loading...</div>
+        <div class="day-data-position content">
             <div class="addres-postion">
                 <div class="day-text-font darker-greey">{{stock.name}}<br>
                     
@@ -50,7 +51,8 @@
         </div>
     </div>
 </div>
-<div class=" stock-hit-list mint-color">
+<div class="loader" id="loader">Loading...</div>
+<div class=" stock-hit-list mint-color content">
     <div class="formation-stock-ticker day-text-font">Lista wpisów</div>
     <div class="entry-item white-background">
         <div class="entry-item-date mint-color-font  formation-stock-ticker day-text-font ">20.09.2020</div>
@@ -76,8 +78,8 @@
     </div>
 </div>
 
-
-<div class="stock-hit-list">
+<div class="loader" id="loader">Loading...</div>
+<div class="stock-hit-list content">
     <div class="formation-stock-ticker day-text-font">Komentarze</div>
     <div class="entry-item entry-item-comment">
         <div class=" entry-item-message day-text-font day-text-font-padding">Podpisana nowa umowa na nowe relacje. Musiało urosnąć. </div>

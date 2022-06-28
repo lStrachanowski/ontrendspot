@@ -133,6 +133,10 @@ input:placeholder {
     align-items: center;
 }
 
+.content{
+    visibility: hidden;
+}
+
 .error_message {
     color: red;
     margin: 0.1em;

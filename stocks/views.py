@@ -227,6 +227,7 @@ def list(request):
 
 
 def daydetails(request, date):
+    candle_chart('pkp', 90, True)
     return render(request, 'stocks/daydetails.html')
 
 

@@ -1,7 +1,8 @@
 {% extends "stocks/base.html" %}
 {% load static %}
 {% block content %}
-<div class="base-position greey-color left-position">
+<div class="loader" id="loader">Loading...</div>
+<div class="base-position greey-color left-position content">
     <div class="arrow-position">
         <img src="{% static '/img/back_arrow.svg' %}"  class="back-arrow" onclick='location.href = "/list";'/>
         <p class="day-text darker-greey">wróć</p>
@@ -12,7 +13,7 @@
     <div class="day-text stock-font blue-color">20.09.2021</div>
     <div class="day-text darker-greey stock-font">PKP Cargo <span class="green-font-color">19.85 PLN (4,85%)</span></div>
     <div class="center-position">
-        <img src="{% static 'img/chart.jpg' %}" class="index-stock-image" />
+        <img src="{% static 'img/pkp.svg' %}" class="index-stock-image" />
     </div>
     <div class="day-data day-text">
         <div class="day-data-position ">
@@ -31,7 +32,7 @@
     </div>
     <div class="day-text darker-greey stock-font">PKP Cargo <span class="green-font-color">19.85 (4,85%)</span></div>
     <div class="center-position">
-        <img src="{% static 'img/chart.jpg' %}" class="index-stock-image" />
+        <img src="{% static 'img/pkp.svg' %}" class="index-stock-image" />
     </div>
     <div class="day-data day-text">
         <div class="day-data-position ">
