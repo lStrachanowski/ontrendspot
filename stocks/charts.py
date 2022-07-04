@@ -6,7 +6,7 @@ import json
 import os
 from django.conf import settings
 
-def candle_chart(stockname, period, volume):
+def candle_chart(stockname, period, volume, chart_type):
     df = get_stock_from_db(stockname.upper(),period)
     if volume:
         fig = ms.make_subplots(rows=2,cols=1,shared_xaxes=True,vertical_spacing=0.02,  row_heights=[0.8,0.2])
@@ -38,6 +38,11 @@ def candle_chart(stockname, period, volume):
     cs.increasing.line.color = '#27cc02'
     cs.decreasing.fillcolor = '#ff0400'
     cs.decreasing.line.color = '#ff0400'
-    fig.write_image( os.path.join(settings.BASE_DIR, './stocks/static/img/'+stockname+'.svg') )
-
+    if chart_type == 'image':
+        fig.write_image( os.path.join(settings.BASE_DIR, './stocks/static/img/'+stockname+'.svg') )
+    if chart_type == 'json':
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        return graphJSON
+    if chart_type == 'fig':
+        return fig
     

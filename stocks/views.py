@@ -23,7 +23,8 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.http import JsonResponse
-
+import json
+import plotly
 
 def activate(request, uidb64, token):
     try:
@@ -75,8 +76,8 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    candle_chart('pkn', 30, False)
-    candle_chart('pkp', 30, False)
+    candle_chart('pkn', 30, False, 'image')
+    candle_chart('pkp', 30, False, 'image')
     context = {"day": 20092021}
     return render(request, 'stocks/index.html', context)
 
@@ -227,13 +228,17 @@ def list(request):
 
 
 def daydetails(request, date):
-    candle_chart('pkp', 90, True)
-    return render(request, 'stocks/daydetails.html')
+    stock_list = ['pkp','pkn']
+    graph = []
+    for ticker in stock_list:
+        graph.append(candle_chart(ticker, 90, True, 'fig'))
+    context = {"graphJSON":json.dumps(graph, cls=plotly.utils.PlotlyJSONEncoder), "charts":stock_list}
+    return render(request, 'stocks/daydetails.html',context)
 
 
 def stock(request, stockname):
-    candle_chart(stockname, 90, True)
-    context = {"stock": Stock.objects.get(stock_symbol=stockname.upper())}
+    graphJSON = candle_chart(stockname, 90, True, 'json')
+    context = {"graphJSON":graphJSON, "stock": Stock.objects.get(stock_symbol=stockname.upper())}
     return render(request, 'stocks/stock.html', context)
 
 

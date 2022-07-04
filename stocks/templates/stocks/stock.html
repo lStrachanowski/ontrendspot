@@ -13,9 +13,11 @@
     <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} <span class="green-font-color">19.85 PLN (4,85%)</span></div>
  
     <div class="center-position">
-        <img src="/static/img/{{stock.stock_symbol}}.svg" class="index-stock-chart" />
+        <!-- <img src="/static/img/{{stock.stock_symbol}}.svg"  /> -->
+        <div id="chart" class="index-stock-chart"></div>
         
     </div>
+    
     <div class="day-data day-text">
         <div class="day-data-position ">
             <div>O firmie </div>
@@ -103,5 +105,11 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    var graphs = {{ graphJSON | safe }};
+    Plotly.plot('chart',graphs,{displayModeBar: false });   
+</script>
 
 {% endblock %}
