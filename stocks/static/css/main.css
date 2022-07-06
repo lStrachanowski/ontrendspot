@@ -206,6 +206,10 @@ input:placeholder {
     padding: 1.5% 10% 1.5% 10%;
 }
 
+.modebar {
+    display: none !important;
+}
+
 .base-position-height{
     min-height: 80vh;
 }

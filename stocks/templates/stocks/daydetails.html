@@ -43,10 +43,10 @@
 <script type="text/javascript">
     var graphs = {{ graphJSON | safe }};
     var tickers = {{ charts | safe}};
-
+    var config = {responsive: true, displayModeBar: false};
     if (tickers.length > 0) {
         for (var i = 0; i < graphs.length; i++) {
-            Plotly.plot(tickers[i], graphs[i], { displayModeBar: false });
+            Plotly.plot(tickers[i], graphs[i], { displayModeBar: false} , config);
         }  
     }
 </script>

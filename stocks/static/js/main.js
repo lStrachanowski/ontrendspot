@@ -15,6 +15,7 @@ let emailFieldInput = document.getElementById("email_field_input");
 let passwordPrompt = document.getElementById("promptBox");
 let siteMenu = document.getElementById("siteMenu");
 
+window.dispatchEvent(new Event('resize'));
 
 if (siteMenu) {
     siteMenu.style.display = "none";
