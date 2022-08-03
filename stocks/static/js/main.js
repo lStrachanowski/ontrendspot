@@ -150,20 +150,20 @@ function enableScroll() {
 
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            const loader_count = document.getElementsByClassName("loader").length;
-            for (i = 0; i < loader_count; i++) {
-                document.getElementsByClassName("loader")[i].style.display = 'none';
-                document.getElementsByClassName('content')[i].style.visibility = "visible";
-                let more_button = document.getElementsByClassName('index-button');
-                if (more_button.length > 0){
-                    document.getElementsByClassName('index-button')[i].style.visibility = "visible";
-                }
+    if (this.readyState == 4 && this.status == 200) {
+        const loader_count = document.getElementsByClassName("loader").length;
+        for (i = 0; i < loader_count; i++) {
+            document.getElementsByClassName("loader")[i].style.display = 'none';
+            document.getElementsByClassName('content')[i].style.visibility = "visible";
+            let more_button = document.getElementsByClassName('index-button');
+            if (more_button.length > 0) {
+                document.getElementsByClassName('index-button')[i].style.visibility = "visible";
             }
         }
-        if (document.getElementById("user_name")!== null){
-            updateUser();
-        }
+    }
+    if (document.getElementById("user_name") !== null) {
+        updateUser();
+    }
 };
 xhttp.open("GET", "/", true);
 xhttp.send();
@@ -171,15 +171,15 @@ xhttp.send();
 
 
 
-function updateUser(){
+function updateUser() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let user_name = JSON.parse(this.responseText)['user'];
             const loader_count = document.getElementById("user_name")
             loader_count.innerHTML = "Name : " + user_name;
-            }
         }
+    }
     xhttp.open("GET", "/update", true);
     xhttp.send();
 }

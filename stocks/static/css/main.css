@@ -53,6 +53,18 @@ input:placeholder {
     font-family: Roboto-Regular;
     font-size: 1em;
 }
+
+.clock-font{
+    color: #464242;
+    font-family: Roboto-Regular;
+    font-size: 1em;
+    padding: 1%;
+}
+
+.clock-refresh-icon{
+    padding: 1% 1% 1% 0%;
+}
+
 .red-color{
     background: #E33D3D;
 }
@@ -935,6 +947,11 @@ input[type="password"], input[type="text"],input[type="email"]{
 
 
 @media only screen and (max-width: 768px) {
+
+.clock-refresh-icon{
+    width: 25px;
+    padding: 1%;
+}
 
 .login-options-option{
     margin-right: 0%;

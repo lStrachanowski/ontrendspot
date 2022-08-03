@@ -25,6 +25,8 @@ from django.shortcuts import redirect
 from django.http import JsonResponse
 import json
 import plotly
+from django.utils import timezone
+
 
 def activate(request, uidb64, token):
     try:
@@ -78,7 +80,9 @@ def reset(request, uidb64, token):
 def index(request):
     candle_chart('pkn', 30, False, 'image')
     candle_chart('pkp', 30, False, 'image')
-    context = {"day": 20092021}
+    time_value = check_logout_time(request)
+    context = {"day": 20092021, "time":time_value}
+    
     return render(request, 'stocks/index.html', context)
 
 
@@ -94,6 +98,7 @@ def login_auth(request):
                 if user is not None:
                     if user.is_active:
                         login(request, user)
+                        logout_counter(request)
                         response = redirect('/')
                         return response
                 else:
@@ -135,12 +140,14 @@ def login_auth(request):
 
 def logout_view(request):
     logout(request)
+    request.session.flush()
     response = redirect('/')
     return response
 
 
 def register(request):
     if request.method == "GET":
+        check_logout_time(request)
         return render(request, 'stocks/register.html')
     if request.method == "POST":
         if 'register_button' in request.POST:
@@ -186,6 +193,7 @@ def register(request):
 
 def confirmation(request):
     if request.method == "GET":
+        check_logout_time(request)
         return render(request, 'stocks/confirmation.html')
     if request.method == "POST":
         response = redirect('/')
@@ -196,9 +204,17 @@ def update_name(request):
     return JsonResponse({'user': request.user.username})
 
 
+
+    
+    
 @login_required(login_url='/login')
 def account(request):
+    time_value = check_logout_time(request)
+    context = {"time":time_value}
     if request.method == "POST":
+        time_value = check_logout_time(request)
+        context = {"time":time_value}
+        logout_counter(request)
         form = FieldCheck(request.POST)
         if 'user_name_save' in request.POST:
             if form.is_valid():
@@ -216,18 +232,21 @@ def account(request):
                 return render(request, 'stocks/message.html', context=f)
         if 'user_email_save' in request.POST:
             print('save email')
-    return render(request, 'stocks/account.html')
+    return render(request, 'stocks/account.html', context)
 
 
 def edit(request):
+    check_logout_time(request)
     return render(request, 'stocks/edit.html')
 
 
 def list(request):
+    check_logout_time(request)
     return render(request, 'stocks/list.html')
 
 
 def daydetails(request, date):
+    check_logout_time(request)
     stock_list = ['pkp','pkn']
     graph = []
     for ticker in stock_list:
@@ -237,6 +256,7 @@ def daydetails(request, date):
 
 
 def stock(request, stockname):
+    check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     context = {"graphJSON":graphJSON, "stock": Stock.objects.get(stock_symbol=stockname.upper())}
     return render(request, 'stocks/stock.html', context)
@@ -250,4 +270,21 @@ def csrf_failure(request, reason=""):
 
 
 def page_not_found(request, exception=None):
+    check_logout_time(request)
     return render(request, 'stocks/404.html', status=404)
+
+
+def logout_counter(request):
+    request.session['login_time'] = timezone.now().timestamp()
+    expiration = request.session['login_time'] + (request.session.get_session_cookie_age())
+    request.session['expiration_time'] = expiration
+
+
+def check_logout_time(request):
+    if request.user.is_authenticated:
+        time_left = request.session['expiration_time'] - timezone.now().timestamp()
+        if time_left > 0:
+            return round(time_left, 2)
+            
+def extend_session(request):
+    request.session.set_expiry(300)

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -134,4 +134,5 @@ EMAIL_HOST_USER = 'harmanaudio.11@wp.pl'
 EMAIL_HOST_PASSWORD = '1q2w3e4r1q2w3e4r+'  
 EMAIL_PORT = 587  
 
-SESSION_COOKIE_AGE = 7200
+SESSION_COOKIE_AGE = 300
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
