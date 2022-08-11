@@ -1,6 +1,6 @@
 from unicodedata import name
 from django.urls import path
-from . import views
+from .import views
 
 
 
@@ -18,6 +18,8 @@ urlpatterns = [
     path('logout', views.logout_view, name="logout"),
     path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
     path('reset_link/<slug:uidb64>/<slug:token>/', views.reset , name="reset"),
-    path('update', views.update_name, name="update")
+    path('update', views.update_name, name="update"),
+    path('extendsession', views.extend_session, name="extend"), 
+    path('checktime', views.time_left, name="logouttime")
 ]
 

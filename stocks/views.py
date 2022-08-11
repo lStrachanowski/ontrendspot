@@ -14,7 +14,7 @@ from .charts import candle_chart
 import pandas as pd
 from datetime import datetime
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .token import account_activation_token
@@ -26,11 +26,12 @@ from django.http import JsonResponse
 import json
 import plotly
 from django.utils import timezone
+from django.http import HttpResponse
 
 
 def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -50,7 +51,7 @@ def activate(request, uidb64, token):
 def reset(request, uidb64, token):
     if request.method == "GET":
         try:
-            uid = force_text(urlsafe_base64_decode(uidb64))
+            uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
@@ -64,7 +65,7 @@ def reset(request, uidb64, token):
             form = ResetForm(request.POST)
             if form.is_valid():
                 password = form.cleaned_data['password']
-                uid = force_text(urlsafe_base64_decode(uidb64))
+                uid = force_str(urlsafe_base64_decode(uidb64))
                 u = User.objects.get(pk=uid)
                 u.set_password(password)
                 u.save()
@@ -98,7 +99,7 @@ def login_auth(request):
                 if user is not None:
                     if user.is_active:
                         login(request, user)
-                        logout_counter(request)
+                        logout_counter(request,900)
                         response = redirect('/')
                         return response
                 else:
@@ -214,7 +215,7 @@ def account(request):
     if request.method == "POST":
         time_value = check_logout_time(request)
         context = {"time":time_value}
-        logout_counter(request)
+        logout_counter(request,900)
         form = FieldCheck(request.POST)
         if 'user_name_save' in request.POST:
             if form.is_valid():
@@ -243,7 +244,6 @@ def edit(request):
 def list(request):
     check_logout_time(request)
     return render(request, 'stocks/list.html')
-
 
 def daydetails(request, date):
     check_logout_time(request)
@@ -274,9 +274,9 @@ def page_not_found(request, exception=None):
     return render(request, 'stocks/404.html', status=404)
 
 
-def logout_counter(request):
+def logout_counter(request, set_time):
     request.session['login_time'] = timezone.now().timestamp()
-    expiration = request.session['login_time'] + (request.session.get_session_cookie_age())
+    expiration = request.session['login_time'] + set_time
     request.session['expiration_time'] = expiration
 
 
@@ -285,6 +285,21 @@ def check_logout_time(request):
         time_left = request.session['expiration_time'] - timezone.now().timestamp()
         if time_left > 0:
             return round(time_left, 2)
+        else:
+            logout_view(request)
             
 def extend_session(request):
-    request.session.set_expiry(300)
+    logout_counter(request, 900)
+    time_value = check_logout_time(request)
+    context = {"day": 20092021, "time":time_value}
+    return render(request, 'stocks/index.html', context)
+    
+def time_left(request):
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            time_left_value = request.session['expiration_time'] - timezone.now().timestamp()
+            time_value = {'time_value': time_left_value}
+            return JsonResponse(time_value, safe=False)
+        else:
+            time_value = {"time_value": False}
+            return JsonResponse(time_value, safe=False)

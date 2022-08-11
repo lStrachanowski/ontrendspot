@@ -14,6 +14,7 @@ let emailField = document.getElementById("email_field");
 let emailFieldInput = document.getElementById("email_field_input");
 let passwordPrompt = document.getElementById("promptBox");
 let siteMenu = document.getElementById("siteMenu");
+counterValue = false;
 
 window.dispatchEvent(new Event('resize'));
 
@@ -164,10 +165,15 @@ xhttp.onreadystatechange = function () {
     if (document.getElementById("user_name") !== null) {
         updateUser();
     }
+    let url = location.protocol + '//' + location.host + "/checktime"
+    fetch(url)
+    .then((response) => response.json())
+    .then((data) => counterValue = data.time_value);
+    timeDisplay(counterValue);
+
 };
 xhttp.open("GET", "/", true);
 xhttp.send();
-
 
 
 
@@ -184,3 +190,22 @@ function updateUser() {
     xhttp.send();
 }
 
+function timeDisplay(value){
+    if(value > 0){
+        setInterval(()=>{
+            let minutes = Math.floor(value / 60); 
+            let seconds = Math.floor(value - minutes*60);
+            if (value < 300){
+                document.getElementById("clock").style.display = "block";
+                document.getElementById("refresh-icon").style.display = "block";
+            }
+            if (seconds < 10){
+                document.getElementById("clock").innerHTML = minutes + ":0"+ seconds;
+            }
+            else{
+                document.getElementById("clock").innerHTML = minutes + ":" + seconds;
+            }
+            value -=  1
+        },1000);
+    }
+}

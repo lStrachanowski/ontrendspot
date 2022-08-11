@@ -64,8 +64,8 @@
     </div>
 
     {% if time %}
-    <div class="clock-font">{{time}}</div>
-    <img src="{% static '/img/refresh.svg' %}" class="clock-refresh-icon" onclick="">
+    <div class="clock-font" id="clock"></div>
+      <img src="{% static '/img/refresh.svg' %}" class="clock-refresh-icon cursor" id="refresh-icon" onclick="location.href='{% url 'extend' %}'">
     {% endif %}
 
     {% if user.is_authenticated %}
