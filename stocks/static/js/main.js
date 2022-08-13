@@ -195,7 +195,7 @@ function timeDisplay(value){
         setInterval(()=>{
             let minutes = Math.floor(value / 60); 
             let seconds = Math.floor(value - minutes*60);
-            if (value < 300){
+            if (value < 870){
                 document.getElementById("clock").style.display = "block";
                 document.getElementById("refresh-icon").style.display = "block";
             }

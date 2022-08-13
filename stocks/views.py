@@ -242,23 +242,24 @@ def edit(request):
 
 
 def list(request):
-    check_logout_time(request)
-    return render(request, 'stocks/list.html')
+    time_value = check_logout_time(request)
+    context = {"time":time_value}
+    return render(request, 'stocks/list.html', context)
 
 def daydetails(request, date):
-    check_logout_time(request)
+    time_value = check_logout_time(request)
     stock_list = ['pkp','pkn']
     graph = []
     for ticker in stock_list:
         graph.append(candle_chart(ticker, 90, True, 'fig'))
-    context = {"graphJSON":json.dumps(graph, cls=plotly.utils.PlotlyJSONEncoder), "charts":stock_list}
+    context = {"graphJSON":json.dumps(graph, cls=plotly.utils.PlotlyJSONEncoder), "charts":stock_list, "time":time_value}
     return render(request, 'stocks/daydetails.html',context)
 
 
 def stock(request, stockname):
-    check_logout_time(request)
+    time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
-    context = {"graphJSON":graphJSON, "stock": Stock.objects.get(stock_symbol=stockname.upper())}
+    context = {"graphJSON":graphJSON, "stock": Stock.objects.get(stock_symbol=stockname.upper()), "time":time_value}
     return render(request, 'stocks/stock.html', context)
 
 
