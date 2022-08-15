@@ -1,9 +1,10 @@
 from distutils import errors
+import email
 from logging import error
 from unicodedata import name
 from django.shortcuts import render
 from sqlalchemy import JSON, false
-from .forms import LoginForm, RegisterForm, ResetForm, ResetEmail, FieldCheck
+from .forms import LoginForm, RegisterForm, ResetForm, ResetEmail, FieldCheck, EmailCheck
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
@@ -202,9 +203,7 @@ def confirmation(request):
 
 
 def update_name(request):
-    return JsonResponse({'user': request.user.username})
-
-
+    return JsonResponse({'user': request.user.username, 'email': request.user.email})
 
     
     
@@ -216,8 +215,8 @@ def account(request):
         time_value = check_logout_time(request)
         context = {"time":time_value}
         logout_counter(request,900)
-        form = FieldCheck(request.POST)
         if 'user_name_save' in request.POST:
+            form = FieldCheck(request.POST)
             if form.is_valid():
                 new_name = form.cleaned_data['new_name']
                 try:
@@ -232,7 +231,22 @@ def account(request):
                 f = {'message_text': 'Invalid username'}
                 return render(request, 'stocks/message.html', context=f)
         if 'user_email_save' in request.POST:
-            print('save email')
+            form = EmailCheck(request.POST)
+            if form.is_valid():
+                new_email = form.cleaned_data['new_email']
+                try:
+                    check_email = User.objects.filter(email=new_email)
+                    if check_email[0]:
+                        f = {'message_text': 'Email is already used , please enter new email.'}
+                        return render(request, 'stocks/message.html', context=f)
+                except:
+                    current_email = User.objects.get(email = request.user.email)
+                    current_email.email = new_email
+                    current_email.save()
+            else:
+                f = {'message_text': 'Invalid email'}
+                return render(request, 'stocks/message.html', context=f)
+
     return render(request, 'stocks/account.html', context)
 
 

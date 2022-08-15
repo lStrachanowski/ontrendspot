@@ -36,3 +36,6 @@ class ResetForm(forms.Form):
 
 class FieldCheck(forms.Form):
     new_name = forms.CharField(max_length=30)
+
+class EmailCheck(forms.Form):
+    new_email = forms.EmailField(max_length=254)

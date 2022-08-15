@@ -30,7 +30,7 @@
 
                     <div class="account-grid" id="email_field">
                         <div class="label-container">
-                            <div class="day-text-font ">Email: {{ user.email }}</div>
+                            <div class="day-text-font " id="user_email">Email: {{ user.email }}</div>
                         </div>
 
                         <button class="blue-button-color button-account" onclick="editEmail()">Edit</button>
@@ -41,10 +41,10 @@
                         {% csrf_token %}
                         <div class="label-container">
                             <label for="pass" class="day-text-font ">Email:</label>
-                            <input type="email" id="email_input">
+                            <input type="email" name = "new_email" id="email_input">
                         </div>
 
-                        <button class="blue-button-color button-account" name="user_email_save">Save</button>
+                        <button class="blue-button-color button-account" name="user_email_save" onclick="updateUser()">Save</button>
                         <button class="button-account red-color" type="button"  onclick="editEmailCancel()">Cancel</button>
                     </form>
 

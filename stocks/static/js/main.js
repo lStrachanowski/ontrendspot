@@ -182,8 +182,11 @@ function updateUser() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let user_name = JSON.parse(this.responseText)['user'];
-            const loader_count = document.getElementById("user_name")
-            loader_count.innerHTML = "Name : " + user_name;
+            let user_email = JSON.parse(this.responseText)['email'];
+            const current_user_name = document.getElementById("user_name")
+            const current_email = document.getElementById("user_email")
+            current_user_name.innerHTML = "Name : " + user_name;
+            current_email.innerHTML = "Email : " + user_email;
         }
     }
     xhttp.open("GET", "/update", true);
