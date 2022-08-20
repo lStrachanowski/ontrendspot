@@ -11,7 +11,6 @@
         {% if form.errors %}
             {% for field in form %}
                 {% for error in field.errors %}
-
                     {% if field.label == "User" %}
                     <p class="error_message"> {{ error|escape }} </p>
                     {% endif %}

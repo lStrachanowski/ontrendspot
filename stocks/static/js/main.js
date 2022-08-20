@@ -12,8 +12,11 @@ let nameField = document.getElementById("name_field");
 let nameFieldInput = document.getElementById("name_field_input");
 let emailField = document.getElementById("email_field");
 let emailFieldInput = document.getElementById("email_field_input");
-let passwordPrompt = document.getElementById("promptBox");
+let passwordPrompt = document.getElementById("changePasswordForm");
 let siteMenu = document.getElementById("siteMenu");
+let passwordField = document.getElementById("password_field");
+let errorMessage = document.getElementsByClassName("error_message");
+
 counterValue = false;
 
 window.dispatchEvent(new Event('resize'));
@@ -52,18 +55,17 @@ let showMenu = () => {
 }
 
 let changePassword = () => {
-    disableScroll();
     if (passwordValue == false) {
         passwordPrompt.style.display = "flex";
+        passwordField.style.display = "none";
     }
     passwordValue = !passwordValue;
-
 }
 
 let passwordSave = () => {
     if (passwordValue == true) {
         passwordPrompt.style.display = "none";
-        enableScroll();
+        passwordField.style.display = "flex";
     }
     passwordValue = !passwordValue;
 }
@@ -71,7 +73,12 @@ let passwordSave = () => {
 let passwordCancel = () => {
     if (passwordValue == true) {
         passwordPrompt.style.display = "none";
-        enableScroll();
+        passwordField.style.display = "flex";
+        if(errorMessage.length > 0){
+            for(let i = 0; i < errorMessage.length; i++ ){
+                document.getElementsByClassName("error_message")[i].style.display = "none";
+            }
+        }
     }
     passwordValue = !passwordValue;
 }
@@ -170,7 +177,10 @@ xhttp.onreadystatechange = function () {
     .then((response) => response.json())
     .then((data) => counterValue = data.time_value);
     timeDisplay(counterValue);
-
+    if(errorMessage.length > 0){
+        passwordPrompt.style.display = "flex";
+        passwordField.style.display = "none";
+    }
 };
 xhttp.open("GET", "/", true);
 xhttp.send();

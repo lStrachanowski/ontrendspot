@@ -4,7 +4,7 @@ from logging import error
 from unicodedata import name
 from django.shortcuts import render
 from sqlalchemy import JSON, false
-from .forms import LoginForm, RegisterForm, ResetForm, ResetEmail, FieldCheck, EmailCheck
+from .forms import LoginForm, RegisterForm, ResetForm, ResetEmail, FieldCheck, EmailCheck, ChangePassword
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
@@ -212,9 +212,6 @@ def account(request):
     time_value = check_logout_time(request)
     context = {"time":time_value}
     if request.method == "POST":
-        time_value = check_logout_time(request)
-        context = {"time":time_value}
-        logout_counter(request,900)
         if 'user_name_save' in request.POST:
             form = FieldCheck(request.POST)
             if form.is_valid():
@@ -246,7 +243,16 @@ def account(request):
             else:
                 f = {'message_text': 'Invalid email'}
                 return render(request, 'stocks/message.html', context=f)
-
+        if 'saveButton' in request.POST:
+            form = ChangePassword(request.POST)
+            if form.is_valid():
+                oldPass = form.cleaned_data['oldPass']
+                newPass = form.cleaned_data['newPass']
+                confirmNewPass = form.cleaned_data['confirmNewPass']
+                print(oldPass,newPass,confirmNewPass)
+            else:
+                f = {'form': form, 'time':time_value}
+                return render(request, 'stocks/account.html', context=f)
     return render(request, 'stocks/account.html', context)
 
 

@@ -21,11 +21,13 @@
                         {% csrf_token %}
                         <div class="label-container">
                             <label for="name_input" class="day-text-font ">Name:</label>
-                            
+
                             <input type="text" name="new_name" id="name_input">
                         </div>
-                        <button class="button-account blue-button-color" type="submit" name="user_name_save" onclick= "updateUser()">Save</button>
-                        <button class="button-account red-color" type="button"  onclick="editNameCancel()">Cancel</button>
+                        <button class="button-account blue-button-color" type="submit" name="user_name_save"
+                            onclick="updateUser()">Save</button>
+                        <button class="button-account red-color" type="button"
+                            onclick="editNameCancel()">Cancel</button>
                     </form>
 
                     <div class="account-grid" id="email_field">
@@ -41,20 +43,76 @@
                         {% csrf_token %}
                         <div class="label-container">
                             <label for="pass" class="day-text-font ">Email:</label>
-                            <input type="email" name = "new_email" id="email_input">
+                            <input type="email" name="new_email" id="email_input">
                         </div>
 
-                        <button class="blue-button-color button-account" name="user_email_save" onclick="updateUser()">Save</button>
-                        <button class="button-account red-color" type="button"  onclick="editEmailCancel()">Cancel</button>
+                        <button class="blue-button-color button-account" name="user_email_save"
+                            onclick="updateUser()">Save</button>
+                        <button class="button-account red-color" type="button"
+                            onclick="editEmailCancel()">Cancel</button>
                     </form>
 
                     <div class="account-grid" id="password_field">
+
                         <div class="label-container">
                             <div class="day-text-font ">Password: *********</div>
                         </div>
                         <button class="button-account blue-button-color" onclick="changePassword()">Edit</button>
 
                     </div>
+
+                    <form class="input-box" id="changePasswordForm" method="post">
+                        {% csrf_token %}
+
+                        <div class="input-container">
+                            <label for="pass" class="day-text-font">Old password</label>
+                            <input type="password" id="oldPass" name="oldPass">
+                        </div>
+
+                        {% if form.errors %}
+                        {% for field in form %}
+                        {% if field.name == "oldPass" %}
+                        <p class="error_message">{{ field.errors.as_text}}</p>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="input-container">
+                            <label for="pass" class="day-text-font ">New password</label>
+                            <input type="password" id="newPass" name="newPass">
+                        </div>
+                        {% if form.errors %}
+                        {% for field in form %}
+                        {% if field.name == "newPass" %}
+                        <p class="error_message">{{ field.errors.as_text}}</p>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="input-container">
+                            <label for="pass" class="day-text-font ">Confirm password</label>
+                            <input type="password" id="confirmNewPass" name="confirmNewPass">
+                        </div>
+                        {% if form.errors %}
+                        {% for field in form %}
+                        {% if field.name == "confirmNewPass" %}
+                        <p class="error_message">{{ field.errors.as_text}}</p>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
+                        {% if form.non_field_errors %}
+                        <p class="error_message">{{ form.non_field_errors.as_text}}</p>
+                        {% endif %}
+
+                        <div class="index-stock-button-container">
+                            <button class="button-style" id="saveButton" name="saveButton" type="submit"
+                                onclick="passwordSave()">
+                                Save
+                            </button>
+                            <button class="button-style" id="cancelButton" type="button" onclick="passwordCancel()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div>
                     <div class="stock-hit-list">
@@ -80,34 +138,6 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
-    <div class="input-top prompt-background" id="promptBox">
-        <div class="input-box " id="changePasswordForm">
-            <div class="input-container">
-                <label for="pass" class="day-text-font ">Old password</label>
-                <input type="password" id="oldPass">
-            </div>
-            <div class="input-container">
-                <label for="pass" class="day-text-font ">New password</label>
-                <input type="password" id="newPass">
-            </div>
-
-            <div class="input-container">
-                <label for="pass" class="day-text-font ">Confirm password</label>
-                <input type="password" id="confirmNewPass">
-            </div>
-
-
-            <div class="index-stock-button-container">
-                <button class="button-style" id="saveButton" onclick="passwordSave()">
-                    Save
-                </button>
-
-                <button class="button-style" id="cancelButton" onclick="passwordCancel()">
-                    Cancel
-                </button>
             </div>
         </div>
     </div>

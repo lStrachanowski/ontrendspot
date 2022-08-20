@@ -39,3 +39,15 @@ class FieldCheck(forms.Form):
 
 class EmailCheck(forms.Form):
     new_email = forms.EmailField(max_length=254)
+
+class ChangePassword(forms.Form):
+    oldPass = forms.CharField(widget=forms.PasswordInput)
+    newPass = forms.CharField(widget=forms.PasswordInput)
+    confirmNewPass = forms.CharField(widget=forms.PasswordInput)
+    def clean(self):
+        cleaned_data = super().clean()
+        oldPassword = cleaned_data.get("oldPass")
+        newPassword = cleaned_data.get("newPass")
+        confirmNewPass = cleaned_data.get("confirmNewPass")
+        if newPassword != confirmNewPass:
+            raise ValidationError("Passwords don`t match")

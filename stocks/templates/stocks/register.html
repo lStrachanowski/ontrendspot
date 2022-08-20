@@ -59,6 +59,10 @@
         {% endfor %}
         {% endif %}
 
+        {% if form.non_field_errors %}
+        <p class="error_message">{{ form.non_field_errors.as_text}}</p>
+        {% endif %}
+        
         <div>
             <input type="checkbox" id="termsAgree" name="termsAgree" value="ok">
             <label for="termsAgree" class="day-text-font"> Accept therms and conditions</label>
