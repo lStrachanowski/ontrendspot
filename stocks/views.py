@@ -249,7 +249,15 @@ def account(request):
                 oldPass = form.cleaned_data['oldPass']
                 newPass = form.cleaned_data['newPass']
                 confirmNewPass = form.cleaned_data['confirmNewPass']
-                print(oldPass,newPass,confirmNewPass)
+                user = authenticate(username=request.user.username, password= oldPass)
+                if user is not None:
+                    user.set_password(confirmNewPass)
+                    user.save()
+                    f = {'message_text': 'Password was changed'}
+                    return render(request, 'stocks/message.html', context=f)
+                else:
+                    f = {'message_text': 'Please enter correct current password.'}
+                    return render(request, 'stocks/message.html', context=f)
             else:
                 f = {'form': form, 'time':time_value}
                 return render(request, 'stocks/account.html', context=f)
