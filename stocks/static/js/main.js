@@ -74,8 +74,8 @@ let passwordCancel = () => {
     if (passwordValue == true) {
         passwordPrompt.style.display = "none";
         passwordField.style.display = "flex";
-        if(errorMessage.length > 0){
-            for(let i = 0; i < errorMessage.length; i++ ){
+        if (errorMessage.length > 0) {
+            for (let i = 0; i < errorMessage.length; i++) {
                 document.getElementsByClassName("error_message")[i].style.display = "none";
             }
         }
@@ -174,10 +174,11 @@ xhttp.onreadystatechange = function () {
     }
     let url = location.protocol + '//' + location.host + "/checktime"
     fetch(url)
-    .then((response) => response.json())
-    .then((data) => counterValue = data.time_value);
-    timeDisplay(counterValue);
-    if(errorMessage.length > 0){
+        .then((response) => response.json())
+        .then((data) => counterValue = data.time_value);
+    // timeDisplay(counterValue);
+    timeDisplay(15);
+    if (errorMessage.length > 0) {
         passwordPrompt.style.display = "flex";
         passwordField.style.display = "none";
     }
@@ -203,22 +204,42 @@ function updateUser() {
     xhttp.send();
 }
 
-function timeDisplay(value){
-    if(value > 0){
-        setInterval(()=>{
-            let minutes = Math.floor(value / 60); 
-            let seconds = Math.floor(value - minutes*60);
-            if (value < 870){
-                document.getElementById("clock").style.display = "block";
-                document.getElementById("refresh-icon").style.display = "block";
+function timeDisplay(value) {
+    let clock = document.getElementById("clock");
+    let refresIcon = document.getElementById("refresh-icon");
+    let clockInterval = setInterval(() => {
+         if (value > 0) {
+            let minutes = Math.floor(value / 60);
+            let seconds = Math.floor(value - minutes * 60);
+            if (value < 870) {
+                if(clock){
+                    clock.style.display = "block";
+                    refresIcon.style.display = "block";
+                }
             }
-            if (seconds < 10){
-                document.getElementById("clock").innerHTML = minutes + ":0"+ seconds;
+            if (seconds < 10) {
+                if(clock){
+                    clock.innerHTML = minutes + ":0" + seconds;
+                }
             }
-            else{
-                document.getElementById("clock").innerHTML = minutes + ":" + seconds;
+            else {
+                if(clock){
+                    clock.innerHTML = minutes + ":" + seconds;
+                }
             }
-            value -=  1
-        },1000);
-    }
+            value -= 1
+        }else{
+        clearInterval(clockInterval);
+        clock.style.display = "none";
+        refresIcon.style.display = "none";
+        document.getElementById("login-options").style.display="none";
+        document.getElementById("user-icon-container").style.display = "none";
+        fetch("/logout").then(function(response) {
+            return response.json();
+          }).then(function(data) {
+            console.log(data);
+          }).catch(function() {
+            console.log("Booo");
+          });
+        }}, 1000);
 }

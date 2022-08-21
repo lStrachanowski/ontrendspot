@@ -69,10 +69,10 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-    <div class="login-options">
+    <div class="login-options" id="login-options">
       <a href="{% url 'logout' %}" class="login-link">Log out</a>
     </div>
-    <div class="user-icon-container">
+    <div class="user-icon-container" id="user-icon-container">
       <a href="{% url 'account' %}"><img src="{% static '/img/user_icon.svg'%}" class="user-icon"></a>
     </div>
  
