@@ -176,8 +176,8 @@ xhttp.onreadystatechange = function () {
     fetch(url)
         .then((response) => response.json())
         .then((data) => counterValue = data.time_value);
-    // timeDisplay(counterValue);
-    timeDisplay(15);
+    timeDisplay(counterValue);
+
     if (errorMessage.length > 0) {
         passwordPrompt.style.display = "flex";
         passwordField.style.display = "none";
@@ -208,38 +208,29 @@ function timeDisplay(value) {
     let clock = document.getElementById("clock");
     let refresIcon = document.getElementById("refresh-icon");
     let clockInterval = setInterval(() => {
-         if (value > 0) {
+        if (value > 0) {
             let minutes = Math.floor(value / 60);
             let seconds = Math.floor(value - minutes * 60);
             if (value < 870) {
-                if(clock){
+                if (clock) {
                     clock.style.display = "block";
                     refresIcon.style.display = "block";
                 }
             }
             if (seconds < 10) {
-                if(clock){
+                if (clock) {
                     clock.innerHTML = minutes + ":0" + seconds;
                 }
             }
             else {
-                if(clock){
+                if (clock) {
                     clock.innerHTML = minutes + ":" + seconds;
                 }
             }
             value -= 1
-        }else{
-        clearInterval(clockInterval);
-        clock.style.display = "none";
-        refresIcon.style.display = "none";
-        document.getElementById("login-options").style.display="none";
-        document.getElementById("user-icon-container").style.display = "none";
-        fetch("/logout").then(function(response) {
-            return response.json();
-          }).then(function(data) {
-            console.log(data);
-          }).catch(function() {
-            console.log("Booo");
-          });
-        }}, 1000);
+        }else if (value != false && value <= 0){
+            clearInterval(clockInterval);
+            document.location.reload(true);
+        }
+    }, 1000);
 }

@@ -84,7 +84,6 @@ def index(request):
     candle_chart('pkp', 30, False, 'image')
     time_value = check_logout_time(request)
     context = {"day": 20092021, "time":time_value}
-    
     return render(request, 'stocks/index.html', context)
 
 
