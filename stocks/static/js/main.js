@@ -228,9 +228,15 @@ function timeDisplay(value) {
                 }
             }
             value -= 1
-        }else if (value != false && value <= 0){
+        } else if (value != false && value <= 0) {
             clearInterval(clockInterval);
             document.location.reload(true);
         }
     }, 1000);
+}
+
+
+function extend_session(link) {
+    let url = link.split('/').filter((_, i) => i > 2).join(",");
+    window.location.href = "/extendsession/"+ url;
 }

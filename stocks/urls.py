@@ -19,7 +19,8 @@ urlpatterns = [
     path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
     path('reset_link/<slug:uidb64>/<slug:token>/', views.reset , name="reset"),
     path('update', views.update_name, name="update"),
-    path('extendsession', views.extend_session, name="extend"), 
+    path('extendsession/<str:link>', views.extend_session, name="extend"), 
+    path('extendsession/', views.extend_session, name="extend"), 
     path('checktime', views.time_left, name="logouttime")
 ]
 

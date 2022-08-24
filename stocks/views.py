@@ -1,7 +1,9 @@
 from distutils import errors
 import email
 from logging import error
+import re
 from unicodedata import name
+from urllib import request
 from django.shortcuts import render
 from sqlalchemy import JSON, false
 from .forms import LoginForm, RegisterForm, ResetForm, ResetEmail, FieldCheck, EmailCheck, ChangePassword
@@ -28,7 +30,6 @@ import json
 import plotly
 from django.utils import timezone
 from django.http import HttpResponse
-
 
 def activate(request, uidb64, token):
     try:
@@ -315,12 +316,17 @@ def check_logout_time(request):
             return round(time_left, 2)
         else:
             logout_view(request)
-            
-def extend_session(request):
+
+def extend_session(request,link=''):
     logout_counter(request, 900)
     time_value = check_logout_time(request)
-    context = {"day": 20092021, "time":time_value}
-    return render(request, 'stocks/index.html', context)
+    url_parts = link.split(",")   
+    if len(url_parts) > 1:
+        return redirect("http://" +request.get_host()+'/'+url_parts[0]+'/'+url_parts[1])
+    elif len(url_parts) == 1:
+        return redirect("http://" +request.get_host()+'/'+url_parts[0])
+    else:
+        return redirect("http://" + request.get_host())
     
 def time_left(request):
     if request.method == "GET":
