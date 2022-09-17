@@ -17,3 +17,5 @@ def get_stock_from_db(ticker, day_range):
     df = df.rename(columns = {1:'stock_symbol',2:'day',3:'volume',4:'stock_open',5:'stock_high',6:'stock_low',7:'stock_close'})
     df = df.drop(columns = [0])
     return df.tail(day_range)
+
+

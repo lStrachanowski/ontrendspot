@@ -1148,4 +1148,9 @@ input[type="password"], input[type="text"],input[type="email"]{
     min-height: 450px;
 }
 
+.index-stock-chart{
+    min-width: 350px;
+}
+
+
 }
