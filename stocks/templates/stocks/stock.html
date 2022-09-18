@@ -23,8 +23,8 @@
             <div id="histChart"></div>
         </div>
         <div class="chart-row-position">
-            <div class="chart-title full-width">90 dniowy rozkład zwrotów</div>
-            <div id="histChart2" ></div>
+            <div class="chart-title full-width">Średnie kroczące 365 dni</div>
+            <div id="rollingMean" ></div>
         </div>
     </div>
 
@@ -121,9 +121,10 @@
 <script type="text/javascript">
     var graphs = {{ graphJSON | safe }};
     var histogram = {{ histChart | safe}};
+    var rollingMeanJSON = {{ rollingMean | safe}};
     Plotly.plot('chart', graphs, { displayModeBar: false });
     Plotly.plot('histChart', histogram, { displayModeBar: false });
-    Plotly.plot('histChart2', histogram, { displayModeBar: false });     
+    Plotly.plot('rollingMean', rollingMeanJSON, { displayModeBar: false });     
 </script>
 
 {% endblock %}

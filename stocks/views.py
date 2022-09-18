@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db
-from .charts import candle_chart, histogram
+from .charts import candle_chart, histogram, rolling_mean_charts
 import pandas as pd
 from datetime import datetime
 from django.contrib.sites.shortcuts import get_current_site
@@ -288,7 +288,8 @@ def stock(request, stockname):
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     histogramJSON = histogram(stockname, 90)
-    context = {"graphJSON":graphJSON, "histChart":histogramJSON, "stock": Stock.objects.get(stock_symbol=stockname.upper()), "time":time_value}
+    rollingMeanJSON = rolling_mean_charts(stockname,365)
+    context = {"graphJSON":graphJSON, "histChart":histogramJSON,"rollingMean":rollingMeanJSON ,"stock": Stock.objects.get(stock_symbol=stockname.upper()), "time":time_value}
     return render(request, 'stocks/stock.html', context)
 
 

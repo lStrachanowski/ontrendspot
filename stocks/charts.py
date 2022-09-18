@@ -67,3 +67,16 @@ def histogram(stockname, period):
 )
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
+def rolling_mean_charts(stockname, period):
+    df = get_stock_from_db(stockname.upper(), period)
+    df = df.set_index(df['day'])
+    fig = ms.make_subplots(rows=1, cols=1)
+    rolling_mean_15 = df.rolling(15).mean().round(4).dropna()
+    rolling_mean_30 = df.rolling(30).mean().round(4).dropna()
+    rolling_mean_45 = df.rolling(45).mean().round(4).dropna()
+    fig.add_trace(go.Scatter(x = rolling_mean_15.index, y = rolling_mean_15['stock_close'],line_shape='spline',name='SMA 15'),row=1, col=1)
+    fig.add_trace(go.Scatter(x = rolling_mean_30.index, y = rolling_mean_30['stock_close'],line_shape='spline',name='SMA 30'),row=1, col=1 )
+    fig.add_trace(go.Scatter(x = rolling_mean_45.index, y = rolling_mean_45['stock_close'],line_shape='spline', name='SMA 45'),row=1, col=1 )
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
