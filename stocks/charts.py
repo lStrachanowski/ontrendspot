@@ -56,5 +56,14 @@ def histogram(stockname, period):
     stock_changes = df['stock_close'].pct_change().round(4).dropna()*100
     fig = go.Figure(data=[go.Histogram(x= stock_changes)])
     fig.update_layout(bargap=0.2)
+    fig.update_layout(
+    margin=dict(
+        l=35,
+        r=35,
+        b=25,
+        t=25,
+        pad=2
+    )
+)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON

@@ -16,8 +16,16 @@
     <div class="center-position">
         <div id="chart" class="index-stock-chart"></div>
     </div>
-    <div class="center-position">
-        <div id="histChart" class="index-stock-chart"></div>
+
+    <div class="charts-position">
+        <div class="chart-row-position">
+            <div class="chart-title full-width">90 dniowy rozkład zwrotów</div>
+            <div id="histChart"></div>
+        </div>
+        <div class="chart-row-position">
+            <div class="chart-title full-width">90 dniowy rozkład zwrotów</div>
+            <div id="histChart2" ></div>
+        </div>
     </div>
 
     <div class="day-data day-text">
@@ -114,7 +122,8 @@
     var graphs = {{ graphJSON | safe }};
     var histogram = {{ histChart | safe}};
     Plotly.plot('chart', graphs, { displayModeBar: false });
-    Plotly.plot('histChart', histogram, { displayModeBar: false });   
+    Plotly.plot('histChart', histogram, { displayModeBar: false });
+    Plotly.plot('histChart2', histogram, { displayModeBar: false });     
 </script>
 
 {% endblock %}
