@@ -85,8 +85,10 @@ def rolling_mean_charts(stockname, period):
 
 def rsi_chart(stockname, period):
     df = get_stock_from_db(stockname.upper(), period)
+    df = df.set_index(df['day'])
     fig = ms.make_subplots(rows=1, cols=1)
-    rsi = talib.RSI(df['stock_close']).dropna()
+    rsi = talib.RSI(df['stock_close'])
+    print(rsi)
     fig.add_trace(go.Scatter(x = df['day'], y = rsi ,line_shape='spline',name='SMA 15'),row=1, col=1)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
