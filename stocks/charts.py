@@ -5,6 +5,8 @@ import plotly
 import json
 import os
 from django.conf import settings
+import talib
+import numpy
 
 
 def candle_chart(stockname, period, volume, chart_type):
@@ -14,7 +16,7 @@ def candle_chart(stockname, period, volume, chart_type):
                                vertical_spacing=0.02,  row_heights=[0.8, 0.2])
     else:
         fig = ms.make_subplots(rows=1, cols=1, shared_xaxes=True)
-    fig.add_trace(go.Candlestick(x=df['day'],
+    fig.add_trace(go.Candlestick(x=df['day'],   
                                  open=df['stock_open'],
                                  high=df['stock_high'],
                                  low=df['stock_low'],
@@ -78,5 +80,13 @@ def rolling_mean_charts(stockname, period):
     fig.add_trace(go.Scatter(x = rolling_mean_15.index, y = rolling_mean_15['stock_close'],line_shape='spline',name='SMA 15'),row=1, col=1)
     fig.add_trace(go.Scatter(x = rolling_mean_30.index, y = rolling_mean_30['stock_close'],line_shape='spline',name='SMA 30'),row=1, col=1 )
     fig.add_trace(go.Scatter(x = rolling_mean_45.index, y = rolling_mean_45['stock_close'],line_shape='spline', name='SMA 45'),row=1, col=1 )
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
+def rsi_chart(stockname, period):
+    df = get_stock_from_db(stockname.upper(), period)
+    fig = ms.make_subplots(rows=1, cols=1)
+    rsi = talib.RSI(df['stock_close']).dropna()
+    fig.add_trace(go.Scatter(x = df['day'], y = rsi ,line_shape='spline',name='SMA 15'),row=1, col=1)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
