@@ -31,8 +31,13 @@
     <div class="charts-position">
         
         <div class="chart-row-position">
-            <div class="chart-title full-width">RSI</div>
+            <div class="chart-title full-width">RSI 365 dni</div>
             <div id="rsiChart" ></div>
+        </div>
+
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Bollinger Bands</div>
+            <div id="bbands" ></div>
         </div>
 
     </div>
@@ -132,10 +137,12 @@
     var histogram = {{ histChart | safe}};
     var rollingMeanJSON = {{ rollingMean | safe}};
     var rsiJSON = {{ rsi | safe}};
+    var bbJSON = {{ bollinger | safe}};
     Plotly.plot('chart', graphs, { displayModeBar: false });
     Plotly.plot('histChart', histogram, { displayModeBar: false });
     Plotly.plot('rollingMean', rollingMeanJSON, { displayModeBar: false });     
     Plotly.plot('rsiChart', rsiJSON, { displayModeBar: false });     
+    Plotly.plot('bbands', bbJSON, { displayModeBar: false }); 
 </script>
 
 {% endblock %}

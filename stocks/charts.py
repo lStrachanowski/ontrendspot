@@ -65,8 +65,8 @@ def histogram(stockname, period):
         b=25,
         t=25,
         pad=2
+        )
     )
-)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
@@ -80,6 +80,7 @@ def rolling_mean_charts(stockname, period):
     fig.add_trace(go.Scatter(x = rolling_mean_15.index, y = rolling_mean_15['stock_close'],line_shape='spline',name='SMA 15'),row=1, col=1)
     fig.add_trace(go.Scatter(x = rolling_mean_30.index, y = rolling_mean_30['stock_close'],line_shape='spline',name='SMA 30'),row=1, col=1 )
     fig.add_trace(go.Scatter(x = rolling_mean_45.index, y = rolling_mean_45['stock_close'],line_shape='spline', name='SMA 45'),row=1, col=1 )
+    fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
@@ -88,7 +89,20 @@ def rsi_chart(stockname, period):
     df = df.set_index(df['day'])
     fig = ms.make_subplots(rows=1, cols=1)
     rsi = talib.RSI(df['stock_close'])
-    print(rsi)
     fig.add_trace(go.Scatter(x = df['day'], y = rsi ,line_shape='spline',name='SMA 15'),row=1, col=1)
+    fig.update_layout(plot_bgcolor="white")
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
+def bollinger_bands(stockname,period):
+    df = get_stock_from_db(stockname.upper(), period)
+    df = df.set_index(df['day'])
+    upper, middle, lower = talib.BBANDS(df['stock_close'], timeperiod=20,nbdevup=2)
+    fig = ms.make_subplots(rows=1, cols=1)
+    fig.add_trace(go.Scatter(x = upper.index, y = upper.dropna() ,line_shape='spline',name='UPPER', line_color='#a0a0b8'),row=1, col=1)
+    fig.add_trace(go.Scatter(x = middle.index, y = middle.dropna() ,line_shape='spline',name='MIDDLE', line_color='#a0a0b8'),row=1, col=1 )
+    fig.add_trace(go.Scatter(x = lower.index, y = lower.dropna() ,line_shape='spline', name='LOWER', line_color='#a0a0b8'),row=1, col=1 )
+    fig.add_trace(go.Scatter(x = df.index, y = df['stock_close'].dropna() ,line_shape='spline', name='PRICE', line_color='#0d0006'),row=1, col=1 )
+    fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
