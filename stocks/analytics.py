@@ -1,6 +1,7 @@
 import pandas as pd
 from .models import DataSource
 import datetime
+import talib
 
 def read_stock_from_file(path):
     df = pd.read_csv(path)
@@ -18,4 +19,14 @@ def get_stock_from_db(ticker, day_range):
     df = df.drop(columns = [0])
     return df.tail(day_range)
 
+def bollinger_bands(stockname, period):
+    df = get_stock_from_db(stockname.upper(), period)
+    upper, middle, lower = talib.BBANDS(
+        df['stock_close'], timeperiod=20, nbdevup=2,  nbdevdn=2)
+    df['upper'] = upper
+    df['middle'] = middle
+    df['lower'] = lower
+    df = df.set_index(df['day'])
+    df.dropna(subset = ["upper","middle","lower"], inplace=True)
+    return df
 

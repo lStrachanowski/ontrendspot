@@ -1,4 +1,4 @@
-from .analytics import get_stock_from_db
+from .analytics import get_stock_from_db, bollinger_bands
 import plotly.subplots as ms
 import plotly.graph_objects as go
 import plotly
@@ -74,6 +74,7 @@ def rolling_mean_charts(stockname, period):
     df = get_stock_from_db(stockname.upper(), period)
     df = df.set_index(df['day'])
     fig = ms.make_subplots(rows=1, cols=1)
+    print(df)
     rolling_mean_15 = df.rolling(15).mean().round(4).dropna()
     rolling_mean_30 = df.rolling(30).mean().round(4).dropna()
     rolling_mean_45 = df.rolling(45).mean().round(4).dropna()
@@ -94,15 +95,13 @@ def rsi_chart(stockname, period):
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-def bollinger_bands(stockname,period):
-    df = get_stock_from_db(stockname.upper(), period)
-    df = df.set_index(df['day'])
-    upper, middle, lower = talib.BBANDS(df['stock_close'], timeperiod=20,nbdevup=2)
+def bollinger_bands_chart(stockname,period):
+    df = bollinger_bands(stockname, period)
     fig = ms.make_subplots(rows=1, cols=1)
-    fig.add_trace(go.Scatter(x = upper.index, y = upper.dropna() ,line_shape='spline',name='UPPER', line_color='#a0a0b8'),row=1, col=1)
-    fig.add_trace(go.Scatter(x = middle.index, y = middle.dropna() ,line_shape='spline',name='MIDDLE', line_color='#a0a0b8'),row=1, col=1 )
-    fig.add_trace(go.Scatter(x = lower.index, y = lower.dropna() ,line_shape='spline', name='LOWER', line_color='#a0a0b8'),row=1, col=1 )
-    fig.add_trace(go.Scatter(x = df.index, y = df['stock_close'].dropna() ,line_shape='spline', name='PRICE', line_color='#0d0006'),row=1, col=1 )
+    fig.add_trace(go.Scatter(x = df.index, y = df['upper'] ,line_shape='spline',name='UPPER', line_color='#a0a0b8'),row=1, col=1)
+    fig.add_trace(go.Scatter(x = df.index, y = df['middle'] ,line_shape='spline',name='MIDDLE', line_color='#a0a0b8'),row=1, col=1 )
+    fig.add_trace(go.Scatter(x = df.index, y = df['lower'] ,line_shape='spline', name='LOWER', line_color='#a0a0b8'),row=1, col=1 )
+    fig.add_trace(go.Scatter(x = df.index, y = df['stock_close'] ,line_shape='spline', name='PRICE', line_color='#0d0006'),row=1, col=1 )
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON

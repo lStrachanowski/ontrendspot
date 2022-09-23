@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db
-from .charts import candle_chart, histogram, rolling_mean_charts, rsi_chart, bollinger_bands
+from .charts import candle_chart, histogram, rolling_mean_charts, rsi_chart, bollinger_bands_chart
 import pandas as pd
 from datetime import datetime
 from django.contrib.sites.shortcuts import get_current_site
@@ -290,7 +290,7 @@ def stock(request, stockname):
     histogramJSON = histogram(stockname, 90)
     rollingMeanJSON = rolling_mean_charts(stockname,180)
     rsiJSON = rsi_chart(stockname,180)
-    bbands = bollinger_bands(stockname,180)
+    bbands = bollinger_bands_chart(stockname,180)
     context = {"graphJSON":graphJSON, "histChart":histogramJSON,"rollingMean":rollingMeanJSON, "rsi":rsiJSON , "bollinger": bbands, "stock": Stock.objects.get(stock_symbol=stockname.upper()), "time":time_value}
     return render(request, 'stocks/stock.html', context)
 
