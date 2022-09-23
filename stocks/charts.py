@@ -1,4 +1,4 @@
-from .analytics import get_stock_from_db, bollinger_bands
+from .analytics import get_stock_from_db, bollinger_bands, rsi
 import plotly.subplots as ms
 import plotly.graph_objects as go
 import plotly
@@ -67,6 +67,7 @@ def histogram(stockname, period):
         pad=2
         )
     )
+    fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
@@ -86,11 +87,9 @@ def rolling_mean_charts(stockname, period):
     return graphJSON
 
 def rsi_chart(stockname, period):
-    df = get_stock_from_db(stockname.upper(), period)
-    df = df.set_index(df['day'])
+    df = rsi(stockname, period)
     fig = ms.make_subplots(rows=1, cols=1)
-    rsi = talib.RSI(df['stock_close'])
-    fig.add_trace(go.Scatter(x = df['day'], y = rsi ,line_shape='spline',name='SMA 15'),row=1, col=1)
+    fig.add_trace(go.Scatter(x = df.index, y = df ,line_shape='spline',name='RSI'),row=1, col=1)
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON

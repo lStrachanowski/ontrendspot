@@ -30,3 +30,8 @@ def bollinger_bands(stockname, period):
     df.dropna(subset = ["upper","middle","lower"], inplace=True)
     return df
 
+def rsi(stockname, period):
+    df = get_stock_from_db(stockname.upper(), period)
+    df = df.set_index(df['day'])
+    rsi = talib.RSI(df['stock_close'])
+    return rsi
