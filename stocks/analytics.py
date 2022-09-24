@@ -35,3 +35,10 @@ def rsi(stockname, period):
     df = df.set_index(df['day'])
     rsi = talib.RSI(df['stock_close'])
     return rsi
+
+def mean_volume(stockname, period):
+    df = get_stock_from_db(stockname.upper(), period)
+    df['rolling_volume'] = df['volume'].rolling(30).mean().round(4).dropna()
+    df2 = df[['day','rolling_volume']]
+    print(df2.dropna())
+    return df2

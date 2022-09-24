@@ -41,6 +41,15 @@
         </div>
 
     </div>
+    <div class="charts-position">
+        
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Średni wolumen z 30 dni</div>
+            <div id="meanVolume" ></div>
+        </div>
+
+
+    </div>
 
     <div class="day-data day-text">
         <div class="day-data-position ">
@@ -138,11 +147,13 @@
     var rollingMeanJSON = {{ rollingMean | safe}};
     var rsiJSON = {{ rsi | safe}};
     var bbJSON = {{ bollinger | safe}};
+    var mVolume= {{ mean_volume | safe}};
     Plotly.plot('chart', graphs, { displayModeBar: false });
     Plotly.plot('histChart', histogram, { displayModeBar: false });
     Plotly.plot('rollingMean', rollingMeanJSON, { displayModeBar: false });     
     Plotly.plot('rsiChart', rsiJSON, { displayModeBar: false });     
     Plotly.plot('bbands', bbJSON, { displayModeBar: false }); 
+    Plotly.plot('meanVolume', mVolume, { displayModeBar: false }); 
 </script>
 
 {% endblock %}
