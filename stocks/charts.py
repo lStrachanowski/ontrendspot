@@ -1,4 +1,4 @@
-from .analytics import get_stock_from_db, bollinger_bands, rsi, mean_volume
+from .analytics import get_stock_from_db, bollinger_bands, rsi, mean_volume, stock_changes
 import plotly.subplots as ms
 import plotly.graph_objects as go
 import plotly
@@ -54,9 +54,8 @@ def candle_chart(stockname, period, volume, chart_type):
 
 
 def histogram(stockname, period):
-    df = get_stock_from_db(stockname.upper(), period)
-    stock_changes = df['stock_close'].pct_change().round(4).dropna()*100
-    fig = go.Figure(data=[go.Histogram(x= stock_changes)])
+    stock_changes_data = stock_changes(stockname, period)
+    fig = go.Figure(data=[go.Histogram(x= stock_changes_data)])
     fig.update_layout(bargap=0.2)
     fig.update_layout(
     margin=dict(

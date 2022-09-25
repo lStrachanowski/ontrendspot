@@ -40,5 +40,9 @@ def mean_volume(stockname, period):
     df = get_stock_from_db(stockname.upper(), period)
     df['rolling_volume'] = df['volume'].rolling(30).mean().round(4).dropna()
     df2 = df[['day','rolling_volume']]
-    print(df2.dropna())
     return df2
+
+def stock_changes(stockname, period):
+    df = get_stock_from_db(stockname.upper(), period)
+    stock_changes = df['stock_close'].pct_change().round(4).dropna()*100
+    return stock_changes
