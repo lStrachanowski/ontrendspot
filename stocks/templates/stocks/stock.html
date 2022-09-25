@@ -22,11 +22,11 @@
             <div class="chart-title full-width">90 dniowy rozkład zwrotów</div>
             <div id="histChart"></div>
         </div>
-        <div class="chart-row-position">
-            <div class="chart-title full-width">Średnie kroczące 365 dni</div>
-            <div id="rollingMean" ></div>
-        </div>
 
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Zwroty za 90 dni</div>
+            <div id="dReturns"></div>
+        </div>
     </div>
     <div class="charts-position">
         
@@ -36,7 +36,7 @@
         </div>
 
         <div class="chart-row-position">
-            <div class="chart-title full-width">Bollinger Bands</div>
+            <div class="chart-title full-width">Bollinger Bands (20,2) </div>
             <div id="bbands" ></div>
         </div>
 
@@ -47,7 +47,10 @@
             <div class="chart-title full-width">Średni wolumen z 30 dni</div>
             <div id="meanVolume" ></div>
         </div>
-
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Średnie kroczące 365 dni</div>
+            <div id="rollingMean" ></div>
+        </div>
 
     </div>
 
@@ -148,12 +151,14 @@
     var rsiJSON = {{ rsi | safe}};
     var bbJSON = {{ bollinger | safe}};
     var mVolume= {{ mean_volume | safe}};
+    var dailyReturns = {{daily_returns | safe}}
     Plotly.plot('chart', graphs, { displayModeBar: false });
     Plotly.plot('histChart', histogram, { displayModeBar: false });
     Plotly.plot('rollingMean', rollingMeanJSON, { displayModeBar: false });     
     Plotly.plot('rsiChart', rsiJSON, { displayModeBar: false });     
     Plotly.plot('bbands', bbJSON, { displayModeBar: false }); 
     Plotly.plot('meanVolume', mVolume, { displayModeBar: false }); 
+    Plotly.plot('dReturns', dailyReturns, { displayModeBar: false }); 
 </script>
 
 {% endblock %}

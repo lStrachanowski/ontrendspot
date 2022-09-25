@@ -6,7 +6,7 @@ import json
 import os
 from django.conf import settings
 import talib
-import numpy
+import numpy as np
 
 
 def candle_chart(stockname, period, volume, chart_type):
@@ -39,10 +39,10 @@ def candle_chart(stockname, period, volume, chart_type):
         margin=dict(l=5, r=5, t=5, b=5),
         paper_bgcolor="#FCFCFC",)
     cs = fig.data[0]
-    cs.increasing.fillcolor = '#27cc02'
-    cs.increasing.line.color = '#27cc02'
-    cs.decreasing.fillcolor = '#ff0400'
-    cs.decreasing.line.color = '#ff0400'
+    cs.increasing.fillcolor = '#24b524'
+    cs.increasing.line.color = '#24b524'
+    cs.decreasing.fillcolor = '#eb1f05'
+    cs.decreasing.line.color = '#eb1f05'
     if chart_type == 'image':
         fig.write_image(os.path.join(settings.BASE_DIR,
                         './stocks/static/img/'+stockname+'.svg'))
@@ -54,7 +54,7 @@ def candle_chart(stockname, period, volume, chart_type):
 
 
 def histogram(stockname, period):
-    stock_changes_data = stock_changes(stockname, period)
+    stock_changes_data = stock_changes(stockname, period, 1)
     fig = go.Figure(data=[go.Histogram(x= stock_changes_data)])
     fig.update_layout(bargap=0.2)
     fig.update_layout(
@@ -111,3 +111,19 @@ def mean_volume_chart(stockname,period):
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
+def daily_returns_chart(stockname, period):
+    df = stock_changes(stockname, period, 2)
+    rolling_mean_returns = stock_changes(stockname, period, 3)
+    df["Color"] = np.where(df["stock_changes"]<0, '#eb1f05', '#24b524')
+    fig = ms.make_subplots(rows=1, cols=1)
+    fig.add_trace(go.Bar(x=df['day'], y=df['stock_changes'],marker_color=df['Color'],name='Zwroty',))
+    fig.update_xaxes(
+            rangebreaks=[
+                dict(bounds=["sat", "mon"]),
+            ])
+    fig.add_trace(go.Scatter(x = rolling_mean_returns['day'], y = rolling_mean_returns['rolling_mean'] ,line_shape='spline', name='MEAN 5', line_color='black'),row=1, col=1 )
+    fig.update_layout(plot_bgcolor="white")
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+    
