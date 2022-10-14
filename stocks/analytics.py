@@ -1,17 +1,30 @@
 import pandas as pd
-from .models import DataSource
+from .models import DataSource, Stock
 import datetime
 import talib
+import pathlib
 
 def read_stock_from_file(path):
     df = pd.read_csv(path)
     data = df[['<DATE>','<TICKER>', '<OPEN>','<HIGH>','<LOW>','<CLOSE>','<VOL>']]
     return data
 
+
 def add_to_database(df):
     instances = [DataSource(stock_symbol = stock[2], day = datetime.datetime.strptime(str(stock[1]), '%Y%m%d'),
     volume = stock[7], stock_open = stock[3] , stock_high = stock[4] , stock_low = stock[5],  stock_close =stock[6]) for stock in df.itertuples(name=None)]
     DataSource.objects.bulk_create(instances)
+
+def stocks_files_paths(dir):
+    file_list = list(pathlib.Path(dir).glob('*.txt'))
+    return file_list
+
+def update_database():
+    data_files_paths = stocks_files_paths(r"C:\\Users\\lukaa\Desktop\\d_pl_txt\\data\\daily\\pl\\wse stocks\\")
+    data_files_paths[0]
+    # t = DataSource.objects.filter(stock_symbol = 'PKN')
+    # for val in t:
+    #     print(val.day)
 
 def get_stock_from_db(ticker, day_range):
     df = pd.DataFrame.from_records(DataSource.objects.filter(stock_symbol = ticker).values_list())
@@ -53,5 +66,4 @@ def stock_changes(stockname, period, option):
     if option == 3:
         df['rolling_mean'] = df['stock_changes'].rolling(5).mean().round(4).dropna()
         df3 = df[['day', 'rolling_mean']].dropna()
-        print(df3)
         return df3

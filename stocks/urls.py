@@ -1,7 +1,8 @@
 from unicodedata import name
 from django.urls import path
 from .import views
-
+from django.views.generic.base import RedirectView
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 urlpatterns = [
@@ -21,6 +22,7 @@ urlpatterns = [
     path('update', views.update_name, name="update"),
     path('extendsession/<str:link>', views.extend_session, name="extend"), 
     path('extendsession/', views.extend_session, name="extend"), 
-    path('checktime', views.time_left, name="logouttime")
+    path('checktime', views.time_left, name="logouttime"),
+    path("favicon.ico",RedirectView.as_view(url=staticfiles_storage.url("favicon.ico")))
 ]
 

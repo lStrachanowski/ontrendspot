@@ -6,7 +6,7 @@ class Stock(models.Model):
     isin = models.CharField(max_length=20)
     address = models.CharField(max_length=250, blank=True)
     phone = models.CharField(max_length=30, blank=True)
-    email = models.CharField(max_length=20 , blank=True)
+    email = models.CharField(max_length=50 , blank=True)
     website = models.CharField(max_length=50, blank=True)
     def address_split(self):
         return self.address.split()
@@ -20,7 +20,7 @@ class Comments(models.Model):
     stock_symbol = models.CharField(max_length=10)
 
 class DataSource(models.Model):
-    stock_symbol = models.CharField(max_length=50)
+    stock_symbol = models.ForeignKey(Stock, on_delete = models.CASCADE)
     day = models.DateField()
     volume = models.IntegerField()
     stock_open = models.FloatField()
