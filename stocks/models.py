@@ -6,7 +6,6 @@ class Stock(models.Model):
     isin = models.CharField(max_length=20)
     address = models.CharField(max_length=250, blank=True)
     phone = models.CharField(max_length=30, blank=True)
-    email = models.CharField(max_length=50 , blank=True)
     website = models.CharField(max_length=50, blank=True)
     def address_split(self):
         return self.address.split()

@@ -81,7 +81,7 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    update_database()
+    # update_database()
     candle_chart('pkn', 30, False, 'image')
     candle_chart('pkp', 30, False, 'image')
     time_value = check_logout_time(request)
