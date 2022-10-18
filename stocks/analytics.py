@@ -36,7 +36,13 @@ def update_database():
             except:
                 print("Stock object doesnt exists")
                 
-            
+def add_stock_informations():
+    data_file = r"D:\\dev\\Scrapping\\dane.xlsx"
+    data_source = pd.read_excel(data_file, index_col=0)  
+    instances = [Stock(name = item[3], stock_symbol = item[2], isin = item[1], address = item[4], phone = item[5] , website = item[6]) 
+                    for item in data_source.itertuples(name=None)]
+    Stock.objects.bulk_create(instances)
+
 def get_stock_from_db(ticker, day_range):
     df = pd.DataFrame.from_records(DataSource.objects.filter(stock_symbol = ticker).values_list())
     df = df.rename(columns = {1:'stock_symbol',2:'day',3:'volume',4:'stock_open',5:'stock_high',6:'stock_low',7:'stock_close'})
