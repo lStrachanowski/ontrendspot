@@ -113,3 +113,7 @@ def get_stock_mean_volume_value(period, min_value):
     df = df.groupby(by=['stock_symbol'])['volumen_value'].mean()
     df = df[df > min_value]
     return df
+
+def get_last_data_entry_time(ticker):
+    data_set = DataSource.objects.filter(stock_symbol = ticker)
+    return data_set.last().day
