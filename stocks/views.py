@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
-from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations
+from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, get_stock_mean_volume_value
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart
 import pandas as pd
 from datetime import datetime
@@ -81,8 +81,9 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    # update_database()
     # add_stock_informations()
+    # update_database()
+    get_stock_mean_volume_value(90, 100000)
     candle_chart('pkn', 30, False, 'image')
     candle_chart('pkp', 30, False, 'image')
     time_value = check_logout_time(request)
