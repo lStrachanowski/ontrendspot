@@ -146,8 +146,15 @@ def get_stocks_mean_volumes(period, min_value):
         df = df[df > min_value]
     return df
 
-# Is counting last volume value as ratio to mean volume
+# Is counting last volume value as percent to mean volume
 def percent_volume_change(ticker, period):
     latest_volume_value = get_last_data_entry(
         ticker).volume * get_last_data_entry(ticker).stock_close
-    print(latest_volume_value/get_stock_mean_volume_value(ticker, period)*100)
+    return latest_volume_value/get_stock_mean_volume_value(ticker, period)*100
+
+# Calculate volumne percent change for all tickers and returns highest change 
+def analyze_percent_changes(period, min_value, range):
+    mean_values = get_stocks_mean_volumes(period, min_value)  
+    percent_changes = [{'Ticker':value, 'Change': percent_volume_change(value,period)[value] } for value in mean_values.index]
+    df = pd.DataFrame(percent_changes).sort_values(by=['Change'], ascending=False)
+    return df[0:range]
