@@ -158,3 +158,4 @@ def analyze_percent_changes(period, min_value, range):
     percent_changes = [{'Ticker':value, 'Change': percent_volume_change(value,period)[value] } for value in mean_values.index]
     df = pd.DataFrame(percent_changes).sort_values(by=['Change'], ascending=False)
     return df[0:range]
+
