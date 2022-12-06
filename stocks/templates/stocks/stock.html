@@ -1,50 +1,92 @@
 {% extends "stocks/base.html" %}
 {% load static %}
 {% block content %}
-
-<div class="base-position greey-color left-position">
+<div class="loader" id="loader">Loading...</div>
+<div class="base-position greey-color left-position content">
     <div class="arrow-position">
-        <img src="{% static '/img/back_arrow.svg' %}" class="back-arrow" onclick='location.href = "/list";'/>
+        <img src="{% static '/img/back_arrow.svg' %}" class="back-arrow" onclick='location.href = "/list";' />
         <p class="day-text darker-greey">wróć</p>
     </div>
     <div>
 
     </div>
-    <div class="day-text darker-greey stock-font">{{name}} <span class="green-font-color">19.85 PLN (4,85%)</span></div>
+    <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} <span class="green-font-color">19.85 PLN
+            (4,85%)</span></div>
+
     <div class="center-position">
-        <img src="{% static 'img/chart.jpg' %}" class="index-stock-image" />
+        <div id="chart" class="index-stock-chart"></div>
     </div>
+
+    <div class="charts-position">
+        <div class="chart-row-position">
+            <div class="chart-title full-width">90 dniowy rozkład zwrotów</div>
+            <div id="histChart"></div>
+        </div>
+
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Zwroty za 90 dni</div>
+            <div id="dReturns"></div>
+        </div>
+    </div>
+    <div class="charts-position">
+        
+        <div class="chart-row-position">
+            <div class="chart-title full-width">RSI 365 dni</div>
+            <div id="rsiChart" ></div>
+        </div>
+
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Bollinger Bands (20,2) </div>
+            <div id="bbands" ></div>
+        </div>
+
+    </div>
+    <div class="charts-position">
+        
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Średni wolumen z 30 dni</div>
+            <div id="meanVolume" ></div>
+        </div>
+        <div class="chart-row-position">
+            <div class="chart-title full-width">Średnie kroczące 365 dni</div>
+            <div id="rollingMean" ></div>
+        </div>
+
+    </div>
+
     <div class="day-data day-text">
         <div class="day-data-position ">
             <div>O firmie </div>
         </div><br>
-        <div class="day-data-position">
+        <div class="loader" id="loader">Loading...</div>
+        <div class="day-data-position content">
             <div class="addres-postion">
-                <div class="day-text-font darker-greey">PKP Cargo SA<br>
-                    Grójecka 17<br>
-                    02-021 Warszawa Polska </div>
+                <div class="day-text-font darker-greey">{{stock.name}}<br>
+
+                    {{stock.address_split.0}} {{stock.address_split.1}}<br>
+                    {{stock.address_split.2}} {{stock.address_split.3}}<br>
+                    {{stock.address_split.4}}
+                </div>
+
             </div><br>
             <div class="addres-postion">
-                <div> ISIN: PLPKPCR00011 <br>
-                    SYMBOL: PKP</div>
+                <div> ISIN: {{stock.isin}} <br>
+                    SYMBOL: {{stock.stock_symbol}}</div>
             </div>
 
         </div><br>
         <div class="day-data-position">
             <div>Telefon: </div>
-            <div class="day-text-font darker-greey"> +48 223 914 667</div>
-        </div>
-        <div class="day-data-position">
-            <div>Email: </div>
-            <div class="day-text-font darker-greey"> relacje.inwestorskie@pkp-cargo.eu</div>
+            <div class="day-text-font darker-greey"> {{stock.phone}}</div>
         </div>
         <div class="day-data-position">
             <div>Strona www: </div>
-            <div class="day-text-font darker-greey"> http://www.pkpcargo.com/</div>
+            <div class="day-text-font darker-greey"> {{stock.website}}</div>
         </div>
     </div>
 </div>
-<div class=" stock-hit-list mint-color">
+<div class="loader" id="loader">Loading...</div>
+<div class=" stock-hit-list mint-color content">
     <div class="formation-stock-ticker day-text-font">Lista wpisów</div>
     <div class="entry-item white-background">
         <div class="entry-item-date mint-color-font  formation-stock-ticker day-text-font ">20.09.2020</div>
@@ -70,12 +112,13 @@
     </div>
 </div>
 
-
-<div class="stock-hit-list">
+<div class="loader" id="loader">Loading...</div>
+<div class="stock-hit-list content">
     <div class="formation-stock-ticker day-text-font">Komentarze</div>
     <div class="entry-item entry-item-comment">
-        <div class=" entry-item-message day-text-font day-text-font-padding">Podpisana nowa umowa na nowe relacje. Musiało urosnąć. </div>
-        <div class="formation-stock-ticker day-text-font day-text-font-padding ">Jan  20.09.2020</div>   
+        <div class=" entry-item-message day-text-font day-text-font-padding">Podpisana nowa umowa na nowe relacje.
+            Musiało urosnąć. </div>
+        <div class="formation-stock-ticker day-text-font day-text-font-padding ">Jan 20.09.2020</div>
     </div>
 
     <div class="index-stock-button-container">
@@ -87,7 +130,7 @@
 
 <div class=" stock-hit-list ">
     <div class="formation-stock-ticker day-text-font">Dodaj komentarz</div>
-        <textarea id="comment" name="w3recommentview" rows="4" cols="50">
+    <textarea id="comment" name="w3recommentview" rows="4" cols="50">
         </textarea>
     <div class="index-stock-button-container">
         <div class="button-style button-style-more">
@@ -95,4 +138,23 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    var graphs = {{ graphJSON | safe }};
+    var histogram = {{ histChart | safe}};
+    var rollingMeanJSON = {{ rollingMean | safe}};
+    var rsiJSON = {{ rsi | safe}};
+    var bbJSON = {{ bollinger | safe}};
+    var mVolume= {{ mean_volume | safe}};
+    var dailyReturns = {{daily_returns | safe}}
+    Plotly.plot('chart', graphs, { displayModeBar: false });
+    Plotly.plot('histChart', histogram, { displayModeBar: false });
+    Plotly.plot('rollingMean', rollingMeanJSON, { displayModeBar: false });     
+    Plotly.plot('rsiChart', rsiJSON, { displayModeBar: false });     
+    Plotly.plot('bbands', bbJSON, { displayModeBar: false }); 
+    Plotly.plot('meanVolume', mVolume, { displayModeBar: false }); 
+    Plotly.plot('dReturns', dailyReturns, { displayModeBar: false }); 
+</script>
+
 {% endblock %}

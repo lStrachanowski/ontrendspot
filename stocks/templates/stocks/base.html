@@ -23,20 +23,26 @@
 
 <body>
 
-  <div class="menu-background" id="siteMenu" >
-    
+  <div class="menu-background" id="siteMenu">
+
     <div class="close" onclick="showMenu()"></div>
 
+    {% if user.is_authenticated %}
+    <div class="login-options login-options-mobile-show">
+      <a href="{% url 'logout' %}" class="login-link">Log out</a>
+    </div>
+    {% else %}
     <div class="login-options login-options-mobile-show">
       <div class="login-options-option">
-        <a href="{% url 'register' %}" class="login-link">Register</a> 
+        <a href="{% url 'register' %}" class="login-link">Register</a>
       </div>
       <div class="login-options-option">
-        <a href="{% url 'login' %}" class="login-link">Login</a> 
-       </div>
+        <a href="{% url 'login'  %}" class="login-link">Login</a>
+      </div>
     </div>
+    {% endif %}
 
-    <div class="main-menu white-font-color cursor"> 
+    <div class="main-menu white-font-color cursor">
       O nas
     </div>
     <br>
@@ -47,30 +53,40 @@
     <div class="main-menu white-font-color cursor">
       Kontakt
     </div>
-    
+
   </div>
 
   <div class="header-container">
     <div class="logo-container">
       <a href="{% url 'index' %}">
-        <img src= "{% static '/img/logo.svg' %}" class="logo">
+        <img src="{% static '/img/logo.svg' %}" class="logo">
       </a>
     </div>
-   
-   
-    <!-- <div class="user-icon-container">
-     <a href="{% url 'account' %}"><img src="{% static '/img/user_icon.svg'%}" class="user-icon" ></a> 
-    </div> -->
 
+    {% if time %}
+    <div class="clock-font" id="clock"></div>
+      <img src="{% static '/img/refresh.svg' %}" class="clock-refresh-icon cursor" id="refresh-icon" onclick="extend_session(window.location.href)">
+    {% endif %}
+
+
+    {% if user.is_authenticated %} 
+    <div class="login-options" id="login-options">
+      <a href="{% url 'logout' %}" class="login-link">Log out</a>
+    </div>
+    <div class="user-icon-container" id="user-icon-container">
+      <a href="{% url 'account' %}"><img src="{% static '/img/user_icon.svg'%}" class="user-icon"></a>
+    </div>
+ 
+    {% else %}
     <div class="login-options login-options-mobile">
       <div class="login-options-option">
-        <a href="{% url 'register' %}" class="login-link">Register</a> 
+        <a href="{% url 'register' %}" class="login-link">Register</a>
       </div>
       <div class="login-options-option">
-        <a href="{% url 'login' %}" class="login-link">Login</a> 
-       </div>
+        <a href="{% url 'login' %}" class="login-link">Login</a>
+      </div>
     </div>
-
+    {% endif %}
     <div class="menu-container">
       <div class="menu-bar-wrapper" onclick="showMenu()">
         <div class="menu-bar"></div>
@@ -79,18 +95,18 @@
       </div>
     </div>
 
-   
-  </div>
-  
-  
 
- 
-  
+  </div>
+
+
+
+
+
   {% block content %}
   {% endblock %}
-  
-  
- 
+
+
+
   <div class="footer">
     <div class="footer-space">
       <a href="" class="footer-font">index</a>
@@ -109,7 +125,7 @@
     </div>
   </div>
   <div class="copyright">
-      Copyright OnTrendeSpot 2020
+    Copyright OnTrendeSpot 2020
   </div>
   <script src="{% static '/js/main.js' %}"></script>
 </body>

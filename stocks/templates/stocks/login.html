@@ -1,21 +1,40 @@
 {% extends "stocks/base.html" %}
 {% block content %}
-<div class="base-position darkgreen-color base-position-mobile">
+<div class="base-position darkgreen-color base-position-mobile base-position-height">
     <h1 id="caption">Login</h1>
-    <div class="input-box" id="loginForm">
+    <form class="input-box" id="loginForm" method="post">
+        {% csrf_token %}
         <div class="input-container">
-            <label for="email" class="day-text-font ">Email</label>
-            <input type="text" id="email">
+            <label for="user" class="day-text-font ">Username</label>
+            <input type="text" id="user" name="user" value="{{ form.user.value }}">
         </div>
-
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    {% if field.label == "User" %}
+                    <p class="error_message"> {{ error|escape }} </p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+      
         <div class="input-container">
             <label for="pass" class="day-text-font ">Password</label>
-            <input type="password" id="pass">
+            <input type="password" id="pass" name="password" value="{{ form.password.value }}">
         </div>
 
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    {% if field.label == "Password" %}
+                    <p class="error_message"> {{ error|escape }} </p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
 
         <div class="index-stock-button-container">
-            <button class="button-style">
+            <button class="button-style" type="submit" name="login_button">
                 Login
             </button>
         </div>
@@ -24,65 +43,28 @@
         </div>
 
         <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Nie masz konta ? Zarejestruj się.</div>
+            <a class="darker-greey day-text-font cursor" href="{% url 'register' %}">Nie masz konta ? Zarejestruj się.
+            </a>
         </div>
-    </div>
+    </form>
 
-    <div class="input-box" id="registerForm">
-        <div class="input-container">
-            <label for="name" class="day-text-font ">Name</label>
-            <input type="text" id="registerUserName">
-        </div>
-        <div class="input-container">
-            <label for="email" class="day-text-font ">Email</label>
-            <input type="text" id="registerEmail">
-        </div>
-
-        <div class="input-container">
-            <label for="pass" class="day-text-font ">Password</label>
-            <input type="password" id="registerPass">
-        </div>
-
-        <div class="input-container">
-            <label for="pass" class="day-text-font ">Confirm password</label>
-            <input type="password" id="registerConfimrPass">
-        </div>
-
-        <div>
-            <input type="checkbox" id="termsAgree" name="termsAgree" value="ok">
-            <label for="termsAgree" class="day-text-font"> Accept therms and conditions</label>
-        </div>
-           
-        
-
-        <div class="index-stock-button-container">
-            <button class="button-style">
-                Register
-            </button>
-        </div>
-
-        <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
-        </div>
-
-        
-    </div>
-    <div class="input-box auto-height" id="promptForm">
+    <form class="input-box auto-height" id="promptForm" method="post">
+        {% csrf_token %}
         <div class="input-container">
             <label for="pass" class="day-text-font ">Enter email</label>
-            <input type="password" id="promptEmail">
+            <input type="email" id="promptEmail" name="email">
         </div>
+        {% if form.errors %}
+            {{error}}
+        {% endif %}
         <div class="index-stock-button-container">
-            <button class="button-style" onclick="promptToggle()">
+            <button class="button-style" name="reset_button_confirmation">
                 OK
             </button>
-            <button class="button-style" onclick="promptToggle()">
-                Cancel
-            </button>
         </div>
-    </div>
+    </form>
 
-    
+
 </div>
 
 {% endblock %}

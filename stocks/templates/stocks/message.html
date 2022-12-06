@@ -1,0 +1,22 @@
+{% extends "stocks/base.html" %}
+{% block content %}
+<div class="base-position darkgreen-color base-position-mobile base-position-height">
+    <form  class="input-box" id="loginForm" method="post">
+        {% csrf_token %}
+
+        <div class="input-container input-center-text">
+            <div class="darker-greey day-text-font">
+                {{message_text}}
+            </div>
+        </div>
+        <div class="index-stock-button-container">
+            <button class="button-style" type="submit" name="error_confirm_button">
+                OK
+            </button>
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}

@@ -1,88 +1,82 @@
 {% extends "stocks/base.html" %}
 {% block content %}
-<div class="base-position darkgreen-color base-position-mobile" id="register">
-    <h1 id="caption">Login</h1>
-    <div class="input-box" id="loginForm">
-        <div class="input-container">
-            <label for="email" class="day-text-font ">Email</label>
-            <input type="text" id="email">
-        </div>
-
-        <div class="input-container">
-            <label for="pass" class="day-text-font ">Password</label>
-            <input type="password" id="pass">
-        </div>
-
-
-        <div class="index-stock-button-container">
-            <button class="button-style">
-                Login
-            </button>
-        </div>
-        <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="promptToggle()">Nie pamiętam hasła.</div>
-        </div>
-
-        <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Nie masz konta ? Zarejestruj się.</div>
-        </div>
-    </div>
-
-    <div class="input-box" id="registerForm">
+<div class="base-position darkgreen-color base-position-mobile base-position-height" id="register">
+    <h1 id="caption">Register</h1>
+    <form class="input-box" id="registerForm" method="post">
+        {% csrf_token %}
         <div class="input-container">
             <label for="name" class="day-text-font ">Name</label>
-            <input type="text" id="registerUserName">
+            <input type="text" id="registerUserName" name="name" value="{{ form.name.value }}">
         </div>
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "name" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
         <div class="input-container">
             <label for="email" class="day-text-font ">Email</label>
-            <input type="text" id="registerEmail">
+            <input type="text" id="registerEmail" name="email" value="{{ form.email.value }}">
         </div>
+
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "email" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
 
         <div class="input-container">
             <label for="pass" class="day-text-font ">Password</label>
-            <input type="password" id="registerPass">
+            <input type="password" id="registerPass" name="password">
         </div>
 
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "password" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        <p class="error_message">{{ form.non_field_errors.as_text}}</p>
+        {% endif %}
         <div class="input-container">
             <label for="pass" class="day-text-font ">Confirm password</label>
-            <input type="password" id="registerConfimrPass">
+            <input type="password" id="registerConfimrPass" name="confirm_password">
         </div>
 
+        {% if form.errors %}
+        {% for field in form %}
+        {% if field.name == "confirm_password" %}
+        <p class="error_message">{{ field.errors.as_text}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        <p class="error_message">{{ form.non_field_errors.as_text}}</p>
+        {% endif %}
+        
         <div>
             <input type="checkbox" id="termsAgree" name="termsAgree" value="ok">
             <label for="termsAgree" class="day-text-font"> Accept therms and conditions</label>
         </div>
-           
-        
 
         <div class="index-stock-button-container">
-            <button class="button-style">
+            <button class="button-style" type="submit" name="register_button">
                 Register
             </button>
         </div>
-
         <div class="input-container input-center-text">
-            <div class="darker-greey day-text-font cursor" onclick="formsToggle()">Masz konto ? Zaloguj się!</div>
+            <a class="darker-greey day-text-font cursor" href="{% url 'login'%}">Masz konto ? Zaloguj się!</a>
         </div>
-
-        
-    </div>
-    <div class="input-box auto-height" id="promptForm">
-        <div class="input-container">
-            <label for="pass" class="day-text-font ">Enter email</label>
-            <input type="password" id="promptEmail">
-        </div>
-        <div class="index-stock-button-container">
-            <button class="button-style" onclick="promptToggle()">
-                OK
-            </button>
-            <button class="button-style" onclick="promptToggle()">
-                Cancel
-            </button>
-        </div>
-    </div>
-
-    
+    </form>
 </div>
 
 {% endblock %}

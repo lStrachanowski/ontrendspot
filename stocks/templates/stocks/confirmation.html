@@ -1,0 +1,23 @@
+{% extends "stocks/base.html" %}
+{% block content %}
+<div class="base-position darkgreen-color base-position-mobile base-position-height">
+    <h1 id="caption">Account created</h1>  
+        <form  class="input-box" method="post">
+            {% csrf_token %}
+            <div class="confirmation-box">
+                <div class="checkmark">
+                    &#10004;
+                </div>
+                <div>
+                    User accaunt was created. Check your mailbox to confirm email.
+                </div>
+            </div>
+            <div class="index-stock-button-container">
+                <button class="button-style" type="submit" name="ok_button">
+                    OK
+                </button>
+            </div>
+        </form>
+</div>
+
+{% endblock %}
