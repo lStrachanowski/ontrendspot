@@ -12,13 +12,13 @@ def read_stock_from_file(path):
                '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
     return data
 
-
+# Is adding stocks data to database
 def add_to_database(df):
     instances = [DataSource(stock_symbol=Stock.objects.get(stock_symbol=stock[2]), day=datetime.strptime(str(stock[1]), '%Y%m%d'),
                             volume=stock[7], stock_open=stock[3], stock_high=stock[4], stock_low=stock[5],  stock_close=stock[6]) for stock in df.itertuples(name=None)]
     DataSource.objects.bulk_create(instances)
 
-
+# Is adding songle stock data to database 
 def add_stock_entry_to_db(stock_data):
     new_entry = DataSource.objects.create(stock_symbol=Stock.objects.get(stock_symbol=stock_data['<TICKER>']), day=datetime.strptime(str(stock_data['<DATE>']), '%Y%m%d'),
                                           volume=stock_data['<VOL>'], stock_open=stock_data['<OPEN>'], stock_high=stock_data['<HIGH>'], stock_low=stock_data['<LOW>'],  stock_close=stock_data['<CLOSE>'])
@@ -29,7 +29,19 @@ def stocks_files_paths(dir):
     file_list = list(pathlib.Path(dir).glob('*.txt'))
     return file_list
 
+# Is adding missing stocks details to database, which were not importet correctly by scrapping
+def add_missing_stock_data():
+    PATH = r'D:\\dev\\Scrapping\\danespolek.txt'
+    df = pd.read_csv(PATH)
+    database =  [v.stock_symbol  for v in Stock.objects.all()]
+    instances = []
+    for i, item in df.iterrows():
+        if item['stock_symbol'] not in database:
+            instances.append(Stock(name=item['name'], stock_symbol=item['stock_symbol'], isin=item['isin'], address=item['address'], phone=item['phone'], website=item['website']))
+    Stock.objects.bulk_create(instances)
+    print("dodane")
 
+# Update database base on new daily stock data
 def update_database():
     PATH = r"C:\\Users\\lukaa\Desktop\\d_pl_txt\\data\\daily\\pl\\wse stocks\\"
     data_files_paths = stocks_files_paths(PATH)
