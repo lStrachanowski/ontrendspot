@@ -33,8 +33,9 @@ class DayList(models.Model):
         ('M', 'Mean'),
         ('V', 'Volume'),
     )
+    option =  models.CharField(max_length=1, choices=type_of_list , null=True)
     day = models.DateField()
-    stock_symbol = models.ForeignKey(DataSource, on_delete=models.DO_NOTHING)
+    stock_symbol = models.ForeignKey(Stock, on_delete=models.DO_NOTHING)
     candle = models.CharField(max_length=50, null=True)
     mean = models.FloatField(null=True)
-    volume = models.IntegerField(null=True)
+    volume = models.FloatField(null=True)

@@ -18,13 +18,17 @@ def add_to_database(df):
                             volume=stock[7], stock_open=stock[3], stock_high=stock[4], stock_low=stock[5],  stock_close=stock[6]) for stock in df.itertuples(name=None)]
     DataSource.objects.bulk_create(instances)
 
-# Is adding songle stock data to database 
+# Is adding single stock data to database 
 def add_stock_entry_to_db(stock_data):
     new_entry = DataSource.objects.create(stock_symbol=Stock.objects.get(stock_symbol=stock_data['<TICKER>']), day=datetime.strptime(str(stock_data['<DATE>']), '%Y%m%d'),
                                           volume=stock_data['<VOL>'], stock_open=stock_data['<OPEN>'], stock_high=stock_data['<HIGH>'], stock_low=stock_data['<LOW>'],  stock_close=stock_data['<CLOSE>'])
     new_entry.save()
 
-
+# Is adding daylist values to database 
+def add_daylist_to_db(df,option):
+    if option == 'V':
+        instances = [DayList.objects.create(option = 'V', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , volume = stock['Change']  ) for i, stock in df.iterrows()]
+        DayList.objects.bulk_create(instances)
 
 
 def stocks_files_paths(dir):
@@ -154,7 +158,6 @@ def get_stocks_mean_volumes(period, min_value):
     data_set = DataSource.objects.filter(
         day__gte=time_difference).order_by('stock_symbol')
     df = convert_to_dataframe(data_set)
-    print(df)
     df['volumen_value'] = df['stock_close'] * df['volume']
     df = df.groupby(by=['stock_symbol'])['volumen_value'].mean()
     if min_value:
