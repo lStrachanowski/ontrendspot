@@ -1,5 +1,5 @@
 import pandas as pd
-from .models import DataSource, Stock
+from .models import DataSource, Stock, DayList
 import datetime
 import talib
 import pathlib
@@ -23,6 +23,8 @@ def add_stock_entry_to_db(stock_data):
     new_entry = DataSource.objects.create(stock_symbol=Stock.objects.get(stock_symbol=stock_data['<TICKER>']), day=datetime.strptime(str(stock_data['<DATE>']), '%Y%m%d'),
                                           volume=stock_data['<VOL>'], stock_open=stock_data['<OPEN>'], stock_high=stock_data['<HIGH>'], stock_low=stock_data['<LOW>'],  stock_close=stock_data['<CLOSE>'])
     new_entry.save()
+
+
 
 
 def stocks_files_paths(dir):
@@ -148,10 +150,11 @@ def get_stock_mean_volume_value(ticker, period):
 
 
 def get_stocks_mean_volumes(period, min_value):
-    time_difference = datetime.today() - timedelta(days=period)
+    time_difference = get_last_data_entry('PKN').day - timedelta(days=period)
     data_set = DataSource.objects.filter(
         day__gte=time_difference).order_by('stock_symbol')
     df = convert_to_dataframe(data_set)
+    print(df)
     df['volumen_value'] = df['stock_close'] * df['volume']
     df = df.groupby(by=['stock_symbol'])['volumen_value'].mean()
     if min_value:
@@ -167,7 +170,6 @@ def percent_volume_change(ticker, period):
 # Calculate volumne percent change for all tickers and returns highest change 
 def analyze_percent_changes(period, min_value, range):
     mean_values = get_stocks_mean_volumes(period, min_value)  
-    percent_changes = [{'Ticker':value, 'Change': percent_volume_change(value,period)[value] } for value in mean_values.index]
+    percent_changes = [{'Date': get_last_data_entry(value).day ,'Ticker':value, 'Change': percent_volume_change(value,period)[value] } for value in mean_values.index]
     df = pd.DataFrame(percent_changes).sort_values(by=['Change'], ascending=False)
     return df[0:range]
-

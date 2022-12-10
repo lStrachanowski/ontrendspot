@@ -82,6 +82,7 @@ def reset(request, uidb64, token):
 
 
 def index(request):
+    print(analyze_percent_changes(30,100000,20))
     candle_chart('pkn', 30, False, 'image')
     candle_chart('pkp', 30, False, 'image')
     time_value = check_logout_time(request)
