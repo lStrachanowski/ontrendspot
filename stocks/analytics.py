@@ -39,7 +39,7 @@ def read_mean_volumen():
     df = pd.DataFrame.from_records(DayList.objects.filter(option = 'V').values_list())
     df = df.drop(columns=[0,4,5])
     df = df.rename(columns={1: 'option', 2: 'day', 3: 'stock_symbol',6: 'percent_change'})
-    df = df.sort_values(by=['day'])
+    df = df.sort_values(by=['percent_change'], ascending=False)
     print(df)
 
 
