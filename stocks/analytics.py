@@ -35,6 +35,14 @@ def stocks_files_paths(dir):
     file_list = list(pathlib.Path(dir).glob('*.txt'))
     return file_list
 
+def read_mean_volumen():
+    df = pd.DataFrame.from_records(DayList.objects.filter(option = 'V').values_list())
+    df = df.drop(columns=[0,4,5])
+    df = df.rename(columns={1: 'option', 2: 'day', 3: 'stock_symbol',6: 'percent_change'})
+    df = df.sort_values(by=['day'])
+    print(df)
+
+
 # Is adding missing stocks details to database, which were not importet correctly by scrapping
 def add_missing_stock_data():
     PATH = r'D:\\dev\\Scrapping\\danespolek.txt'
@@ -175,4 +183,5 @@ def analyze_percent_changes(period, min_value, range):
     mean_values = get_stocks_mean_volumes(period, min_value)  
     percent_changes = [{'Date': get_last_data_entry(value).day ,'Ticker':value, 'Change': percent_volume_change(value,period)[value] } for value in mean_values.index]
     df = pd.DataFrame(percent_changes).sort_values(by=['Change'], ascending=False)
+    df = df[df['Date'] >= get_last_data_entry('PKN').day]
     return df[0:range]
