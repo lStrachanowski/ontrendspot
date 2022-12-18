@@ -5,10 +5,11 @@
     <h1>Wolumeny dnia</h1>
     <div class="loader" id="loader">Loading...</div>
     <div class="index-stoc-container-wrapper content">
+        {% for ticker in tickers %}
         <div class="index-stock-position">
             <div class="index-stock-container">
-                <a href="{% url 'stock' 'pkp' %}">
-                    <img src="{% static '/img/pkp.svg'%}" class="index-stock-image">
+                <a href="/stocks/{{ticker}}">
+                    <img src="/static/img/{{ticker}}.svg" class="index-stock-image">
                 </a>
                 <div class="index-stock-container-data">
                     <div class="index-stock-container-element">
@@ -16,7 +17,7 @@
                     </div>
                     <div class="index-stock-container-element-right">
                         <div class="stock-name-size">
-                            <a href="{% url 'stock' 'pkp' %}">PKP Cargo</a>
+                            <a href="/stocks/{{ticker}}">{{ticker}}</a>
                         </div>
                         <div>
                             comments (21)
@@ -29,32 +30,9 @@
                 <button class="button-style"  onclick='location.href="/{{day}}/volume";'>więcej</button>
             </div>
         </div>
-        <div class="index-stock-position">
-            <div class="index-stock-position">
-                <div class="index-stock-container">
-                    <a href="{% url 'stock' 'pkn' %}">
-                        <img src="{% static '/img/pkn.svg'%}" class="index-stock-image">
-                    </a>
-                    <div class="index-stock-container-data">
-                        <div class="index-stock-container-element">
-                            {{day}}
-                        </div>
-                        <div class="index-stock-container-element-right">
-                            <div class="stock-name-size">
-                                <a href="{% url 'stock' 'pkn' %}">PKN</a>
-                            </div>
-                            <div>
-                                comments (21)
-                            </div>
+        {% endfor %}
 
-                        </div>
-                    </div>
-                </div>
-                <div class="index-stock-button-container">
-                    <button class="button-style"  onclick='location.href="/{{day}}/volume";'>więcej</button>
-                </div>
-            </div>
-        </div>
+
     </div>
     <div class="index-stock-button-container index-button">
         <button class="button-style button-style-more" onclick='location.href="/list";'> pozostałe dni</button>

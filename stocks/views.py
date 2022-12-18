@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
-get_stock_mean_volume_value,percent_volume_change,get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_mean_volumen, add_daylist_to_db
+    get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_mean_volumen, add_daylist_to_db
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart
 import pandas as pd
 from datetime import datetime
@@ -32,11 +32,12 @@ import plotly
 from django.utils import timezone
 from django.http import HttpResponse
 
+
 def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if 'error_confirm_button' in request.POST:
         return redirect('index')
@@ -56,7 +57,7 @@ def reset(request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
             return render(request, 'stocks/change_password.html')
@@ -82,10 +83,17 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    candle_chart('pkn', 30, False, 'image')
-    candle_chart('pkp', 30, False, 'image')
+    days = []
+    volumen_data = read_mean_volumen()
+    volumen_keys = volumen_data.groups.keys()
+    last_key =  [k for k in volumen_keys][-1]
+    for v in volumen_data:
+        if v[0] == last_key:
+            days.append({"day": str(last_key), "stock": v[1][0:2]['stock_symbol'].tolist()})
+    for item in days[0]["stock"]:
+        candle_chart(item, 30, False, 'image')
     time_value = check_logout_time(request)
-    context = {"day": 20092021, "time":time_value}
+    context = {"day":  days[0]["day"], "tickers":days[0]["stock"],  "time": time_value}
     return render(request, 'stocks/index.html', context)
 
 
@@ -101,7 +109,7 @@ def login_auth(request):
                 if user is not None:
                     if user.is_active:
                         login(request, user)
-                        logout_counter(request,900)
+                        logout_counter(request, 900)
                         response = redirect('/')
                         return response
                 else:
@@ -189,7 +197,7 @@ def register(request):
             else:
                 f = {'form': form}
                 return render(request, 'stocks/register.html', context=f)
-        
+
         if 'error_confirm_button' in request.POST:
             return render(request, 'stocks/register.html')
 
@@ -206,12 +214,11 @@ def confirmation(request):
 def update_name(request):
     return JsonResponse({'user': request.user.username, 'email': request.user.email})
 
-    
-    
+
 @login_required(login_url='/login')
 def account(request):
     time_value = check_logout_time(request)
-    context = {"time":time_value}
+    context = {"time": time_value}
     if request.method == "POST":
         if 'user_name_save' in request.POST:
             form = FieldCheck(request.POST)
@@ -235,10 +242,11 @@ def account(request):
                 try:
                     check_email = User.objects.filter(email=new_email)
                     if check_email[0]:
-                        f = {'message_text': 'Email is already used , please enter new email.'}
+                        f = {
+                            'message_text': 'Email is already used , please enter new email.'}
                         return render(request, 'stocks/message.html', context=f)
                 except:
-                    current_email = User.objects.get(email = request.user.email)
+                    current_email = User.objects.get(email=request.user.email)
                     current_email.email = new_email
                     current_email.save()
             else:
@@ -250,7 +258,8 @@ def account(request):
                 oldPass = form.cleaned_data['oldPass']
                 newPass = form.cleaned_data['newPass']
                 confirmNewPass = form.cleaned_data['confirmNewPass']
-                user = authenticate(username=request.user.username, password= oldPass)
+                user = authenticate(
+                    username=request.user.username, password=oldPass)
                 if user is not None:
                     user.set_password(confirmNewPass)
                     user.save()
@@ -260,7 +269,7 @@ def account(request):
                     f = {'message_text': 'Please enter correct current password.'}
                     return render(request, 'stocks/message.html', context=f)
             else:
-                f = {'form': form, 'time':time_value}
+                f = {'form': form, 'time': time_value}
                 return render(request, 'stocks/account.html', context=f)
     return render(request, 'stocks/account.html', context)
 
@@ -271,41 +280,46 @@ def edit(request):
 
 
 def list(request):
-    # v = analyze_percent_changes(30, 100000, 20)
-    # add_daylist_to_db(v,'V')
-    read_mean_volumen()
     time_value = check_logout_time(request)
-    context = {"time":time_value}
+    context = {"time": time_value}
     return render(request, 'stocks/list.html', context)
 
+
 def daydetails(request, date):
+    day = request.path.split("/")[1]
     time_value = check_logout_time(request)
-    stock_list = ['pkp','pkn']
+    stock_list = []
+    data = read_mean_volumen()
+    for value in data:
+        date_object = datetime.strptime(day, '%Y-%m-%d').date()
+        if value[0] == date_object:
+            stock_list = value[1]['stock_symbol'].tolist()
     graph = []
     for ticker in stock_list:
         graph.append(candle_chart(ticker, 90, True, 'fig'))
-    context = {"graphJSON":json.dumps(graph, cls=plotly.utils.PlotlyJSONEncoder), "charts":stock_list, "time":time_value}
-    return render(request, 'stocks/daydetails.html',context)
+    context = {"graphJSON": json.dumps(
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_list, "time": time_value, "day": day}
+    return render(request, 'stocks/daydetails.html', context)
 
 
 def stock(request, stockname):
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     histogramJSON = histogram(stockname, 90)
-    rollingMeanJSON = rolling_mean_charts(stockname,180)
-    rsiJSON = rsi_chart(stockname,180)
-    bbandsJSON = bollinger_bands_chart(stockname,180)
-    mean_volumeJSON = mean_volume_chart(stockname,365)
+    rollingMeanJSON = rolling_mean_charts(stockname, 180)
+    rsiJSON = rsi_chart(stockname, 180)
+    bbandsJSON = bollinger_bands_chart(stockname, 180)
+    mean_volumeJSON = mean_volume_chart(stockname, 365)
     daily_returnsJSON = daily_returns_chart(stockname, 90)
-    context = {"graphJSON":graphJSON, 
-    "histChart":histogramJSON,
-    "rollingMean":rollingMeanJSON, 
-    "rsi":rsiJSON , 
-    "bollinger": bbandsJSON, 
-    "mean_volume":mean_volumeJSON, 
-    "daily_returns":daily_returnsJSON,
-    "stock": Stock.objects.get(stock_symbol=stockname.upper()), 
-    "time":time_value}
+    context = {"graphJSON": graphJSON,
+               "histChart": histogramJSON,
+               "rollingMean": rollingMeanJSON,
+               "rsi": rsiJSON,
+               "bollinger": bbandsJSON,
+               "mean_volume": mean_volumeJSON,
+               "daily_returns": daily_returnsJSON,
+               "stock": Stock.objects.get(stock_symbol=stockname.upper()),
+               "time": time_value}
     return render(request, 'stocks/stock.html', context)
 
 
@@ -329,27 +343,31 @@ def logout_counter(request, set_time):
 
 def check_logout_time(request):
     if request.user.is_authenticated:
-        time_left = request.session['expiration_time'] - timezone.now().timestamp()
+        time_left = request.session['expiration_time'] - \
+            timezone.now().timestamp()
         if time_left > 0:
             return round(time_left, 2)
         else:
             logout_view(request)
 
-def extend_session(request,link=''):
+
+def extend_session(request, link=''):
     logout_counter(request, 900)
     time_value = check_logout_time(request)
-    url_parts = link.split(",")   
+    url_parts = link.split(",")
     if len(url_parts) > 1:
-        return redirect("http://" +request.get_host()+'/'+url_parts[0]+'/'+url_parts[1])
+        return redirect("http://" + request.get_host()+'/'+url_parts[0]+'/'+url_parts[1])
     elif len(url_parts) == 1:
-        return redirect("http://" +request.get_host()+'/'+url_parts[0])
+        return redirect("http://" + request.get_host()+'/'+url_parts[0])
     else:
         return redirect("http://" + request.get_host())
-    
+
+
 def time_left(request):
     if request.method == "GET":
         if request.user.is_authenticated:
-            time_left_value = request.session['expiration_time'] - timezone.now().timestamp()
+            time_left_value = request.session['expiration_time'] - \
+                timezone.now().timestamp()
             time_value = {'time_value': time_left_value}
             return JsonResponse(time_value, safe=False)
         else:

@@ -39,9 +39,8 @@ def read_mean_volumen():
     df = pd.DataFrame.from_records(DayList.objects.filter(option = 'V').values_list())
     df = df.drop(columns=[0,4,5])
     df = df.rename(columns={1: 'option', 2: 'day', 3: 'stock_symbol',6: 'percent_change'})
-    df = df.sort_values(by=['percent_change'], ascending=False)
-    print(df)
-
+    df = df.groupby(by=['day'])
+    return df
 
 # Is adding missing stocks details to database, which were not importet correctly by scrapping
 def add_missing_stock_data():
@@ -185,3 +184,4 @@ def analyze_percent_changes(period, min_value, range):
     df = pd.DataFrame(percent_changes).sort_values(by=['Change'], ascending=False)
     df = df[df['Date'] >= get_last_data_entry('PKN').day]
     return df[0:range]
+
