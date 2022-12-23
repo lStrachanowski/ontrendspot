@@ -86,14 +86,16 @@ def index(request):
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
-    last_key =  [k for k in volumen_keys][-1]
+    last_key = [k for k in volumen_keys][-1]
     for v in volumen_data:
         if v[0] == last_key:
-            days.append({"day": str(last_key), "stock": v[1][0:2]['stock_symbol'].tolist()})
+            days.append(
+                {"day": str(last_key), "stock": v[1][0:2]['stock_symbol'].tolist()})
     for item in days[0]["stock"]:
         candle_chart(item, 30, False, 'image')
     time_value = check_logout_time(request)
-    context = {"day":  days[0]["day"], "tickers":days[0]["stock"],  "time": time_value}
+    context = {"day":  days[0]["day"],
+               "tickers": days[0]["stock"],  "time": time_value}
     return render(request, 'stocks/index.html', context)
 
 
@@ -303,8 +305,8 @@ def daydetails(request, date):
 
 
 def stock(request, stockname):
-    daily_percent_change = stock_changes(stockname,2,1)
-    print(daily_percent_change)
+    daily_percent_change = stock_changes(stockname, 2, 1).dropna().iloc[0]
+    stock_close = get_stock_from_db(stockname, 1)['stock_close'].iloc[0]
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     histogramJSON = histogram(stockname, 90)
@@ -321,7 +323,9 @@ def stock(request, stockname):
                "mean_volume": mean_volumeJSON,
                "daily_returns": daily_returnsJSON,
                "stock": Stock.objects.get(stock_symbol=stockname.upper()),
-               "time": time_value}
+               "time": time_value,
+               "daily_change": daily_percent_change,
+               "stock_close": stock_close}
     return render(request, 'stocks/stock.html', context)
 
 

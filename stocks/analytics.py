@@ -93,7 +93,7 @@ def add_stock_informations():
 
 def get_stock_from_db(ticker, day_range):
     df = pd.DataFrame.from_records(
-        DataSource.objects.filter(stock_symbol=ticker).values_list())
+        DataSource.objects.filter(stock_symbol=ticker.upper()).values_list())
     df = df.rename(columns={1: 'stock_symbol', 2: 'day', 3: 'volume',
                    4: 'stock_open', 5: 'stock_high', 6: 'stock_low', 7: 'stock_close'})
     df = df.drop(columns=[0])

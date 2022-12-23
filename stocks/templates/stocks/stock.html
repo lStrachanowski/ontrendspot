@@ -10,8 +10,8 @@
     <div>
 
     </div>
-    <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} <span class="green-font-color">19.85 PLN
-            (4,85%)</span></div>
+    <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} <span class="green-font-color">{{stock_close}} PLN
+           ({{daily_change}}%)</span></div>
 
     <div class="center-position">
         <div id="chart" class="index-stock-chart"></div>
@@ -147,7 +147,7 @@
     var rsiJSON = {{ rsi | safe}};
     var bbJSON = {{ bollinger | safe}};
     var mVolume= {{ mean_volume | safe}};
-    var dailyReturns = {{daily_returns | safe}}
+    var dailyReturns = {{daily_returns | safe}};
     Plotly.plot('chart', graphs, { displayModeBar: false });
     Plotly.plot('histChart', histogram, { displayModeBar: false });
     Plotly.plot('rollingMean', rollingMeanJSON, { displayModeBar: false });     
