@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_mean_volumen, add_daylist_to_db
-from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart
+from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime
 from django.contrib.sites.shortcuts import get_current_site
@@ -303,6 +303,8 @@ def daydetails(request, date):
 
 
 def stock(request, stockname):
+    daily_percent_change = stock_changes(stockname,2,1)
+    print(daily_percent_change)
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     histogramJSON = histogram(stockname, 90)

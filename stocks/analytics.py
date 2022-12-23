@@ -22,7 +22,7 @@ def add_to_database(df):
 def add_stock_entry_to_db(stock_data):
     new_entry = DataSource.objects.create(stock_symbol=Stock.objects.get(stock_symbol=stock_data['<TICKER>']), day=datetime.strptime(str(stock_data['<DATE>']), '%Y%m%d'),
                                           volume=stock_data['<VOL>'], stock_open=stock_data['<OPEN>'], stock_high=stock_data['<HIGH>'], stock_low=stock_data['<LOW>'],  stock_close=stock_data['<CLOSE>'])
-    new_entry.save()
+    new_entry.save()            
 
 # Is adding daylist values to database 
 def add_daylist_to_db(df,option):

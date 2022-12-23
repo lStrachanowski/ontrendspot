@@ -16,7 +16,7 @@ def candle_chart(stockname, period, volume, chart_type):
                                vertical_spacing=0.02,  row_heights=[0.8, 0.2])
     else:
         fig = ms.make_subplots(rows=1, cols=1, shared_xaxes=True)
-    fig.add_trace(go.Candlestick(x=df['day'],   
+    fig.add_trace(go.Candlestick(x=df['day'],
                                  open=df['stock_open'],
                                  high=df['stock_high'],
                                  low=df['stock_low'],
@@ -55,75 +55,89 @@ def candle_chart(stockname, period, volume, chart_type):
 
 def histogram(stockname, period):
     stock_changes_data = stock_changes(stockname, period, 1)
-    fig = go.Figure(data=[go.Histogram(x= stock_changes_data)])
+    fig = go.Figure(data=[go.Histogram(x=stock_changes_data)])
     fig.update_layout(bargap=0.2)
     fig.update_layout(
-    margin=dict(
-        l=35,
-        r=35,
-        b=25,
-        t=25,
-        pad=2
+        margin=dict(
+            l=35,
+            r=35,
+            b=25,
+            t=25,
+            pad=2
         )
     )
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
+
 def rolling_mean_charts(stockname, period):
     df = get_stock_from_db(stockname.upper(), period)
     df = df.set_index(df['day'])
     fig = ms.make_subplots(rows=1, cols=1)
-    rolling_mean_15 = df.rolling(15).mean().round(4).dropna()
-    rolling_mean_30 = df.rolling(30).mean().round(4).dropna()
-    rolling_mean_45 = df.rolling(45).mean().round(4).dropna()
-    fig.add_trace(go.Scatter(x = rolling_mean_15.index, y = rolling_mean_15['stock_close'],line_shape='spline',name='SMA 15'),row=1, col=1)
-    fig.add_trace(go.Scatter(x = rolling_mean_30.index, y = rolling_mean_30['stock_close'],line_shape='spline',name='SMA 30'),row=1, col=1 )
-    fig.add_trace(go.Scatter(x = rolling_mean_45.index, y = rolling_mean_45['stock_close'],line_shape='spline', name='SMA 45'),row=1, col=1 )
+    rolling_mean_15 = df['stock_close'].rolling(15).mean().round(4).dropna()
+    rolling_mean_30 = df['stock_close'].rolling(30).mean().round(4).dropna()
+    rolling_mean_45 = df['stock_close'].rolling(45).mean().round(4).dropna()
+    fig.add_trace(go.Scatter(x=rolling_mean_15.index, y=rolling_mean_15,
+                  line_shape='spline', name='SMA 15'), row=1, col=1)
+    fig.add_trace(go.Scatter(x=rolling_mean_30.index, y=rolling_mean_30,
+                  line_shape='spline', name='SMA 30'), row=1, col=1)
+    fig.add_trace(go.Scatter(x=rolling_mean_45.index, y=rolling_mean_45,
+                  line_shape='spline', name='SMA 45'), row=1, col=1)
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
 
 def rsi_chart(stockname, period):
     df = rsi(stockname, period)
     fig = ms.make_subplots(rows=1, cols=1)
-    fig.add_trace(go.Scatter(x = df.index, y = df ,line_shape='spline',name='RSI'),row=1, col=1)
+    fig.add_trace(go.Scatter(x=df.index, y=df,
+                  line_shape='spline', name='RSI'), row=1, col=1)
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-def bollinger_bands_chart(stockname,period):
+
+def bollinger_bands_chart(stockname, period):
     df = bollinger_bands(stockname, period)
     fig = ms.make_subplots(rows=1, cols=1)
-    fig.add_trace(go.Scatter(x = df.index, y = df['upper'] ,line_shape='spline',name='UPPER', line_color='#a0a0b8'),row=1, col=1)
-    fig.add_trace(go.Scatter(x = df.index, y = df['middle'] ,line_shape='spline',name='MIDDLE', line_color='#a0a0b8'),row=1, col=1 )
-    fig.add_trace(go.Scatter(x = df.index, y = df['lower'] ,line_shape='spline', name='LOWER', line_color='#a0a0b8'),row=1, col=1 )
-    fig.add_trace(go.Scatter(x = df.index, y = df['stock_close'] ,line_shape='spline', name='PRICE', line_color='#0d0006'),row=1, col=1 )
+    fig.add_trace(go.Scatter(
+        x=df.index, y=df['upper'], line_shape='spline', name='UPPER', line_color='#a0a0b8'), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=df.index, y=df['middle'], line_shape='spline', name='MIDDLE', line_color='#a0a0b8'), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=df.index, y=df['lower'], line_shape='spline', name='LOWER', line_color='#a0a0b8'), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=df.index, y=df['stock_close'], line_shape='spline', name='PRICE', line_color='#0d0006'), row=1, col=1)
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
 
-def mean_volume_chart(stockname,period):
-    df = mean_volume(stockname,period)
+def mean_volume_chart(stockname, period):
+    df = mean_volume(stockname, period)
     fig = ms.make_subplots(rows=1, cols=1)
-    fig.add_trace(go.Scatter(x = df['day'], y = df['rolling_volume'] ,line_shape='spline',name='UPPER', line_color='#a0a0b8'),row=1, col=1)
+    fig.add_trace(go.Scatter(x=df['day'], y=df['rolling_volume'],
+                  line_shape='spline', name='UPPER', line_color='#a0a0b8'), row=1, col=1)
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
 
 def daily_returns_chart(stockname, period):
     df = stock_changes(stockname, period, 2)
     rolling_mean_returns = stock_changes(stockname, period, 3)
-    df["Color"] = np.where(df["stock_changes"]<0, '#eb1f05', '#24b524')
+    df["Color"] = np.where(df["stock_changes"] < 0, '#eb1f05', '#24b524')
     fig = ms.make_subplots(rows=1, cols=1)
-    fig.add_trace(go.Bar(x=df['day'], y=df['stock_changes'],marker_color=df['Color'],name='Zwroty',))
+    fig.add_trace(go.Bar(x=df['day'], y=df['stock_changes'],
+                  marker_color=df['Color'], name='Zwroty',))
     fig.update_xaxes(
-            rangebreaks=[
-                dict(bounds=["sat", "mon"]),
-            ])
-    fig.add_trace(go.Scatter(x = rolling_mean_returns['day'], y = rolling_mean_returns['rolling_mean'] ,line_shape='spline', name='MEAN 5', line_color='black'),row=1, col=1 )
+        rangebreaks=[
+            dict(bounds=["sat", "mon"]),
+        ])
+    fig.add_trace(go.Scatter(x=rolling_mean_returns['day'], y=rolling_mean_returns['rolling_mean'],
+                  line_shape='spline', name='MEAN 5', line_color='black'), row=1, col=1)
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
-    
