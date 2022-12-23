@@ -305,7 +305,7 @@ def daydetails(request, date):
 
 
 def stock(request, stockname):
-    daily_percent_change = stock_changes(stockname, 2, 1).dropna().iloc[0]
+    daily_percent_change = stock_changes(stockname, 2, 1).dropna().iloc[0].round(3)
     stock_close = get_stock_from_db(stockname, 1)['stock_close'].iloc[0]
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
