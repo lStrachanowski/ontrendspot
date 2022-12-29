@@ -10,9 +10,9 @@
 
     <div class="day-text darker-greey">Wolumeny dnia</div>
     <div class="day-text stock-font blue-color">{{day}}</div>
-    {% for stock in charts %}
+    {% for stock, change, close in charts %}
     <div class="full-width">
-        <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="green-font-color">19.85 PLN (4,85%)</span>
+        <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
         </div>
         <div class="center-position">
             <div id="{{stock}}" class="index-stock-image min-height"></div>
@@ -42,7 +42,7 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript">
     var graphs = {{ graphJSON | safe }};
-    var tickers = {{ charts | safe}};
+    var tickers = {{ chartData | safe}};
     var config = {responsive: true, displayModeBar: false};
     if (tickers.length > 0) {
         for (var i = 0; i < graphs.length; i++) {

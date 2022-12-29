@@ -86,11 +86,11 @@ def index(request):
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
-    last_key = [k for k in volumen_keys][-1]
-    for v in volumen_data:
-        if v[0] == last_key:
+    last_key = [key for key in volumen_keys][-1]
+    for value in volumen_data:
+        if value[0] == last_key:
             days.append(
-                {"day": str(last_key), "stock": v[1][0:2]['stock_symbol'].tolist()})
+                {"day": str(last_key), "stock": value[1][0:2]['stock_symbol'].tolist()})
     for item in days[0]["stock"]:
         candle_chart(item, 30, False, 'image')
     time_value = check_logout_time(request)
@@ -291,21 +291,28 @@ def daydetails(request, date):
     day = request.path.split("/")[1]
     time_value = check_logout_time(request)
     stock_list = []
+    graph = []
+    daily_percent_change = []
+    stock_close = []
     data = read_mean_volumen()
     for value in data:
         date_object = datetime.strptime(day, '%Y-%m-%d').date()
         if value[0] == date_object:
             stock_list = value[1]['stock_symbol'].tolist()
-    graph = []
     for ticker in stock_list:
+        daily_percent_change.append(stock_changes(
+            ticker, 2, 1).dropna().iloc[0].round(3))
+        stock_close.append(get_stock_from_db(ticker, 1)['stock_close'].iloc[0])
         graph.append(candle_chart(ticker, 90, True, 'fig'))
+    stock_data = zip(stock_list, daily_percent_change, stock_close)
     context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_list, "time": time_value, "day": day}
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData":stock_list, "time": time_value, "day": day}
     return render(request, 'stocks/daydetails.html', context)
 
 
 def stock(request, stockname):
-    daily_percent_change = stock_changes(stockname, 2, 1).dropna().iloc[0].round(3)
+    daily_percent_change = stock_changes(
+        stockname, 2, 1).dropna().iloc[0].round(3)
     stock_close = get_stock_from_db(stockname, 1)['stock_close'].iloc[0]
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
