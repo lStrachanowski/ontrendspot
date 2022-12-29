@@ -10,8 +10,16 @@
     <div>
 
     </div>
-    <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} <span class="green-font-color">{{stock_close}} PLN
-           ({{daily_change}}%)</span></div>
+    <div class="day-text darker-greey stock-font">{{stock.stock_symbol}} 
+        {% if daily_change > 0 %}
+            <span class="green-font-color">{{stock_close}} PLN ({{daily_change}}%)</span>
+        {% elif daily_change < 0 %}
+            <span class="red-font-color">{{stock_close}} PLN ({{daily_change}}%)</span>
+        {% elif daily_change == 0 %}
+            <span class="darker-greey">{{stock_close}} PLN ({{daily_change}}%)</span>
+        {% endif %}
+        
+    </div>
 
     <div class="center-position">
         <div id="chart" class="index-stock-chart"></div>
