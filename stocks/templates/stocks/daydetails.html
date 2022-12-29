@@ -12,7 +12,14 @@
     <div class="day-text stock-font blue-color">{{day}}</div>
     {% for stock, change, close in charts %}
     <div class="full-width">
-        <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
+        {% if change > 0 %}
+            <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
+        {% elif change < 0 %} 
+            <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="red-font-color">{{close}} PLN ({{change}}%)</span>
+        {% elif change == 0 %}
+            <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="darker-greey">{{close}} PLN ({{change}}%)</span>
+        {% endif %}
+
         </div>
         <div class="center-position">
             <div id="{{stock}}" class="index-stock-image min-height"></div>
@@ -36,18 +43,18 @@
         </div>
     </div>
     {% endfor %}
-    
+
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript">
     var graphs = {{ graphJSON | safe }};
     var tickers = {{ chartData | safe}};
-    var config = {responsive: true, displayModeBar: false};
+    var config = { responsive: true, displayModeBar: false };
     if (tickers.length > 0) {
         for (var i = 0; i < graphs.length; i++) {
-            Plotly.plot(tickers[i], graphs[i], { displayModeBar: false} , config);
-        }  
+            Plotly.plot(tickers[i], graphs[i], { displayModeBar: false }, config);
+        }
     }
 </script>
 {% endblock %}
