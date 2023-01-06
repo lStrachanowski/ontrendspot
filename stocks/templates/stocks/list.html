@@ -4,7 +4,7 @@
 <div class="greey-color">
     <br>
     <div class="base-position">
-        <div class="loader" id="loader">Loading...</div>  
+        <div class="loader" id="loader">Loading...</div>
         <div class="index-stoc-container-wrapper content">
             <div class="index-stock-position">
                 <div class="formation-container">
@@ -19,12 +19,12 @@
                             </button>
                         </div>
                         <div class="formation-content formation-content-list">
-                            <button class="button-lista" >
+                            <button class="button-lista">
                                 20.09.2021
                             </button>
                         </div>
 
-                
+
                         <div class="formation-content formation-content-list">
                             <button class="button-lista">
                                 21.09.2021
@@ -62,42 +62,15 @@
                     </div>
 
                     <div class="list-buttons-container">
+                        {% for date in dates %}
                         <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                19.09.2021
+                            <button class="button-lista" onclick='location.href="/{{date}}/volume";'>
+                                {{date}}
                             </button>
                         </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista" >
-                                20.09.2021
-                            </button>
-                        </div>
-
-                
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                21.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                22.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                23.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                24.09.2021
-                            </button>
-                        </div>
+                        {% endfor %}
                     </div>
-
                 </div>
-
 
                 <div class="index-stock-button-container">
                     <button class="button-style">
@@ -123,12 +96,12 @@
                             </button>
                         </div>
                         <div class="formation-content formation-content-list">
-                            <button class="button-lista" >
+                            <button class="button-lista">
                                 20.09.2021
                             </button>
                         </div>
 
-                
+
                         <div class="formation-content formation-content-list">
                             <button class="button-lista">
                                 21.09.2021
@@ -172,12 +145,12 @@
                             </button>
                         </div>
                         <div class="formation-content formation-content-list">
-                            <button class="button-lista" >
+                            <button class="button-lista">
                                 20.09.2021
                             </button>
                         </div>
 
-                
+
                         <div class="formation-content formation-content-list">
                             <button class="button-lista">
                                 21.09.2021

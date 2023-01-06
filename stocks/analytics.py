@@ -177,7 +177,7 @@ def percent_volume_change(ticker, period):
         ticker).volume * get_last_data_entry(ticker).stock_close
     return latest_volume_value/get_stock_mean_volume_value(ticker, period)*100
 
-# Calculate volumne percent change for all tickers and returns highest change 
+# Calculate volmen percent change for all tickers and returns highest change 
 def analyze_percent_changes(period, min_value, range):
     mean_values = get_stocks_mean_volumes(period, min_value)  
     percent_changes = [{'Date': get_last_data_entry(value).day ,'Ticker':value, 'Change': percent_volume_change(value,period)[value] } for value in mean_values.index]

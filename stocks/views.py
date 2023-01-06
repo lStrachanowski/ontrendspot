@@ -282,8 +282,10 @@ def edit(request):
 
 
 def list(request):
+    volumen_data = read_mean_volumen()
+    dates = [str(key) for key in volumen_data.groups.keys()]
     time_value = check_logout_time(request)
-    context = {"time": time_value}
+    context = {"time": time_value, "dates" : dates}
     return render(request, 'stocks/list.html', context)
 
 
