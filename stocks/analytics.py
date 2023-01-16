@@ -140,11 +140,6 @@ def stock_changes(stockname, period, option):
         df3 = df[['day', 'rolling_mean']].dropna()
         return df3
 
-def get_last_data_entry(ticker):
-    data_set = DataSource.objects.filter(stock_symbol=ticker)
-    return data_set.last()
-
-
 def convert_to_dataframe(data_set):
     df = pd.DataFrame.from_records(data_set.values_list())
     df = df.rename(columns={1: 'stock_symbol', 2: 'day', 3: 'volume',
@@ -152,36 +147,65 @@ def convert_to_dataframe(data_set):
     df = df.drop(columns=[0])
     return df
 
-def get_stock_mean_volume_value(ticker, period):
-    data_set = DataSource.objects.filter(stock_symbol=ticker)
+    
+def get_stock_mean_volume_value(ticker, period, end_date):
+    """
+    Is calculating mean volume value for given stock in given period of time
+    Arguments:
+        ticker (str):  stock ticker
+        period (int): number of days to show
+        end_date (str): day till which dataframe should be filtred
+    """
+    end_date_value = end_date.split("-")
+    end_date_converted = datetime(int(end_date_value[0]), int(end_date_value[1]), int(end_date_value[2]))
+    data_set = DataSource.objects.filter(stock_symbol=ticker, day__lte = end_date_converted )
     df = convert_to_dataframe(data_set)[-period:]
     df['volumen_value'] = df['stock_close'] * df['volume']
     df = df.groupby(by=['stock_symbol'])['volumen_value'].mean()
     return df
 
 
-def get_stocks_mean_volumes(period, min_value):
-    time_difference = get_last_data_entry('PKN').day - timedelta(days=period)
-    data_set = DataSource.objects.filter(
-        day__gte=time_difference).order_by('stock_symbol')
+
+def get_stocks_mean_volumes(period, min_value, end_date):
+    """
+    Is calculating mean volume value for all stocks in given period of time
+    Arguments:
+        period (int): number of days to show
+        end_date (str): day till which dataframe should be filtred
+        min_value (number) : minimal stock volume 
+    """
+    end_date_value = end_date.split("-")
+    end_date_converted = datetime(int(end_date_value[0]), int(end_date_value[1]), int(end_date_value[2]))
+    data_set = DataSource.objects.filter(day__range=(end_date_converted - timedelta(period), end_date_converted) ).order_by('stock_symbol')
     df = convert_to_dataframe(data_set)
     df['volumen_value'] = df['stock_close'] * df['volume']
     df = df.groupby(by=['stock_symbol'])['volumen_value'].mean()
     if min_value:
         df = df[df > min_value]
-    return df
+    return df    
 
-# Is counting last volume value as percent to mean volume
-def percent_volume_change(ticker, period):
-    latest_volume_value = get_last_data_entry(
-        ticker).volume * get_last_data_entry(ticker).stock_close
-    return latest_volume_value/get_stock_mean_volume_value(ticker, period)*100
+
+def percent_volume_change(ticker, period, end_date):
+    """
+    Is counting last volume value as percent to mean volume
+        Arguments:
+        ticker (str):  stock ticker
+        period (int): number of days to show
+        end_date (str): day till which dataframe should be filtred
+    """
+    data_set = DataSource.objects.filter(stock_symbol=ticker).last()
+    latest_volume_value = data_set.volume * data_set.stock_close
+    result = latest_volume_value/get_stock_mean_volume_value(ticker, period,end_date)*100
+    return result
 
 # Calculate volmen percent change for all tickers and returns highest change 
-def analyze_percent_changes(period, min_value, range):
-    mean_values = get_stocks_mean_volumes(period, min_value)  
-    percent_changes = [{'Date': get_last_data_entry(value).day ,'Ticker':value, 'Change': percent_volume_change(value,period)[value] } for value in mean_values.index]
+def analyze_percent_changes(period, min_value, end_date, range):
+    mean_values = get_stocks_mean_volumes(period, min_value, end_date)  
+    end_date_value = end_date.split("-")
+    end_date_converted = datetime(int(end_date_value[0]), int(end_date_value[1]), int(end_date_value[2]))
+    last = DataSource.objects.filter(stock_symbol='PKN', day__lte = end_date_converted ).last()
+    percent_changes = [{'Date': last.day ,'Ticker':value, 'Change': percent_volume_change(value,period, end_date)[value] } for value in mean_values.index]
     df = pd.DataFrame(percent_changes).sort_values(by=['Change'], ascending=False)
-    df = df[df['Date'] >= get_last_data_entry('PKN').day]
+    df = df[df['Date'] >= last.day  ]
     return df[0:range]
 

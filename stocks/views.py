@@ -83,6 +83,7 @@ def reset(request, uidb64, token):
 
 
 def index(request):
+    print(analyze_percent_changes(30,100000,'2022-11-01',20))
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
