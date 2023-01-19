@@ -193,13 +193,23 @@ def percent_volume_change(ticker, period, end_date):
         period (int): number of days to show
         end_date (str): day till which dataframe should be filtred
     """
-    data_set = DataSource.objects.filter(stock_symbol=ticker).last()
+    end_date_value = end_date.split("-")
+    end_date_converted = datetime(int(end_date_value[0]), int(end_date_value[1]), int(end_date_value[2]))
+    data_set = DataSource.objects.filter(stock_symbol= ticker, day__lte = end_date_converted ).last()
     latest_volume_value = data_set.volume * data_set.stock_close
     result = latest_volume_value/get_stock_mean_volume_value(ticker, period,end_date)*100
     return result
 
-# Calculate volmen percent change for all tickers and returns highest change 
+
 def analyze_percent_changes(period, min_value, end_date, range):
+    """
+    Calculate volmen percent change for all tickers and returns highest change 
+        Arguments:
+        period (int): number of days to show
+        min_value (number) : minimal stock volume 
+        end_date (str): day till which dataframe should be filtred
+        range (int): number of elements to be returned in dataframe
+    """
     mean_values = get_stocks_mean_volumes(period, min_value, end_date)  
     end_date_value = end_date.split("-")
     end_date_converted = datetime(int(end_date_value[0]), int(end_date_value[1]), int(end_date_value[2]))
@@ -209,3 +219,7 @@ def analyze_percent_changes(period, min_value, end_date, range):
     df = df[df['Date'] >= last.day  ]
     return df[0:range]
 
+def get_key_dates():
+    reference = DataSource.objects.filter(stock_symbol='PKN')
+    dates = [str(date.day) for date in reference]
+    return dates[-30:]
