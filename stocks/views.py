@@ -83,11 +83,6 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    values = get_key_dates()
-    print(values)
-    for value in values:
-        t = analyze_percent_changes(30,100000,value,20)
-        print(t)
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
@@ -289,6 +284,7 @@ def edit(request):
 def list(request):
     volumen_data = read_mean_volumen()
     dates = [str(key) for key in volumen_data.groups.keys()]
+    dates.reverse()
     time_value = check_logout_time(request)
     context = {"time": time_value, "dates" : dates}
     return render(request, 'stocks/list.html', context)

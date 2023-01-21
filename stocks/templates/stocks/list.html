@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="list-buttons-container">
-                        {% for date in dates %}
+                        {% for date in dates|slice:":6" %}
                         <div class="formation-content formation-content-list">
                             <button class="button-lista" onclick='location.href="/{{date}}/volume";'>
                                 {{date}}
