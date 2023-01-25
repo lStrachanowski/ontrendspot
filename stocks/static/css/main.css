@@ -336,7 +336,7 @@ input:placeholder {
 .index-stock-position {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     align-items: center;
     margin: 2%;
 }
@@ -611,7 +611,7 @@ input:placeholder {
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
-    column-gap: 10%;
+    column-gap: 15%;
     min-width: 35vw;
 }
 

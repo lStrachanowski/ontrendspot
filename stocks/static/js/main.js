@@ -16,7 +16,7 @@ let passwordPrompt = document.getElementById("changePasswordForm");
 let siteMenu = document.getElementById("siteMenu");
 let passwordField = document.getElementById("password_field");
 let errorMessage = document.getElementsByClassName("error_message");
-
+let numberOfVolumeElements = 5;
 counterValue = false;
 
 window.dispatchEvent(new Event('resize'));
@@ -186,14 +186,41 @@ xhttp.onreadystatechange = function () {
 xhttp.open("GET", "/", true);
 xhttp.send();
 
+function elementTemplate(templateData) {
+    template = `<div class="formation-content formation-content-list">
+                    <button class="button-lista" onclick='location.href="/${templateData}/volume";'>
+                        ${templateData}
+                    </button>
+                </div>`
+    return template
+};
 
+
+function valueUpdate() {
+    let resultList = document.getElementById("volumeList");
+    let html = ''
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let elementLength = resultList.querySelectorAll(".button-lista").length;
+            numberOfVolumeElements = elementLength;
+            let templateDates = JSON.parse(this.responseText)['values'].slice(numberOfVolumeElements , numberOfVolumeElements+6);
+            templateDates.forEach(element => {
+                html += elementTemplate(element);
+            });
+            resultList.insertAdjacentHTML("beforeend", html);
+        }
+    };
+    xhttp.open("GET", "/morevalues", true);
+    xhttp.send();
+}
 
 function updateUser() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let user_name = JSON.parse(this.responseText)['user'];
-            let user_email = JSON.parse(this.responseText)['email'];
+            let user_email = JSON.parse(this.responseText)['email']; 1``
             const current_user_name = document.getElementById("user_name")
             const current_email = document.getElementById("user_email")
             current_user_name.innerHTML = "Name : " + user_name;
@@ -238,5 +265,5 @@ function timeDisplay(value) {
 
 function extend_session(link) {
     let url = link.split('/').filter((_, i) => i > 2).join(",");
-    window.location.href = "/extendsession/"+ url;
+    window.location.href = "/extendsession/" + url;
 }

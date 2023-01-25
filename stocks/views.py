@@ -289,6 +289,11 @@ def list(request):
     context = {"time": time_value, "dates" : dates}
     return render(request, 'stocks/list.html', context)
 
+def show_more_list_values(request):
+    volumen_data = read_mean_volumen()
+    dates = [str(key) for key in volumen_data.groups.keys()]
+    dates.reverse()
+    return JsonResponse({'values': dates})
 
 def daydetails(request, date):
     day = request.path.split("/")[1]

@@ -61,8 +61,8 @@
                         Wolumeny dnia
                     </div>
 
-                    <div class="list-buttons-container">
-                        {% for date in dates|slice:":6" %}
+                    <div class="list-buttons-container" id="volumeList">
+                        {% for date in dates|slice:"6" %}
                         <div class="formation-content formation-content-list">
                             <button class="button-lista" onclick='location.href="/{{date}}/volume";'>
                                 {{date}}
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="index-stock-button-container">
-                    <button class="button-style">
+                    <button class="button-style" id="showMoreVolumes" onclick= valueUpdate()>
                         więcej
                     </button>
                 </div>

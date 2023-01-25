@@ -23,6 +23,7 @@ urlpatterns = [
     path('extendsession/<str:link>', views.extend_session, name="extend"), 
     path('extendsession/', views.extend_session, name="extend"), 
     path('checktime', views.time_left, name="logouttime"),
+    path('morevalues', views.show_more_list_values, name="morevalues" ),
     path("favicon.ico",RedirectView.as_view(url=staticfiles_storage.url("favicon.ico")))
 ]
 
