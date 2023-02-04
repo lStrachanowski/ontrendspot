@@ -1,4 +1,4 @@
-from .analytics import get_stock_from_db, bollinger_bands, rsi, mean_volume, stock_changes
+from .analytics import get_stock_from_db, bollinger_bands, rsi, mean_volume, stock_changes, sma_calculation
 import plotly.subplots as ms
 import plotly.graph_objects as go
 import plotly
@@ -71,19 +71,12 @@ def histogram(stockname, period):
     return graphJSON
 
 
-def rolling_mean_charts(stockname, period):
-    df = get_stock_from_db(stockname.upper(), period)
-    df = df.set_index(df['day'])
+def rolling_mean_charts(stockname, period, sma_list):
+    sma_data = sma_calculation(sma_list, stockname, period)
     fig = ms.make_subplots(rows=1, cols=1)
-    rolling_mean_15 = df['stock_close'].rolling(15).mean().round(4).dropna()
-    rolling_mean_30 = df['stock_close'].rolling(30).mean().round(4).dropna()
-    rolling_mean_45 = df['stock_close'].rolling(45).mean().round(4).dropna()
-    fig.add_trace(go.Scatter(x=rolling_mean_15.index, y=rolling_mean_15,
-                  line_shape='spline', name='SMA 15'), row=1, col=1)
-    fig.add_trace(go.Scatter(x=rolling_mean_30.index, y=rolling_mean_30,
-                  line_shape='spline', name='SMA 30'), row=1, col=1)
-    fig.add_trace(go.Scatter(x=rolling_mean_45.index, y=rolling_mean_45,
-                  line_shape='spline', name='SMA 45'), row=1, col=1)
+    for sma in sma_data:
+        fig.add_trace(go.Scatter(x=sma.index, y=sma,
+                  line_shape='spline', name='SMA'), row=1, col=1)
     fig.update_layout(plot_bgcolor="white")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON

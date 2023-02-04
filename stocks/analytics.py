@@ -223,3 +223,19 @@ def get_key_dates():
     reference = DataSource.objects.filter(stock_symbol='PKN')
     dates = [str(date.day) for date in reference]
     return dates[-30:]
+
+def sma_calculation(period, stockname, dayset):
+    """
+    Calculate SMA for given stock
+        Arguments:
+        period (list): list with days values to calculate SMA
+        stockname(string): stock ticker
+        dayset(int): number of days from which will be calculated SMA.
+    """
+    results = []
+    df = get_stock_from_db(stockname.upper(), dayset)
+    df = df.set_index(df['day'])
+    for value in period:
+        rolling_mean = df['stock_close'].rolling(value).mean().round(4).dropna()
+        results.append(rolling_mean)
+    return results

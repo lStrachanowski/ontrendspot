@@ -325,7 +325,7 @@ def stock(request, stockname):
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     histogramJSON = histogram(stockname, 90)
-    rollingMeanJSON = rolling_mean_charts(stockname, 180)
+    rollingMeanJSON = rolling_mean_charts(stockname, 180, [15,30,45])
     rsiJSON = rsi_chart(stockname, 180)
     bbandsJSON = bollinger_bands_chart(stockname, 180)
     mean_volumeJSON = mean_volume_chart(stockname, 365)
