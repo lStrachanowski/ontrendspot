@@ -7,17 +7,17 @@
         <img src="{% static '/img/back_arrow.svg' %}" class="back-arrow" onclick='location.href = "/list";' />
         <p class="day-text darker-greey">wróć</p>
     </div>
-
+    
     <div class="day-text darker-greey">Wolumeny dnia</div>
     <div class="day-text stock-font blue-color">{{day}}</div>
     {% for stock, change, close in charts %}
     <div class="full-width">
         {% if change > 0 %}
-            <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
+            <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
         {% elif change < 0 %} 
-            <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="red-font-color">{{close}} PLN ({{change}}%)</span>
+            <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} <span class="red-font-color">{{close}} PLN ({{change}}%)</span>
         {% elif change == 0 %}
-            <div class="day-text darker-greey stock-font">{{stock | upper}} <span class="darker-greey">{{close}} PLN ({{change}}%)</span>
+            <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} <span class="darker-greey">{{close}} PLN ({{change}}%)</span>
         {% endif %}
 
         </div>

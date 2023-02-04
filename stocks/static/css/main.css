@@ -648,6 +648,10 @@ input:placeholder {
     font-size: 1.75em;
 }
 
+.stock-link{
+    cursor: pointer;
+}
+
 .day-data {
     display: flex;
     flex-direction: column;
