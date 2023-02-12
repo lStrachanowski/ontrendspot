@@ -84,6 +84,8 @@ def reset(request, uidb64, token):
 
 
 def index(request):
+    sma_data = sma_calculation([30,45],"PKN",180)
+    signals = sma_signals(sma_data, [30,45] )
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
