@@ -245,8 +245,8 @@ def sma_signals(sma_list, names):
     """
     Calculates SMA crossings
         Arguments:
-        psma_list (list): list with two SMA , which crossing will be calculated
-        stockname(string): stock ticker
+        sma_list(list): list with calculated data from sma_calculation
+        names(list): list with sma names
     """
     df = pd.concat([v for v in sma_list], axis=1)
     df.columns = ['sma_'+str(name) for name in names]
