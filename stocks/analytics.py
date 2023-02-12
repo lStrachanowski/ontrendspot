@@ -256,12 +256,3 @@ def sma_signals(sma_list, names):
     df =  df[df[df.columns[0]+'_results'] == True]
     print(df)
     return df
-
-#   df = pd.concat([v for v in sma_list], axis=1)
-#   df.columns = ['sma_'+str(name) for name in names]
-#   for column in df.columns:
-#         df['next'+column] = df['sma_15'].shift(-1)
-#     df = df.dropna()
-#     df['sma_15_results']= np.where((df['sma_15'] < df['sma_30']) & (df['next_sma_15'] > df['sma_30']), True, False)
-#     df =  df[df['sma_15_results'] == True]
-#     return df
