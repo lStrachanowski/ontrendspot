@@ -75,7 +75,6 @@ def rolling_mean_charts(stockname, period, sma_list):
     sma_data = sma_calculation(sma_list, stockname, period)
     fig = ms.make_subplots(rows=1, cols=1)
     for (sma, number) in zip(sma_data, sma_list):
-        print(number)
         fig.add_trace(go.Scatter(x=sma.index, y=sma,
                   line_shape='spline', name='SMA'+ str(number)), row=1, col=1)
     fig.update_layout(plot_bgcolor="white")

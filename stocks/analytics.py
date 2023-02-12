@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from .models import DataSource, Stock, DayList
 import datetime
 import talib
@@ -239,3 +240,18 @@ def sma_calculation(period, stockname, dayset):
         rolling_mean = df['stock_close'].rolling(value).mean().round(4).dropna()
         results.append(rolling_mean)
     return results
+
+def sma_signals(sma_list, names):
+    """
+    Calculates SMA crossings
+        Arguments:
+        psma_list (list): list with two SMA , which crossing will be calculated
+        stockname(string): stock ticker
+    """
+    df = pd.concat([v for v in sma_list], axis=1)
+    df.columns = ['sma_'+str(name) for name in names]
+    df['next_sma_15'] = df['sma_15'].shift(-1)
+    df = df.dropna()
+    df['sma_15_results']= np.where((df['sma_15'] < df['sma_30']) & (df['next_sma_15'] > df['sma_30']), True, False)
+    df =  df[df['sma_15_results'] == True]
+    return df
