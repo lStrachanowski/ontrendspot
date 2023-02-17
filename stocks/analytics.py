@@ -56,8 +56,14 @@ def add_missing_stock_data():
     print("dodane")
 
 # Update database base on new daily stock data
-def update_database():
-    PATH = r"C:\\Users\\lukaa\Desktop\\d_pl_txt\\data\\daily\\pl\\wse stocks\\"
+def update_database(option):
+    PATH = ''
+    if option == 'wse':
+        PATH_WSE = r"C:\\Users\\lukaa\Desktop\\d_pl_txt\\data\\daily\\pl\\wse stocks\\"
+        PATH = PATH_WSE
+    if  option == 'nc':
+        PATH_NC =  r"C:\\Users\\lukaa\Desktop\\d_pl_txt\\data\\daily\\pl\\nc stocks\\"
+        PATH = PATH_NC
     data_files_paths = stocks_files_paths(PATH)
     for path in data_files_paths:
         stock_ticker = str(path).split('\\')[-1].split('.')[0].upper()
@@ -254,5 +260,10 @@ def sma_signals(sma_list, names):
     df = df.dropna()
     df[df.columns[0]+'_results']= np.where((df[df.columns[0]] < df[df.columns[1]]) & (df['next_'+df.columns[0]] > df[df.columns[1]]), True, False)
     df =  df[df[df.columns[0]+'_results'] == True]
-    print(df)
     return df
+
+
+def get_tickers():
+    tickers = Stock.objects.values('stock_symbol')
+    ticker_list = [f['stock_symbol'] for f in tickers]
+    return ticker_list

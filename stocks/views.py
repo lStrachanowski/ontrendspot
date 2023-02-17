@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_mean_volumen, add_daylist_to_db, get_key_dates,\
-    sma_calculation, sma_signals
+    sma_calculation, sma_signals, get_tickers
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime
@@ -84,8 +84,23 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    sma_data = sma_calculation([30,45],"PKN",180)
-    signals = sma_signals(sma_data, [30,45] )
+    results = []
+    tickers = get_tickers()[0:10]
+    print(tickers)
+    for t in tickers:
+        try:
+            sma = sma_calculation([15, 45], t, 180)
+            signals = sma_signals(sma, [15, 45])
+            signals['Ticker'] = t
+            results.append(signals)
+            print(t)
+        except:
+            print("error " + t)
+
+    df = pd.concat(results)
+    df = df.sort_index(ascending=False)
+    print(df)
+
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
@@ -101,7 +116,7 @@ def index(request):
     if request.user.is_authenticated:
         time_value = check_logout_time(request)
         context = {"day":  days[0]["day"],
-               "tickers": days[0]["stock"],  "time": time_value}
+                   "tickers": days[0]["stock"],  "time": time_value}
     return render(request, 'stocks/index.html', context)
 
 
@@ -292,14 +307,16 @@ def list(request):
     dates = [str(key) for key in volumen_data.groups.keys()]
     dates.reverse()
     time_value = check_logout_time(request)
-    context = {"time": time_value, "dates" : dates}
+    context = {"time": time_value, "dates": dates}
     return render(request, 'stocks/list.html', context)
+
 
 def show_more_list_values(request):
     volumen_data = read_mean_volumen()
     dates = [str(key) for key in volumen_data.groups.keys()]
     dates.reverse()
     return JsonResponse({'values': dates})
+
 
 def daydetails(request, date):
     day = request.path.split("/")[1]
@@ -320,7 +337,7 @@ def daydetails(request, date):
         graph.append(candle_chart(ticker, 90, True, 'fig'))
     stock_data = zip(stock_list, daily_percent_change, stock_close)
     context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData":stock_list, "time": time_value, "day": day}
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": day}
     return render(request, 'stocks/daydetails.html', context)
 
 
@@ -331,7 +348,7 @@ def stock(request, stockname):
     time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     histogramJSON = histogram(stockname, 90)
-    rollingMeanJSON = rolling_mean_charts(stockname, 180, [15,30,45])
+    rollingMeanJSON = rolling_mean_charts(stockname, 180, [15, 30, 45])
     rsiJSON = rsi_chart(stockname, 180)
     bbandsJSON = bollinger_bands_chart(stockname, 180)
     mean_volumeJSON = mean_volume_chart(stockname, 365)
