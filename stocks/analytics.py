@@ -30,6 +30,9 @@ def add_daylist_to_db(df,option):
     if option == 'V':
         instances = [DayList.objects.create(option = 'V', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , volume = stock['Change']  ) for i, stock in df.iterrows()]
         DayList.objects.bulk_create(instances)
+    if option == 'M':
+        instances = [DayList.objects.create(option = 'M', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , volume = stock['Change']  ) for i, stock in df.iterrows()]
+        DayList.objects.bulk_create(instances)
 
 
 def stocks_files_paths(dir):
@@ -264,6 +267,9 @@ def sma_signals(sma_list, names):
 
 
 def get_tickers():
+    """
+    Returns all stocks tickers in database
+    """
     tickers = Stock.objects.values('stock_symbol')
     ticker_list = [f['stock_symbol'] for f in tickers]
     return ticker_list

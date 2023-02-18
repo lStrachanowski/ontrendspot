@@ -86,14 +86,12 @@ def reset(request, uidb64, token):
 def index(request):
     results = []
     tickers = get_tickers()[0:10]
-    print(tickers)
     for t in tickers:
         try:
             sma = sma_calculation([15, 45], t, 180)
             signals = sma_signals(sma, [15, 45])
             signals['Ticker'] = t
             results.append(signals)
-            print(t)
         except:
             print("error " + t)
 
