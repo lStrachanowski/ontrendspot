@@ -31,7 +31,7 @@ def add_daylist_to_db(df,option):
         instances = [DayList.objects.create(option = 'V', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , volume = stock['Change']  ) for i, stock in df.iterrows()]
         DayList.objects.bulk_create(instances)
     if option == 'M':
-        instances = [DayList.objects.create(option = 'M', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , volume = stock['Change']  ) for i, stock in df.iterrows()]
+        instances = [DayList.objects.create(option = 'M', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , mean = stock['Change']  ) for i, stock in df.iterrows()]
         DayList.objects.bulk_create(instances)
 
 
@@ -261,9 +261,11 @@ def sma_signals(sma_list, names):
     df.columns = ['sma_'+str(name) for name in names]
     df['next_'+df.columns[0]] = df[df.columns[0]].shift(-1)
     df = df.dropna()
-    df[df.columns[0]+'_results']= np.where((df[df.columns[0]] < df[df.columns[1]]) & (df['next_'+df.columns[0]] > df[df.columns[1]]), True, False)
-    df =  df[df[df.columns[0]+'_results'] == True]
-    return df
+    df[df.columns[0]+'_results_up'] = np.where((df[df.columns[0]] < df[df.columns[1]]) & (df['next_'+df.columns[0]] > df[df.columns[1]]), True, False)
+    df[df.columns[0]+'_results_down'] = np.where((df[df.columns[0]] > df[df.columns[1]]) & (df['next_'+df.columns[0]] < df[df.columns[1]]), True, False)
+    df_up = df[df[df.columns[0]+'_results_up'] == True]
+    df_down = df[df[df.columns[0]+'_results_down'] == True]
+    return df_up, df_down
 
 
 def get_tickers():
@@ -273,3 +275,32 @@ def get_tickers():
     tickers = Stock.objects.values('stock_symbol')
     ticker_list = [f['stock_symbol'] for f in tickers]
     return ticker_list
+
+def add_sma_crossings_to_db(sma1, sma2, dayset):
+    """
+    Is adding sma crossings results to database
+        Arguments:
+        sma_1(int): first sma , must be lower than sma2
+        sma_2(int): second sma, must be higher than sma1
+        dayset(int): number of days from which will be calculated SMA.
+    """
+    results = []
+    tickers = get_tickers()
+    for t in tickers:
+        try:
+            sma = sma_calculation([sma1, sma2], t, dayset)
+            signals_up = sma_signals(sma, [sma1, sma2])[0]
+            signals_down = sma_signals(sma, [sma1, sma2])[1]
+            signals_up['ticker'] = t
+            signals_down['ticker'] = t
+            results.append(signals_up)
+            results.append(signals_down)
+        except:
+            print("error " + t)
+    df = pd.concat(results)
+    df = df.sort_index(ascending=False)
+    d_data = []
+    for v in df.iterrows():
+        d_data.append([v[0], v[1][5], df.columns[0]+" "+df.columns[1]+" "+str(v[1][df.columns[0]+'_results_up'])+" "+str(v[1][df.columns[0]+'_results_down'])])
+    df_db = pd.DataFrame(d_data, columns=['Date','Ticker','Change'])
+    add_daylist_to_db(df_db, 'M')

@@ -84,21 +84,6 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    results = []
-    tickers = get_tickers()[0:10]
-    for t in tickers:
-        try:
-            sma = sma_calculation([15, 45], t, 180)
-            signals = sma_signals(sma, [15, 45])
-            signals['Ticker'] = t
-            results.append(signals)
-        except:
-            print("error " + t)
-
-    df = pd.concat(results)
-    df = df.sort_index(ascending=False)
-    print(df)
-
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
