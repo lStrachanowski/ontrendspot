@@ -67,21 +67,19 @@
                 <div class="formation-header formation-header-color white-font-color">
                     SMA 15 / SMA 45
                 </div>
+                {%for sma in smadata %}
                 <div class="formation-content">
-                    <div class="formation-stock-ticker">PKO</div>
-                    <div>Góra</div>
-                    <div>20.09.2021</div>
+                    <div class="formation-stock-ticker">{{sma.Ticker}}</div>
+                    {% if sma.UP == "True" %}
+                        <div class="formation-stock-ticker green-font-color">Góra</div>
+                    {% endif %}
+
+                    {% if sma.DOWN == "True" %}
+                        <div class="formation-stock-ticker red-font-color">Dół</div>
+                    {% endif %}
+                    <div>{{sma.Date}}</div>
                 </div>
-                <div class="formation-content">
-                    <div class="formation-stock-ticker">PKO</div>
-                    <div>Dół</div>
-                    <div>20.09.2021</div>
-                </div>
-                <div class="formation-content">
-                    <div class="formation-stock-ticker">PKO</div>
-                    <div>Góra</div>
-                    <div>20.09.2021</div>
-                </div>
+                {% endfor %}
             </div>
 
 

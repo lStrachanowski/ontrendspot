@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_mean_volumen, add_daylist_to_db, get_key_dates,\
-    sma_calculation, sma_signals, get_tickers
+    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime
@@ -84,6 +84,8 @@ def reset(request, uidb64, token):
 
 
 def index(request):
+    t = get_sma_results_from_db()
+    sma_data = sma_template_data(t,6)
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
@@ -95,7 +97,9 @@ def index(request):
     for item in days[0]["stock"]:
         candle_chart(item, 30, False, 'image')
     context = {"day":  days[0]["day"],
-               "tickers": days[0]["stock"]}
+               "tickers": days[0]["stock"],
+               "smadata": sma_data}
+
     if request.user.is_authenticated:
         time_value = check_logout_time(request)
         context = {"day":  days[0]["day"],

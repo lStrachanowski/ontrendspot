@@ -278,7 +278,7 @@ def get_tickers():
 
 def add_sma_crossings_to_db(sma1, sma2, dayset):
     """
-    Is adding sma crossings results to database
+    Is adding sma crossings results to database.
         Arguments:
         sma_1(int): first sma , must be lower than sma2
         sma_2(int): second sma, must be higher than sma1
@@ -304,3 +304,28 @@ def add_sma_crossings_to_db(sma1, sma2, dayset):
         d_data.append([v[0], v[1][5], df.columns[0]+" "+df.columns[1]+" "+str(v[1][df.columns[0]+'_results_up'])+" "+str(v[1][df.columns[0]+'_results_down'])])
     df_db = pd.DataFrame(d_data, columns=['Date','Ticker','Change'])
     add_daylist_to_db(df_db, 'M')
+
+
+def get_sma_results_from_db():
+    """
+    Reads sma data from database. 
+    """
+    sma_data = pd.DataFrame.from_records(DayList.objects.filter(option = 'M').values_list())
+    sma_data = sma_data.drop([0,1,4,6], axis=1)
+    sma_data = sma_data.rename(columns={2: "Date", 3: "Ticker", 5: "Crossing"})
+    return sma_data
+
+def sma_template_data(df, num):
+    """
+    IConverts data from database to data for template
+        Arguments:
+        df(DataFrame): dataframe with sma data. 
+        num(int): number of results , which have to be displayed
+    """
+    t = df[0:num].iterrows()
+    results = []
+    for v in t:
+        crossing_data = v[1]['Crossing'].split(" ")
+        results.append({'Date': str(v[1]["Date"]), 'Ticker':v[1]['Ticker'], 'SMA1':crossing_data[0], 'SMA2':crossing_data[1], 'UP':crossing_data[2], 'DOWN':crossing_data[3] })
+    return results
+
