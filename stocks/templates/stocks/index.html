@@ -67,9 +67,9 @@
                 <div class="formation-header formation-header-color white-font-color">
                     SMA 15 / SMA 45
                 </div>
-                {%for sma in smadata %}
+                {%for sma in smadata|slice:"5" %}
                 <div class="formation-content">
-                    <div class="formation-stock-ticker">{{sma.Ticker}}</div>
+                    <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>{{sma.Ticker}}</div>
                     {% if sma.UP == "True" %}
                         <div class="formation-stock-ticker green-font-color">Góra</div>
                     {% endif %}
