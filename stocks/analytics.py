@@ -317,7 +317,7 @@ def get_sma_results_from_db():
 
 def sma_template_data(df, num):
     """
-    IConverts data from database to data for template
+    It Converts data from database to data for template
         Arguments:
         df(DataFrame): dataframe with sma data. 
         num(int): number of results , which have to be displayed
@@ -329,3 +329,20 @@ def sma_template_data(df, num):
         results.append({'Date': str(v[1]["Date"]), 'Ticker':v[1]['Ticker'], 'SMA1':crossing_data[0], 'SMA2':crossing_data[1], 'UP':crossing_data[2], 'DOWN':crossing_data[3] })
     return results
 
+
+def sma_elements(date): 
+    """
+    Returns sma crossings data based on given dates.
+        Arguments:
+        date(List): list with dates of sma crossings.
+    """
+    results = []
+    df = get_sma_results_from_db()
+    df = df.groupby(by=['Date'])
+    for crossing_date, sma_data in df:
+        for value in date:
+            if crossing_date == datetime.strptime(str(value), '%Y-%m-%d').date():
+                results.append(sma_data)
+    new_df = pd.concat(results).iloc[::-1]
+    return new_df
+  

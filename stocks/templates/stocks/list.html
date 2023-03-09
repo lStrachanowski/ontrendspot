@@ -6,10 +6,35 @@
     <div class="base-position">
         <div class="loader" id="loader">Loading...</div>
         <div class="index-stoc-container-wrapper content">
+            
+
             <div class="index-stock-position">
                 <div class="formation-container">
                     <div class="formation-header formation-header-list greey-color-list">
-                        Średnie dnia
+                        Wolumeny
+                    </div>
+
+                    <div class="list-buttons-container" id="volumeList">
+                        {% for date in dates|slice:"6" %}
+                        <div class="formation-content formation-content-list">
+                            <button class="button-lista" onclick='location.href="/{{date}}/volume";'>
+                                {{date}}
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="index-stock-button-container">
+                    <button class="button-style" id="showMoreVolumes" onclick= valueUpdate()>
+                        więcej
+                    </button>
+                </div>
+            </div>
+            <div class="index-stock-position">
+                <div class="formation-container">
+                    <div class="formation-header formation-header-list greey-color-list">
+                        Średnie SMA 15 / SMA 45
                     </div>
 
                     <div class="list-buttons-container">
@@ -50,30 +75,6 @@
                 </div>
                 <div class="index-stock-button-container">
                     <button class="button-style">
-                        więcej
-                    </button>
-                </div>
-            </div>
-
-            <div class="index-stock-position">
-                <div class="formation-container">
-                    <div class="formation-header formation-header-list greey-color-list">
-                        Wolumeny dnia
-                    </div>
-
-                    <div class="list-buttons-container" id="volumeList">
-                        {% for date in dates|slice:"6" %}
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista" onclick='location.href="/{{date}}/volume";'>
-                                {{date}}
-                            </button>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="index-stock-button-container">
-                    <button class="button-style" id="showMoreVolumes" onclick= valueUpdate()>
                         więcej
                     </button>
                 </div>
