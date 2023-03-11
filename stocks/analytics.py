@@ -315,16 +315,15 @@ def get_sma_results_from_db():
     sma_data = sma_data.rename(columns={2: "Date", 3: "Ticker", 5: "Crossing"})
     return sma_data
 
-def sma_template_data(df, num, sma1, sma2):
+def sma_template_data(df, sma1, sma2):
     """
     It Converts data from database to data for template
         Arguments:
         df(DataFrame): dataframe with sma data. 
-        num(int): number of results , which have to be displayed
         sma1(stiring): first smaller sma
         sma2(sting): second bigger sma
     """
-    t = df[0:num].iterrows()
+    t = df.iterrows()
     results = []
     for v in t:
         crossing_data = v[1]['Crossing'].split(" ")
@@ -347,5 +346,6 @@ def sma_elements(date):
             if crossing_date == datetime.strptime(str(value), '%Y-%m-%d').date():
                 results.append(sma_data)
     new_df = pd.concat(results).iloc[::-1]
+    print(new_df)
     return new_df
   

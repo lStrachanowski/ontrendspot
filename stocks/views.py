@@ -85,9 +85,11 @@ def reset(request, uidb64, token):
 
 def index(request):
 
-    temp = sma_elements(['2022-11-23','2022-11-24'])
-    sma_data_15_45 = sma_template_data(temp ,15, 'sma_15', 'sma_45')
-    sma_data_50_200 = sma_template_data(temp ,15, 'sma_50', 'sma_200')
+    temp = sma_elements(['2022-11-22','2022-11-23','2022-11-24'])
+    sma_data_15_45 = sma_template_data(temp ,'sma_15', 'sma_45')
+    sma_data_50_200 = sma_template_data(temp ,'sma_50', 'sma_200')
+    # print(sma_data_50_200)
+    # print(sma_data_15_45)
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
