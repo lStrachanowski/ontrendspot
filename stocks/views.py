@@ -85,10 +85,9 @@ def reset(request, uidb64, token):
 
 def index(request):
 
-
     temp = sma_elements(['2022-11-23','2022-11-24'])
-    sma_data = sma_template_data(temp,15)
-    
+    sma_data_15_45 = sma_template_data(temp ,15, 'sma_15', 'sma_45')
+    sma_data_50_200 = sma_template_data(temp ,15, 'sma_50', 'sma_200')
     days = []
     volumen_data = read_mean_volumen()
     volumen_keys = volumen_data.groups.keys()
@@ -101,7 +100,8 @@ def index(request):
         candle_chart(item, 30, False, 'image')
     context = {"day":  days[0]["day"],
                "tickers": days[0]["stock"],
-               "smadata": sma_data}
+               "smadata_15_45": sma_data_15_45,
+               "smadata_50_200": sma_data_50_200}
 
     if request.user.is_authenticated:
         time_value = check_logout_time(request)

@@ -315,18 +315,21 @@ def get_sma_results_from_db():
     sma_data = sma_data.rename(columns={2: "Date", 3: "Ticker", 5: "Crossing"})
     return sma_data
 
-def sma_template_data(df, num):
+def sma_template_data(df, num, sma1, sma2):
     """
     It Converts data from database to data for template
         Arguments:
         df(DataFrame): dataframe with sma data. 
         num(int): number of results , which have to be displayed
+        sma1(stiring): first smaller sma
+        sma2(sting): second bigger sma
     """
     t = df[0:num].iterrows()
     results = []
     for v in t:
         crossing_data = v[1]['Crossing'].split(" ")
-        results.append({'Date': str(v[1]["Date"]), 'Ticker':v[1]['Ticker'], 'SMA1':crossing_data[0], 'SMA2':crossing_data[1], 'UP':crossing_data[2], 'DOWN':crossing_data[3] })
+        if (sma1 == crossing_data[0] and sma2 == crossing_data[1]):
+            results.append({'Date': str(v[1]["Date"]), 'Ticker':v[1]['Ticker'], 'SMA1':crossing_data[0], 'SMA2':crossing_data[1], 'UP':crossing_data[2], 'DOWN':crossing_data[3] })
     return results
 
 

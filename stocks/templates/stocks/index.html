@@ -67,7 +67,7 @@
                 <div class="formation-header formation-header-color white-font-color">
                     SMA 15 / SMA 45
                 </div>
-                {%for sma in smadata|slice:"5" %}
+                {%for sma in smadata_15_45|slice:"5" %}
                 <div class="formation-content">
                     <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>{{sma.Ticker}}</div>
                     {% if sma.UP == "True" %}
@@ -96,21 +96,19 @@
                     <div class=" formation-header formation-header-color white-font-color">
                         SMA 50 / SMA 200
                     </div>
+                    {%for sma in smadata_50_200|slice:"5" %}
                     <div class="formation-content">
-                        <div class="formation-stock-ticker">PKO</div>
-                        <div>Góra</div>
-                        <div>20.09.2021</div>
+                        <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>{{sma.Ticker}}</div>
+                        {% if sma.UP == "True" %}
+                            <div class="formation-stock-ticker green-font-color">Góra</div>
+                        {% endif %}
+    
+                        {% if sma.DOWN == "True" %}
+                            <div class="formation-stock-ticker red-font-color">Dół</div>
+                        {% endif %}
+                        <div>{{sma.Date}}</div>
                     </div>
-                    <div class="formation-content">
-                        <div class="formation-stock-ticker">PKO</div>
-                        <div>Góra</div>
-                        <div>20.09.2021</div>
-                    </div>
-                    <div class="formation-content">
-                        <div class="formation-stock-ticker">PKO</div>
-                        <div>Dół</div>
-                        <div>20.09.2021</div>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="index-stock-button-container">
