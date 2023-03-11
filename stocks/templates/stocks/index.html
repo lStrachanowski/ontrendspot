@@ -71,11 +71,11 @@
                 <div class="formation-content">
                     <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>{{sma.Ticker}}</div>
                     {% if sma.UP == "True" %}
-                        <div class="formation-stock-ticker green-font-color">Góra</div>
+                        <div class="formation-stock-ticker green-font-color">UP</div>
                     {% endif %}
 
                     {% if sma.DOWN == "True" %}
-                        <div class="formation-stock-ticker red-font-color">Dół</div>
+                        <div class="formation-stock-ticker red-font-color">DOWN</div>
                     {% endif %}
                     <div>{{sma.Date}}</div>
                 </div>
@@ -100,11 +100,11 @@
                     <div class="formation-content">
                         <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>{{sma.Ticker}}</div>
                         {% if sma.UP == "True" %}
-                            <div class="formation-stock-ticker green-font-color">Góra</div>
+                            <div class="formation-stock-ticker green-font-color">UP</div>
                         {% endif %}
     
                         {% if sma.DOWN == "True" %}
-                            <div class="formation-stock-ticker red-font-color">Dół</div>
+                            <div class="formation-stock-ticker red-font-color">DOWN</div>
                         {% endif %}
                         <div>{{sma.Date}}</div>
                     </div>

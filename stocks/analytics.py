@@ -229,10 +229,15 @@ def analyze_percent_changes(period, min_value, end_date, range):
     df = df[df['Date'] >= last.day  ]
     return df[0:range]
 
-def get_key_dates():
+def get_key_dates(period):
+    """
+    Return dates based on databse input.
+        Arguments:
+        period(int): Number of entries to return 
+    """
     reference = DataSource.objects.filter(stock_symbol='PKN')
     dates = [str(date.day) for date in reference]
-    return dates[-30:]
+    return dates[-period:]
 
 def sma_calculation(period, stockname, dayset):
     """
@@ -346,6 +351,5 @@ def sma_elements(date):
             if crossing_date == datetime.strptime(str(value), '%Y-%m-%d').date():
                 results.append(sma_data)
     new_df = pd.concat(results).iloc[::-1]
-    print(new_df)
     return new_df
   
