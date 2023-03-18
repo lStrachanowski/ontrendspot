@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="list-buttons-container" id="volumeList">
-                        {% for date in dates|slice:"6" %}
+                        {% for date in volumen_dates|slice:"6" %}
                         <div class="formation-content formation-content-list">
                             <button class="button-lista" onclick='location.href="/{{date}}/volume";'>
                                 {{date}}
@@ -37,39 +37,14 @@
                         Średnie SMA 15 / SMA 45
                     </div>
 
-                    <div class="list-buttons-container">
+                    <div class="list-buttons-container" id="sma_15_list">
+                        {% for date in sma_15_45|slice:"6" %}
                         <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                19.09.2021
+                            <button class="button-lista" >
+                                {{date}}
                             </button>
                         </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                20.09.2021
-                            </button>
-                        </div>
-
-
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                21.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                22.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                23.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                24.09.2021
-                            </button>
-                        </div>
+                        {% endfor %}
                     </div>
 
                 </div>
@@ -87,42 +62,17 @@
             <div class="index-stock-position">
                 <div class="formation-container">
                     <div class="formation-header formation-header-list greey-color-list">
-                        Średnie dnia
+                        Średnie SMA 50 / SMA 200
                     </div>
 
-                    <div class="list-buttons-container">
+                    <div class="list-buttons-container" id="sma_15_list">
+                        {% for date in sma_50_200|slice:"6" %}
                         <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                19.09.2021
+                            <button class="button-lista" >
+                                {{date}}
                             </button>
                         </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                20.09.2021
-                            </button>
-                        </div>
-
-
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                21.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                22.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                23.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                24.09.2021
-                            </button>
-                        </div>
+                        {% endfor %}
                     </div>
 
                 </div>

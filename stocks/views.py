@@ -13,8 +13,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
-    get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_mean_volumen, add_daylist_to_db, get_key_dates,\
-    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements
+    get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_daylist, add_daylist_to_db, get_key_dates,\
+    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime
@@ -88,7 +88,7 @@ def index(request):
     sma_data_15_45 = sma_template_data(dates ,'sma_15', 'sma_45')
     sma_data_50_200 = sma_template_data(dates ,'sma_50', 'sma_200')
     days = []
-    volumen_data = read_mean_volumen()
+    volumen_data = read_daylist('V')
     volumen_keys = volumen_data.groups.keys()
     last_key = [key for key in volumen_keys][-1]
     for value in volumen_data:
@@ -292,16 +292,26 @@ def edit(request):
 
 
 def list(request):
-    volumen_data = read_mean_volumen()
-    dates = [str(key) for key in volumen_data.groups.keys()]
-    dates.reverse()
+    sma_15_45_dates = []
+    sma_50_200_dates = []
+    volumen_data = read_daylist('V')
+    crossing_data = read_daylist('M')
+    for v, p in crossing_data:
+        if "sma_15" in p['crossing'].values[0].split(" "):
+            sma_15_45_dates.append(str(v))
+        if "sma_45" in p['crossing'].values[0].split(" "):
+            sma_50_200_dates.append(str(v))
+    volumen_dates = [str(key) for key in volumen_data.groups.keys()]
+    volumen_dates.reverse()
+
     time_value = check_logout_time(request)
-    context = {"time": time_value, "dates": dates}
+    context = {"time": time_value, "volumen_dates": volumen_dates,
+               "sma_15_45":get_unique_dates(sma_15_45_dates),"sma_50_200":get_unique_dates(sma_50_200_dates) }
     return render(request, 'stocks/list.html', context)
 
 
 def show_more_list_values(request):
-    volumen_data = read_mean_volumen()
+    volumen_data = read_daylist('V')
     dates = [str(key) for key in volumen_data.groups.keys()]
     dates.reverse()
     return JsonResponse({'values': dates})
@@ -314,7 +324,7 @@ def daydetails(request, date):
     graph = []
     daily_percent_change = []
     stock_close = []
-    data = read_mean_volumen()
+    data = read_daylist('V')
     for value in data:
         date_object = datetime.strptime(day, '%Y-%m-%d').date()
         if value[0] == date_object:

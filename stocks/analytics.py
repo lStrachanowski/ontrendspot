@@ -39,10 +39,19 @@ def stocks_files_paths(dir):
     file_list = list(pathlib.Path(dir).glob('*.txt'))
     return file_list
 
-def read_mean_volumen():
-    df = pd.DataFrame.from_records(DayList.objects.filter(option = 'V').values_list())
-    df = df.drop(columns=[0,4,5])
-    df = df.rename(columns={1: 'option', 2: 'day', 3: 'stock_symbol',6: 'percent_change'})
+def read_daylist(db_option):
+    """
+    Is reading data from DayList database
+    Arguments:
+        db_option (str):  option base on which input is filtred.
+    """
+    df = pd.DataFrame.from_records(DayList.objects.filter(option = db_option).values_list())
+    if db_option == 'V':
+        df = df.drop(columns=[0,4,5])
+        df = df.rename(columns={1: 'option', 2: 'day', 3: 'stock_symbol',6: 'percent_change'})
+    if db_option == 'M':
+        df = df.drop(columns=[0,4,6])
+        df = df.rename(columns={1: 'option', 2: 'day', 3: 'stock_symbol',5: 'crossing'})
     df = df.groupby(by=['day'])
     return df
 
@@ -353,3 +362,5 @@ def sma_elements(date):
     new_df = pd.concat(results).iloc[::-1]
     return new_df
   
+def get_unique_dates(list):
+    return sorted(set(list), reverse=True)
