@@ -364,3 +364,19 @@ def sma_elements(date):
   
 def get_unique_dates(list):
     return sorted(set(list), reverse=True)
+
+
+def get_crossing_dates(crossing_data):
+    """
+    Return dates for sma crossing.
+        Arguments:
+        crossing_data(DataFrame): result of read_daylist function.
+    """
+    sma_15_45_dates = []
+    sma_50_200_dates = []
+    for v, p in crossing_data:
+        if "sma_15" in p['crossing'].values[0].split(" "):
+            sma_15_45_dates.append(str(v))
+        if "sma_45" in p['crossing'].values[0].split(" "):
+            sma_50_200_dates.append(str(v))
+    return sma_15_45_dates, sma_50_200_dates

@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_daylist, add_daylist_to_db, get_key_dates,\
-    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates
+    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime
@@ -292,15 +292,11 @@ def edit(request):
 
 
 def list(request):
-    sma_15_45_dates = []
-    sma_50_200_dates = []
     volumen_data = read_daylist('V')
     crossing_data = read_daylist('M')
-    for v, p in crossing_data:
-        if "sma_15" in p['crossing'].values[0].split(" "):
-            sma_15_45_dates.append(str(v))
-        if "sma_45" in p['crossing'].values[0].split(" "):
-            sma_50_200_dates.append(str(v))
+    sma_15_45_dates = get_crossing_dates(crossing_data)[0]
+    sma_50_200_dates = get_crossing_dates(crossing_data)[1]
+
     volumen_dates = [str(key) for key in volumen_data.groups.keys()]
     volumen_dates.reverse()
 
@@ -310,10 +306,19 @@ def list(request):
     return render(request, 'stocks/list.html', context)
 
 
-def show_more_list_values(request):
-    volumen_data = read_daylist('V')
-    dates = [str(key) for key in volumen_data.groups.keys()]
-    dates.reverse()
+def show_more_list_values(request, link):
+    if link == "V":
+        volumen_data = read_daylist('V')
+        dates = [str(key) for key in volumen_data.groups.keys()]
+        dates.reverse()
+    if link == "sma_15_45_list":
+        crossing_data = read_daylist('M')
+        sma_dates = get_crossing_dates(crossing_data)[0]
+        dates = get_unique_dates(sma_dates)
+    if link == "sma_50_200_list":
+        crossing_data = read_daylist('M')
+        sma_dates = get_crossing_dates(crossing_data)[1]
+        dates = get_unique_dates(sma_dates)
     return JsonResponse({'values': dates})
 
 

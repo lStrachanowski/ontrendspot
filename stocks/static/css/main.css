@@ -526,6 +526,11 @@ input:placeholder {
     box-shadow: 4px 4px 4px rgb(127 120 120 / 20%)
 }
 
+.formation-container-max-width {
+    max-width: 50%;
+}
+
+
 .formation-header {
     display: flex;
     justify-content: center;
@@ -1224,6 +1229,9 @@ select {
 
     .chart-row-position {
         min-width: 350px;
+    }
+    .formation-container-max-width {
+        max-width: 100%;
     }
 
 }

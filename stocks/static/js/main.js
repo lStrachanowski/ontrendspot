@@ -196,8 +196,8 @@ function elementTemplate(templateData) {
 };
 
 
-function valueUpdate() {
-    let resultList = document.getElementById("volumeList");
+function valueUpdate(value) {
+    let resultList = document.getElementById(value);
     let html = ''
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -211,7 +211,7 @@ function valueUpdate() {
             resultList.insertAdjacentHTML("beforeend", html);
         }
     };
-    xhttp.open("GET", "/morevalues", true);
+    xhttp.open("GET", `/morevalues/${value}`, true);
     xhttp.send();
 }
 

@@ -8,13 +8,13 @@
         <div class="index-stoc-container-wrapper content">
             
 
-            <div class="index-stock-position">
-                <div class="formation-container">
+            <div class="index-stock-position formation-container-max-width">
+                <div class="formation-container ">
                     <div class="formation-header formation-header-list greey-color-list">
                         Wolumeny
                     </div>
 
-                    <div class="list-buttons-container" id="volumeList">
+                    <div class="list-buttons-container" id="V">
                         {% for date in volumen_dates|slice:"6" %}
                         <div class="formation-content formation-content-list">
                             <button class="button-lista" onclick='location.href="/{{date}}/volume";'>
@@ -26,18 +26,18 @@
                 </div>
 
                 <div class="index-stock-button-container">
-                    <button class="button-style" id="showMoreVolumes" onclick= valueUpdate()>
+                    <button class="button-style" id="showMoreVolumes" onclick= "valueUpdate('V')">
                         więcej
                     </button>
                 </div>
             </div>
-            <div class="index-stock-position">
+            <div class="index-stock-position formation-container-max-width">
                 <div class="formation-container">
                     <div class="formation-header formation-header-list greey-color-list">
                         Średnie SMA 15 / SMA 45
                     </div>
 
-                    <div class="list-buttons-container" id="sma_15_list">
+                    <div class="list-buttons-container" id="sma_15_45_list">
                         {% for date in sma_15_45|slice:"6" %}
                         <div class="formation-content formation-content-list">
                             <button class="button-lista" >
@@ -49,7 +49,7 @@
 
                 </div>
                 <div class="index-stock-button-container">
-                    <button class="button-style">
+                    <button class="button-style" onclick= "valueUpdate('sma_15_45_list')">
                         więcej
                     </button>
                 </div>
@@ -59,13 +59,13 @@
     <div class="base-position">
         <div class="loader" id="loader">Loading...</div>
         <div class="index-stoc-container-wrapper content">
-            <div class="index-stock-position">
-                <div class="formation-container">
+            <div class="index-stock-position formation-container-max-width">
+                <div class="formation-container ">
                     <div class="formation-header formation-header-list greey-color-list">
                         Średnie SMA 50 / SMA 200
                     </div>
 
-                    <div class="list-buttons-container" id="sma_15_list">
+                    <div class="list-buttons-container" id="sma_50_200_list">
                         {% for date in sma_50_200|slice:"6" %}
                         <div class="formation-content formation-content-list">
                             <button class="button-lista" >
@@ -77,62 +77,11 @@
 
                 </div>
                 <div class="index-stock-button-container">
-                    <button class="button-style">
+                    <button class="button-style" onclick= "valueUpdate('sma_50_200_list')">
                         więcej
                     </button>
                 </div>
-            </div>
-
-            <div class="index-stock-position">
-                <div class="formation-container">
-                    <div class="formation-header formation-header-list greey-color-list">
-                        Wolumeny dnia
-                    </div>
-
-                    <div class="list-buttons-container">
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                19.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                20.09.2021
-                            </button>
-                        </div>
-
-
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                21.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                22.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                23.09.2021
-                            </button>
-                        </div>
-                        <div class="formation-content formation-content-list">
-                            <button class="button-lista">
-                                24.09.2021
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="index-stock-button-container">
-                    <button class="button-style">
-                        więcej
-                    </button>
-                </div>
-            </div>
+            </div>   
         </div>
     </div>
 </div>
