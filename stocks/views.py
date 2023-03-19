@@ -105,7 +105,9 @@ def index(request):
     if request.user.is_authenticated:
         time_value = check_logout_time(request)
         context = {"day":  days[0]["day"],
-                   "tickers": days[0]["stock"],  "time": time_value}
+                   "tickers": days[0]["stock"],  "time": time_value, 
+                "smadata_15_45": sma_data_15_45,
+                "smadata_50_200": sma_data_50_200}
     return render(request, 'stocks/index.html', context)
 
 
