@@ -5,7 +5,8 @@ import datetime
 import talib
 import pathlib
 from datetime import timedelta, datetime, date
-
+from talib import abstract
+from .candlesNames import candle_name
 
 def read_stock_from_file(path):
     df = pd.read_csv(path)
@@ -380,3 +381,16 @@ def get_crossing_dates(crossing_data):
         if "sma_45" in p['crossing'].values[0].split(" "):
             sma_50_200_dates.append(str(v))
     return sma_15_45_dates, sma_50_200_dates
+
+def candle_pattern():
+    candle_name = talib.get_function_groups()['Pattern Recognition']
+    df = get_stock_from_db('PKN', 300)
+    df.rename(columns={'stock_open':'open', 'stock_high':'high', 'stock_low':'low', 'stock_close':'close'}, inplace= True)
+    for indicator in candle_name:
+        df[str(indicator)] = getattr(abstract, indicator)(df)
+    for indicator in candle_name:
+        if (df[str(indicator)] == 0).all():
+            df = df.drop([indicator], axis=1)
+    for i in df.columns[7:]:
+        candle_table = df.loc[df[i].where(df[i] != 0).dropna().index]
+        print(i, candle_table[['stock_symbol', 'day']])
