@@ -1,2 +1,3 @@
 /ontrend/credentials.py
 db.sqlite3
+/ontrend/__pycache__/
