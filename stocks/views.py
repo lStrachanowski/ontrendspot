@@ -84,7 +84,7 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    print(candle_pattern())
+    print(candle_pattern('PKN',300))
     dates = sma_elements(get_key_dates(3))
     sma_data_15_45 = sma_template_data(dates ,'sma_15', 'sma_45')
     sma_data_50_200 = sma_template_data(dates ,'sma_50', 'sma_200')
