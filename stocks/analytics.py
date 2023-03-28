@@ -383,6 +383,7 @@ def get_crossing_dates(crossing_data):
     return sma_15_45_dates, sma_50_200_dates
 
 def candle_pattern():
+    result = pd.DataFrame(columns=['stock_symbol', 'day', 'candle'])
     candle_name = talib.get_function_groups()['Pattern Recognition']
     df = get_stock_from_db('PKN', 300)
     df.rename(columns={'stock_open':'open', 'stock_high':'high', 'stock_low':'low', 'stock_close':'close'}, inplace= True)
@@ -391,6 +392,8 @@ def candle_pattern():
     for indicator in candle_name:
         if (df[str(indicator)] == 0).all():
             df = df.drop([indicator], axis=1)
-    for i in df.columns[7:]:
-        candle_table = df.loc[df[i].where(df[i] != 0).dropna().index]
-        print(i, candle_table[['stock_symbol', 'day']])
+    for pattern in df.columns[7:]:
+        candle_table = df.loc[df[pattern].where(df[pattern] != 0).dropna().index]
+        candle_table['candle'] = pattern 
+        result = pd.concat([result, candle_table[['stock_symbol', 'day', 'candle']]])
+    return result
