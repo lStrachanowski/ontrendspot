@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_daylist, add_daylist_to_db, get_key_dates,\
-    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates, candle_pattern
+    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates, candle_pattern, add_candles_to_db
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime
@@ -84,7 +84,6 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-    print(candle_pattern('PKN',300))
     dates = sma_elements(get_key_dates(3))
     sma_data_15_45 = sma_template_data(dates ,'sma_15', 'sma_45')
     sma_data_50_200 = sma_template_data(dates ,'sma_50', 'sma_200')

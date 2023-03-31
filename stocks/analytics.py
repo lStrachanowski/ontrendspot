@@ -34,6 +34,9 @@ def add_daylist_to_db(df,option):
     if option == 'M':
         instances = [DayList.objects.create(option = 'M', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , mean = stock['Change']  ) for i, stock in df.iterrows()]
         DayList.objects.bulk_create(instances)
+    if option == 'C':
+        instances = [DayList.objects.create(option = 'C', day = stock['Date'], stock_symbol = Stock.objects.get(stock_symbol=stock['Ticker']) , candle = stock['Change']  ) for i, stock in df.iterrows()]
+        DayList.objects.bulk_create(instances)
 
 
 def stocks_files_paths(dir):
@@ -320,6 +323,16 @@ def add_sma_crossings_to_db(sma1, sma2, dayset):
     df_db = pd.DataFrame(d_data, columns=['Date','Ticker','Change'])
     add_daylist_to_db(df_db, 'M')
 
+def add_candles_to_db(df):
+    """
+    Is adding candle patterns for given ticker to database
+        Arguments:
+        df(DataFrame): DataFrame with candles patterns
+    """
+    df = df.rename(columns={"stock_symbol": "Ticker", "day": "Date", "candle": "Change"})
+    return df
+
+        
 
 def get_sma_results_from_db():
     """
