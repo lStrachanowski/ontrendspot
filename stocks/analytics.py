@@ -323,7 +323,7 @@ def add_sma_crossings_to_db(sma1, sma2, dayset):
     df_db = pd.DataFrame(d_data, columns=['Date','Ticker','Change'])
     add_daylist_to_db(df_db, 'M')
 
-def add_candles_to_db(df):
+def rename_candles_to_db(df):
     """
     Is adding candle patterns for given ticker to database
         Arguments:
@@ -416,3 +416,18 @@ def candle_pattern(ticker, period):
         candle_table['candle'] = pattern 
         result = pd.concat([result, candle_table[['stock_symbol', 'day', 'candle']]])
     return result
+
+def add_candle_data_to_db(period):
+    """
+    Is adding candle pattern data to database
+        Arguments:
+        period (int): number of days to add
+    """
+    result_data = []
+    for ticker in get_tickers():
+        print(ticker)
+        patterns = candle_pattern(ticker, period)
+        result_data.append(patterns)
+        
+    t = pd.concat(result_data, ignore_index = True)
+    add_daylist_to_db(rename_candles_to_db(t), 'C')
