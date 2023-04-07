@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_daylist, add_daylist_to_db, get_key_dates,\
-    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates, candle_pattern, rename_candles_to_db
+    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates, candle_pattern, rename_candles_to_db, add_candle_data_to_db
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime
@@ -85,28 +85,43 @@ def reset(request, uidb64, token):
 
 
 def index(request):
+
     dates = sma_elements(get_key_dates(3))
     sma_data_15_45 = sma_template_data(dates ,'sma_15', 'sma_45')
     sma_data_50_200 = sma_template_data(dates ,'sma_50', 'sma_200')
-    days = []
+    volume_days = []
+    candle_days = []
+    
+    cande_data = read_daylist('C')
+    candle_keys = cande_data.groups.keys()
+    last_key_candle= [key for key in candle_keys][-1]
+    for d,v in cande_data:
+        if d == last_key_candle:
+            v = v.drop('option', axis=1)
+            candle_days.append({"day":str(last_key_candle), "stock":v['stock_symbol'].tolist(), "candle": v['candles'].tolist() })
+    print(candle_days)
+
     volumen_data = read_daylist('V')
     volumen_keys = volumen_data.groups.keys()
-    last_key = [key for key in volumen_keys][-1]
+    last_key_volumen = [key for key in volumen_keys][-1]
     for value in volumen_data:
-        if value[0] == last_key:
-            days.append(
-                {"day": str(last_key), "stock": value[1][0:2]['stock_symbol'].tolist()})
-    for item in days[0]["stock"]:
+        if value[0] == last_key_volumen:
+            volume_days.append(
+                {"day": str(last_key_volumen), "stock": value[1][0:2]['stock_symbol'].tolist()})
+    # print(candle_days )      
+
+    for item in volume_days[0]["stock"]:
         candle_chart(item, 30, False, 'image')
-    context = {"day":  days[0]["day"],
-               "tickers": days[0]["stock"],
+    context = {"day":  volume_days[0]["day"],
+               "tickers": volume_days[0]["stock"],
                "smadata_15_45": sma_data_15_45,
-               "smadata_50_200": sma_data_50_200}
+               "smadata_50_200": sma_data_50_200,
+               "candle_up": candle_days  }
 
     if request.user.is_authenticated:
         time_value = check_logout_time(request)
-        context = {"day":  days[0]["day"],
-                   "tickers": days[0]["stock"],  "time": time_value, 
+        context = {"day":  volume_days[0]["day"],
+                   "tickers": volume_days[0]["stock"],  "time": time_value, 
                 "smadata_15_45": sma_data_15_45,
                 "smadata_50_200": sma_data_50_200}
  
