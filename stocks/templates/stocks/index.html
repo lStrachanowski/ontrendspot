@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="index-stock-button-container">
-                <button class="button-style"  onclick='location.href="/{{day}}/volume";'>więcej</button>
+                <button class="button-style" onclick='location.href="/{{day}}/volume";'>więcej</button>
             </div>
         </div>
         {% endfor %}
@@ -69,13 +69,14 @@
                 </div>
                 {%for sma in smadata_15_45|slice:"5" %}
                 <div class="formation-content">
-                    <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>{{sma.Ticker}}</div>
+                    <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>
+                        {{sma.Ticker}}</div>
                     {% if sma.UP == "True" %}
-                        <div class="formation-stock-ticker green-font-color">UP</div>
+                    <div class="formation-stock-ticker green-font-color">UP</div>
                     {% endif %}
 
                     {% if sma.DOWN == "True" %}
-                        <div class="formation-stock-ticker red-font-color">DOWN</div>
+                    <div class="formation-stock-ticker red-font-color">DOWN</div>
                     {% endif %}
                     <div>{{sma.Date}}</div>
                 </div>
@@ -98,13 +99,14 @@
                     </div>
                     {%for sma in smadata_50_200|slice:"5" %}
                     <div class="formation-content">
-                        <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>{{sma.Ticker}}</div>
+                        <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>
+                            {{sma.Ticker}}</div>
                         {% if sma.UP == "True" %}
-                            <div class="formation-stock-ticker green-font-color">UP</div>
+                        <div class="formation-stock-ticker green-font-color">UP</div>
                         {% endif %}
-    
+
                         {% if sma.DOWN == "True" %}
-                            <div class="formation-stock-ticker red-font-color">DOWN</div>
+                        <div class="formation-stock-ticker red-font-color">DOWN</div>
                         {% endif %}
                         <div>{{sma.Date}}</div>
                     </div>
@@ -136,21 +138,16 @@
                 <div class="formation-header formation-header-color white-font-color">
                     Formacje wzrostowe
                 </div>
+                {% for candle in candle_data_up|slice:"5" %}
+                {% if candle.stock_data.1.1 == 'UP' %}
                 <div class="formation-content">
-                    <div class="formation-stock-ticker">PKO</div>
-                    <div>Harami wzrostowe</div>
-                    <div>20.09.2021</div>
+                    <div class="formation-stock-ticker">{{candle.stock_data.0}}</div>
+                    <div>{{candle.stock_data.1.0}}</div>
+                    <div>{{candle.day}}</div> 
                 </div>
-                <div class="formation-content">
-                    <div class="formation-stock-ticker">PKO</div>
-                    <div>Harami wzrostowe</div>
-                    <div>20.09.2021</div>
-                </div>
-                <div class="formation-content">
-                    <div class="formation-stock-ticker">PKO</div>
-                    <div>Harami wzrostowe</div>
-                    <div>20.09.2021</div>
-                </div>
+                {% endif %}
+                {% endfor %}
+
             </div>
 
 
@@ -167,21 +164,15 @@
                     <div class=" formation-header formation-header-color white-font-color">
                         Formacje spadkowe
                     </div>
+                    {% for candle in candle_data_down|slice:"5" %}
+                    {% if candle.stock_data.1.1 == 'DOWN' %}
                     <div class="formation-content">
-                        <div class="formation-stock-ticker">PKO</div>
-                        <div>Harami wzrostowe</div>
-                        <div>20.09.2021</div>
+                        <div class="formation-stock-ticker">{{candle.stock_data.0}}</div>
+                        <div>{{candle.stock_data.1.0}}</div>
+                        <div>{{candle.day}}</div>
                     </div>
-                    <div class="formation-content">
-                        <div class="formation-stock-ticker">PKO</div>
-                        <div>Harami wzrostowe</div>
-                        <div>20.09.2021</div>
-                    </div>
-                    <div class="formation-content">
-                        <div class="formation-stock-ticker">PKO</div>
-                        <div>Harami wzrostowe</div>
-                        <div>20.09.2021</div>
-                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
 
                 <div class="index-stock-button-container">

@@ -85,21 +85,31 @@ def reset(request, uidb64, token):
 
 
 def index(request):
-
     dates = sma_elements(get_key_dates(3))
-    sma_data_15_45 = sma_template_data(dates ,'sma_15', 'sma_45')
-    sma_data_50_200 = sma_template_data(dates ,'sma_50', 'sma_200')
+    sma_data_15_45 = sma_template_data(dates, 'sma_15', 'sma_45')
+    sma_data_50_200 = sma_template_data(dates, 'sma_50', 'sma_200')
     volume_days = []
     candle_days = []
-    
+
     cande_data = read_daylist('C')
     candle_keys = cande_data.groups.keys()
-    last_key_candle= [key for key in candle_keys][-1]
-    for d,v in cande_data:
-        if d == last_key_candle:
-            v = v.drop('option', axis=1)
-            candle_days.append({"day":str(last_key_candle), "stock":v['stock_symbol'].tolist(), "candle": v['candles'].tolist() })
-    print(candle_days)
+    last_key_candle = [key for key in candle_keys][-1]
+    for candle_date, candle_value in cande_data:
+        if candle_date == last_key_candle:
+            candle_value = candle_value.drop('option', axis=1)
+            candle_days.append({"day": str(last_key_candle), "stock": candle_value['stock_symbol'].tolist(
+            ), "candle": candle_value['candles'].tolist()})
+    tickers = [candle.split("_") for candle in candle_days[0]['candle']]
+    values = [value for value in candle_days[0]['stock']]
+    candle_data = zip(values,tickers)
+
+    candle_data_up_for_template = []
+    candle_data_down_for_template = []
+    for value in candle_data:
+        if value[1][1] == "UP":
+            candle_data_up_for_template.append({"day":candle_days[0]['day'], "stock_data": value})
+        else:
+            candle_data_down_for_template.append({"day":candle_days[0]['day'], "stock_data": value})
 
     volumen_data = read_daylist('V')
     volumen_keys = volumen_data.groups.keys()
@@ -108,7 +118,6 @@ def index(request):
         if value[0] == last_key_volumen:
             volume_days.append(
                 {"day": str(last_key_volumen), "stock": value[1][0:2]['stock_symbol'].tolist()})
-    # print(candle_days )      
 
     for item in volume_days[0]["stock"]:
         candle_chart(item, 30, False, 'image')
@@ -116,15 +125,16 @@ def index(request):
                "tickers": volume_days[0]["stock"],
                "smadata_15_45": sma_data_15_45,
                "smadata_50_200": sma_data_50_200,
-               "candle_up": candle_days  }
+               "candle_data_up": candle_data_up_for_template,
+               "candle_data_down": candle_data_down_for_template}
 
     if request.user.is_authenticated:
         time_value = check_logout_time(request)
         context = {"day":  volume_days[0]["day"],
-                   "tickers": volume_days[0]["stock"],  "time": time_value, 
-                "smadata_15_45": sma_data_15_45,
-                "smadata_50_200": sma_data_50_200}
- 
+                   "tickers": volume_days[0]["stock"],  "time": time_value,
+                   "smadata_15_45": sma_data_15_45,
+                   "smadata_50_200": sma_data_50_200}
+
     return render(request, 'stocks/index.html', context)
 
 
@@ -321,7 +331,7 @@ def list(request):
 
     time_value = check_logout_time(request)
     context = {"time": time_value, "volumen_dates": volumen_dates,
-               "sma_15_45":get_unique_dates(sma_15_45_dates),"sma_50_200":get_unique_dates(sma_50_200_dates) }
+               "sma_15_45": get_unique_dates(sma_15_45_dates), "sma_50_200": get_unique_dates(sma_50_200_dates)}
     return render(request, 'stocks/list.html', context)
 
 
@@ -440,4 +450,3 @@ def time_left(request):
         else:
             time_value = {"time_value": False}
             return JsonResponse(time_value, safe=False)
-
