@@ -85,12 +85,13 @@ def reset(request, uidb64, token):
 
 
 def index(request):
+    # SMA data 
     dates = sma_elements(get_key_dates(3))
     sma_data_15_45 = sma_template_data(dates, 'sma_15', 'sma_45')
     sma_data_50_200 = sma_template_data(dates, 'sma_50', 'sma_200')
     volume_days = []
     candle_days = []
-
+    # Candle data
     cande_data = read_daylist('C')
     candle_keys = cande_data.groups.keys()
     last_key_candle = [key for key in candle_keys][-1]
@@ -101,16 +102,18 @@ def index(request):
             ), "candle": candle_value['candles'].tolist()})
     tickers = [candle.split("_") for candle in candle_days[0]['candle']]
     values = [value for value in candle_days[0]['stock']]
-    candle_data = zip(values,tickers)
+    candle_data = zip(values, tickers)
 
     candle_data_up_for_template = []
     candle_data_down_for_template = []
     for value in candle_data:
         if value[1][1] == "UP":
-            candle_data_up_for_template.append({"day":candle_days[0]['day'], "stock_data": value})
+            candle_data_up_for_template.append(
+                {"day": candle_days[0]['day'], "stock_data": value})
         else:
-            candle_data_down_for_template.append({"day":candle_days[0]['day'], "stock_data": value})
-
+            candle_data_down_for_template.append(
+                {"day": candle_days[0]['day'], "stock_data": value})
+    # Volume data
     volumen_data = read_daylist('V')
     volumen_keys = volumen_data.groups.keys()
     last_key_volumen = [key for key in volumen_keys][-1]
@@ -133,7 +136,9 @@ def index(request):
         context = {"day":  volume_days[0]["day"],
                    "tickers": volume_days[0]["stock"],  "time": time_value,
                    "smadata_15_45": sma_data_15_45,
-                   "smadata_50_200": sma_data_50_200}
+                   "smadata_50_200": sma_data_50_200,
+                   "candle_data_up": candle_data_up_for_template,
+                   "candle_data_down": candle_data_down_for_template}
 
     return render(request, 'stocks/index.html', context)
 
