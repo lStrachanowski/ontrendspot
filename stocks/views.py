@@ -33,6 +33,7 @@ import plotly
 from django.utils import timezone
 from django.http import HttpResponse
 import pandas as pd
+from .candlesNames import candle_name_table
 
 
 def activate(request, uidb64, token):
@@ -108,11 +109,15 @@ def index(request):
     candle_data_down_for_template = []
     for value in candle_data:
         if value[1][1] == "UP":
+            if value[1][0] in candle_name_table:
+                value[1][0] = candle_name_table[value[1][0]]
             candle_data_up_for_template.append(
                 {"day": candle_days[0]['day'], "stock_data": value})
         else:
-            candle_data_down_for_template.append(
-                {"day": candle_days[0]['day'], "stock_data": value})
+            if value[1][0] in candle_name_table:
+                value[1][0] = candle_name_table[value[1][0]]
+                candle_data_down_for_template.append(
+                    {"day": candle_days[0]['day'], "stock_data": value})
     # Volume data
     volumen_data = read_daylist('V')
     volumen_keys = volumen_data.groups.keys()

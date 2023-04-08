@@ -6,7 +6,7 @@ import talib
 import pathlib
 from datetime import timedelta, datetime, date
 from talib import abstract
-from .candlesNames import candle_name
+from .candlesNames import candle_name_table
 
 
 def read_stock_from_file(path):
