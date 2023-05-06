@@ -375,7 +375,6 @@ def show_more_list_values(request, link):
 
 
 def daydetails(request, date):
-    day = request.path.split("/")[1]
     time_value = check_logout_time(request)
     stock_list = []
     graph = []
@@ -393,9 +392,19 @@ def daydetails(request, date):
         graph.append(candle_chart(ticker, 90, True, 'fig'))
     stock_data = zip(stock_list, daily_percent_change, stock_close)
     context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": day}
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": date}
     return render(request, 'stocks/daydetails.html', context)
 
+def mean_view(request, date):
+    time_value = check_logout_time(request)
+    context = { "time": time_value, "day": date}
+    return render(request, 'stocks/meandetails.html', context )
+
+
+def candles_view(request, date):
+    time_value = check_logout_time(request)
+    context = { "time": time_value, "day": date}
+    return render(request, 'stocks/candlesdetails.html', context )
 
 def stock(request, stockname):
     daily_percent_change = stock_changes(
