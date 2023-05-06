@@ -46,6 +46,17 @@
 
 </div>
 
+<div class="charts-position">
+    <div class="chart-row-position">
+        <div class="chart-title full-width">Średni wolumen z 30 dni</div>
+        <div id="meanVolume" ></div>
+    </div>
+    <div class="chart-row-position">
+        <div class="chart-title full-width">Średnie kroczące 365 dni</div>
+        <div id="rollingMean" ></div>
+    </div>
+</div>
+
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript">
     var graphs = {{ graphJSON | safe }};

@@ -408,12 +408,14 @@ def mean_view(request, date, interval1, interval2):
             ticker = value[1]['Ticker']
             daily_percent_change.append(stock_changes(ticker, 2, 1).dropna().iloc[0].round(3))
             stock_close.append(get_stock_from_db(ticker, 1)['stock_close'].iloc[0])
-            graph.append(candle_chart(ticker, 90, True, 'fig'))
+            if interval2 > 50:
+                graph.append(rolling_mean_charts(ticker, 365, [interval1, interval2])) 
+            else:
+                graph.append(rolling_mean_charts(ticker, 120, [interval1, interval2]))
             stock_list.append(ticker)
     stock_data = zip(stock_list, daily_percent_change, stock_close)
     time_value = check_logout_time(request)
-    context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": date}
+    context = {"graphJSON": graph, "stockData": stock_data, "stocksTickers": stock_list, "time": time_value, "day": date}
     return render(request, 'stocks/meandetails.html', context )
 
 
