@@ -382,7 +382,7 @@ def daydetails(request, date):
     stock_close = []
     data = read_daylist('V')
     for value in data:
-        date_object = datetime.strptime(day, '%Y-%m-%d').date()
+        date_object = datetime.strptime(date, '%Y-%m-%d').date()
         if value[0] == date_object:
             stock_list = value[1]['stock_symbol'].tolist()
     for ticker in stock_list:
@@ -395,9 +395,25 @@ def daydetails(request, date):
         graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": date}
     return render(request, 'stocks/daydetails.html', context)
 
-def mean_view(request, date):
+def mean_view(request, date, interval1, interval2):
+    daily_percent_change = []
+    stock_close = []
+    graph = []
+    stock_list = []
+    data = get_sma_results_from_db()
+    date_object = datetime.strptime(date, '%Y-%m-%d').date()
+    result_data = data[data['Date'] == date_object]
+    for value in result_data.iterrows():
+        if int(value[1]['Crossing'].split(" ")[0].split("_")[1]) == interval1:
+            ticker = value[1]['Ticker']
+            daily_percent_change.append(stock_changes(ticker, 2, 1).dropna().iloc[0].round(3))
+            stock_close.append(get_stock_from_db(ticker, 1)['stock_close'].iloc[0])
+            graph.append(candle_chart(ticker, 90, True, 'fig'))
+            stock_list.append(ticker)
+    stock_data = zip(stock_list, daily_percent_change, stock_close)
     time_value = check_logout_time(request)
-    context = { "time": time_value, "day": date}
+    context = {"graphJSON": json.dumps(
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": date}
     return render(request, 'stocks/meandetails.html', context )
 
 

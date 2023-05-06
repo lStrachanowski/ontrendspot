@@ -11,7 +11,7 @@
     <div class="day-text darker-greey">Średnie dnia</div>
     <div class="day-text stock-font blue-color">{{day}}</div>
     {% for stock, change, close in charts %}
-    <!-- <div class="full-width">
+    <div class="full-width">
         {% if change > 0 %}
             <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
         {% elif change < 0 %} 
@@ -42,10 +42,9 @@
             </div>
         </div>
     </div>
-    </div>
     {% endfor %}
 
-</div> -->
+</div>
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
