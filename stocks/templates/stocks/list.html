@@ -82,7 +82,31 @@
                     </button>
                 </div>
             </div>   
+            <div class="index-stock-position formation-container-max-width">
+                <div class="formation-container">
+                    <div class="formation-header formation-header-list greey-color-list">
+                        Candle patterns
+                    </div>
+    
+                    <div class="list-buttons-container" id="CandlePattern">
+                        {% for date in candle_dates|slice:"6" %}
+                        <div class="formation-content formation-content-list">
+                            <button class="button-lista" >
+                                {{date}}
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+    
+                </div>
+                <div class="index-stock-button-container">
+                    <button class="button-style" onclick= "valueUpdate('CandlePattern')">
+                        więcej
+                    </button>
+                </div>
+            </div>
         </div>
+  
     </div>
 </div>
 {% endblock %}

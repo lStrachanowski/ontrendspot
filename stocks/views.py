@@ -333,6 +333,10 @@ def edit(request):
 def list(request):
     volumen_data = read_daylist('V')
     crossing_data = read_daylist('M')
+    candle_data = read_daylist('C')
+
+    candle_days = [str(v[0]) for v in candle_data]
+
     sma_15_45_dates = get_crossing_dates(crossing_data)[0]
     sma_50_200_dates = get_crossing_dates(crossing_data)[1]
 
@@ -341,7 +345,7 @@ def list(request):
 
     time_value = check_logout_time(request)
     context = {"time": time_value, "volumen_dates": volumen_dates,
-               "sma_15_45": get_unique_dates(sma_15_45_dates), "sma_50_200": get_unique_dates(sma_50_200_dates)}
+               "sma_15_45": get_unique_dates(sma_15_45_dates), "sma_50_200": get_unique_dates(sma_50_200_dates), "candle_dates":get_unique_dates(candle_days)}
     return render(request, 'stocks/list.html', context)
 
 
@@ -350,14 +354,23 @@ def show_more_list_values(request, link):
         volumen_data = read_daylist('V')
         dates = [str(key) for key in volumen_data.groups.keys()]
         dates.reverse()
+        print(dates)
     if link == "sma_15_45_list":
         crossing_data = read_daylist('M')
         sma_dates = get_crossing_dates(crossing_data)[0]
         dates = get_unique_dates(sma_dates)
+        print(dates)
     if link == "sma_50_200_list":
         crossing_data = read_daylist('M')
         sma_dates = get_crossing_dates(crossing_data)[1]
         dates = get_unique_dates(sma_dates)
+        print(dates)
+    if link == "CandlePattern":
+        candle_data = read_daylist('C')
+        candle_days = [str(v[0]) for v in candle_data]
+        dates = get_unique_dates(candle_days)
+        # For development only 
+        dates = dates + ['2023-07-23', '2023-01-07', '2023-01-03']
     return JsonResponse({'values': dates})
 
 
