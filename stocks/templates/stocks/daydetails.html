@@ -10,51 +10,51 @@
     
     <div class="day-text darker-greey">Wolumeny dnia</div>
     <div class="day-text stock-font blue-color">{{day}}</div>
-    {% for stock, change, close in charts %}
-    <div class="full-width">
-        {% if change > 0 %}
-            <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
-        {% elif change < 0 %} 
-            <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} <span class="red-font-color">{{close}} PLN ({{change}}%)</span>
-        {% elif change == 0 %}
-            <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} <span class="darker-greey">{{close}} PLN ({{change}}%)</span>
-        {% endif %}
+    {% if stocksQuantity > 0 %}
+        {% for stock, change, close in charts %}
+        <div class="full-width">
+            {% if change > 0 %}
+                <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} 
+                    <span class="green-font-color">{{close}} PLN ({{change}}%)</span>
+                </div>
+            {% elif change < 0 %} 
+                <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} 
+                    <span class="red-font-color">{{close}} PLN ({{change}}%)</span>
+                </div>
+            {% elif change == 0 %}
+                <div class="day-text darker-greey stock-font stock-link" onclick='location.href="/stocks/{{stock}}";'>{{stock | upper}} 
+                    <span class="darker-greey">{{close}} PLN ({{change}}%)</span>
+                </div>
+            {% endif %}
 
+            
+            <div class="center-position">
+                <div id="{{stock}}" class="index-stock-image min-height"></div>
+            </div>
+            <div class="day-data day-text">
+                <div class="day-data-position ">
+                    <div>Średni wolumen dzisiaj : </div>
+                    <div class="day-text-font day-text-font-margin"> 521457 szt. wzrost 250% / 5dni</div>
+                </div>
+                <div class="day-data-position ">
+                    <div>Średni wolumen 5 dni : </div>
+                    <div class="day-text-font day-text-font-margin"> 521457 szt. wzrost 250% / 5dni</div>
+                </div>
+                <div class="day-data-position">
+                    <div>Sredni wolumen 30 dni : </div>
+                    <div class="day-text-font day-text-font-margin"> 350014 szt.wzrost 157% / 30dni</div>
+                </div>
+                <div class="share-position">
+                    <img src="{% static 'img/share.svg' %} " class="share-size black-arroe">
+                </div>
+            </div>
+        
         </div>
-        <div class="center-position">
-            <div id="{{stock}}" class="index-stock-image min-height"></div>
-        </div>
-        <div class="day-data day-text">
-            <div class="day-data-position ">
-                <div>Średni wolumen dzisiaj : </div>
-                <div class="day-text-font day-text-font-margin"> 521457 szt. wzrost 250% / 5dni</div>
-            </div>
-            <div class="day-data-position ">
-                <div>Średni wolumen 5 dni : </div>
-                <div class="day-text-font day-text-font-margin"> 521457 szt. wzrost 250% / 5dni</div>
-            </div>
-            <div class="day-data-position">
-                <div>Sredni wolumen 30 dni : </div>
-                <div class="day-text-font day-text-font-margin"> 350014 szt.wzrost 157% / 30dni</div>
-            </div>
-            <div class="share-position">
-                <img src="{% static 'img/share.svg' %} " class="share-size black-arroe">
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-
+        {% endfor %}
+        {% else %}
+        <div class="day-text darker-greey">Brak wyników.</div>
+        {% endif%}
 </div>
-
-<div class="charts-position">
-    <div class="chart-row-position">
-        <div class="chart-title full-width">Średni wolumen z 30 dni</div>
-        <div id="meanVolume" ></div>
-    </div>
-    <div class="chart-row-position">
-        <div class="chart-title full-width">Średnie kroczące 365 dni</div>
-        <div id="rollingMean" ></div>
-    </div>
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

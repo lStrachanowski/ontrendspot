@@ -392,7 +392,7 @@ def daydetails(request, date):
         graph.append(candle_chart(ticker, 90, True, 'fig'))
     stock_data = zip(stock_list, daily_percent_change, stock_close)
     context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": date}
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": date, "stocksQuantity":len(stock_list)}
     return render(request, 'stocks/daydetails.html', context)
 
 def mean_view(request, date, interval1, interval2):
@@ -415,7 +415,7 @@ def mean_view(request, date, interval1, interval2):
             stock_list.append(ticker)
     stock_data = zip(stock_list, daily_percent_change, stock_close)
     time_value = check_logout_time(request)
-    context = {"graphJSON": graph, "stockData": stock_data, "stocksTickers": stock_list, "time": time_value, "day": date}
+    context = {"graphJSON": graph, "stockData": stock_data, "stocksTickers": stock_list, "time": time_value, "day": date, "stocksQuantity":len(stock_list)}
     return render(request, 'stocks/meandetails.html', context )
 
 
