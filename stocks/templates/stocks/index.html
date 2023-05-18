@@ -141,7 +141,7 @@
                 {% for candle in candle_data_up|slice:"5" %}
                 {% if candle.stock_data.1.1 == 'UP' %}
                 <div class="formation-content">
-                    <div class="formation-stock-ticker">{{candle.stock_data.0}}</div>
+                    <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{candle.stock_data.0}}";'>{{candle.stock_data.0}}</div>
                     <div>{{candle.stock_data.1.0}}</div>
                     <div>{{candle.day}}</div> 
                 </div>
@@ -167,7 +167,7 @@
                     {% for candle in candle_data_down|slice:"5" %}
                     {% if candle.stock_data.1.1 == 'DOWN' %}
                     <div class="formation-content">
-                        <div class="formation-stock-ticker">{{candle.stock_data.0}}</div>
+                        <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{candle.stock_data.0}}";'>{{candle.stock_data.0}}</div>
                         <div>{{candle.stock_data.1.0}}</div>
                         <div>{{candle.day}}</div>
                     </div>
