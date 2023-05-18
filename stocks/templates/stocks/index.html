@@ -1,7 +1,7 @@
 {% extends "stocks/base.html" %}
 {% load static %}
 {% block content %}
-<div class="base-position darkgreen-color">
+<div class="base-position base-position-index  darkgreen-color">
     <h1>Wolumeny dnia</h1>
     <div class="loader" id="loader">Loading...</div>
     <div class="index-stoc-container-wrapper content">
@@ -35,7 +35,7 @@
 
     </div>
     <div class="index-stock-button-container index-button">
-        <button class="button-style button-style-more" onclick='location.href="/list";'> pozostałe dni</button>
+        <button class="button-style button-style-more button-style-less-margin" onclick='location.href="/list";'> pozostałe dni</button>
     </div>
 </div>
 <div class="newssocial-container">
@@ -58,7 +58,7 @@
         <img src="{% static '/img/twitter.svg'%}" class="socialmedia-icon" />
     </div>
 </div>
-<div class="base-position greey-color">
+<div class="base-position base-position-index  greey-color">
     <h1>Średnie </h1>
     <div class="loader" id="loader">Loading...</div>
     <div class="index-stoc-container-wrapper content">
@@ -122,14 +122,14 @@
         </div>
     </div>
     <div class="index-stock-button-container index-button">
-        <button class="button-style button-style-more" onclick='location.href="/list";'>
+        <button class="button-style button-style-more button-style-less-margin" onclick='location.href="/list";'>
             pozostałe dni
         </button>
     </div>
 </div>
 
 
-<div class="base-position white">
+<div class="base-position base-position-index  white">
     <h1>Formacje świecowe</h1>
     <div class="loader" id="loader">Loading...</div>
     <div class="index-stoc-container-wrapper content">
@@ -184,7 +184,7 @@
         </div>
     </div>
     <div class="index-stock-button-container index-button">
-        <button class="button-style button-style-more" onclick='location.href="/list";'>
+        <button class="button-style button-style-more button-style-less-margin" onclick='location.href="/list";'>
             pozostałe dni
         </button>
     </div>

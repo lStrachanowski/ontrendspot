@@ -11,7 +11,7 @@
     <div class="day-text stock-font blue-color">{{day}}</div>
 
     <div class="candle-result-position">
-        <h1>Formacje wzrostowe</h1>
+        <h1 class="darker-greey">Formacje wzrostowe</h1>
         <div class="loader" id="loader">Loading...</div>
             {% for candle in candle_data_up %}
             {% if candle.stock_data.1.1 == 'UP' %}
@@ -22,7 +22,7 @@
             {% endif %}
             {% endfor %}
 
-        <h1>Formacje spadkowe</h1>
+        <h1 class="darker-greey">Formacje spadkowe</h1>
             {% for candle in candle_data_down %}
             {% if candle.stock_data.1.1 == 'DOWN' %}
             <div class="candle-result greey-color  cursor" onclick='location.href="/stocks/{{candle.stock_data.0}}";'>

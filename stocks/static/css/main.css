@@ -233,6 +233,10 @@ input:placeholder {
     padding: 1.5% 10% 1.5% 10%;
 }
 
+.base-position-index {
+    padding: 1.5% 5% 1.5% 5%;
+}
+
 .candle-result-position{
     display: flex;
     flex-direction: column;
@@ -442,6 +446,9 @@ input:placeholder {
     cursor: pointer;
     margin: 3%;
 }
+.button-style-less-margin{
+    margin: 1.5%;
+}
 
 .button-style-more {
     width: 15%;
@@ -565,7 +572,7 @@ input:placeholder {
     align-items: center;
     border-radius: 15px 15px 0px 0px;
     font-family: Roboto-Bold;
-    width: 30vw;
+    min-width: 30vw;
     height: 9vh;
     font-size: 1.25em;
 }
@@ -624,10 +631,10 @@ input:placeholder {
 
 .formation-content {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     flex-direction: row;
     font-family: Roboto-Regular;
-    margin: 4% 2%;
+    margin: 4% 3%;
 }
 
 .formation-content-list {
@@ -1046,10 +1053,18 @@ select {
 
 @media only screen and (max-width: 768px) {
 
+    .day-text {
+        padding: 0%;
+    }
+
+    .share-size {
+        margin: 1%
+    }
+
     .base-position {
         padding: 1.5% 5% 1.5% 5%;
       }
-      
+
     .candle-result-position{
         display: flex;
         flex-direction: column;
