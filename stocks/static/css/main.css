@@ -233,6 +233,34 @@ input:placeholder {
     padding: 1.5% 10% 1.5% 10%;
 }
 
+.candle-result-position{
+    display: flex;
+    flex-direction: column;
+    padding: 1.5% 20% 1.5% 20%;
+    width: 60%;
+}
+
+.candle-result{
+    display: flex;
+    flex-direction: row;
+    font-family: Roboto-Regular;
+    padding: 3%;
+    border-radius: 8px;
+    border: 1px solid #EBE9E9;
+    box-shadow: 4px 4px 4px rgb(127 120 120 / 20%);
+    margin: 1.5%;
+    transition: 0.5s;
+}
+
+.candle-result:hover{
+    background: #46C2BB;
+}
+
+.formation-stock-ticker {
+    font-weight: bold;
+    margin: 0% 2% 0% 4%;
+}
+
 .min-height {
     min-height: 650px;
 }
@@ -605,10 +633,6 @@ input:placeholder {
 .formation-content-list {
     flex-wrap: wrap;
     flex-flow: row wrap;
-}
-
-.formation-stock-ticker {
-    font-weight: bold;
 }
 
 .list-buttons-container {
@@ -1017,7 +1041,26 @@ select {
 }
 
 
+
+
+
 @media only screen and (max-width: 768px) {
+
+    .base-position {
+        padding: 1.5% 5% 1.5% 5%;
+      }
+      
+    .candle-result-position{
+        display: flex;
+        flex-direction: column;
+        padding: 1.5% 10% 1.5% 10%;
+        width: 70vw;
+    }
+    
+    .candle-result{
+        padding: 5%;
+        margin: 2%;
+    }
 
     .clock-refresh-icon {
         width: 25px;
