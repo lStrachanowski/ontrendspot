@@ -267,3 +267,10 @@ function extend_session(link) {
     let url = link.split('/').filter((_, i) => i > 2).join(",");
     window.location.href = "/extendsession/" + url;
 }
+
+let shareLink=(ticker)=>{
+    base_url = 'http://127.0.0.1:8000/stocks/'
+    navigator.clipboard.writeText(base_url+ticker)
+        .then(() => { alert(base_url+ticker + "\n Link skopiowany do showka."); })
+        .catch((error) => { alert(`Copy failed! ${error}`); });
+}
