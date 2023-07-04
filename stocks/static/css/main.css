@@ -690,6 +690,7 @@ input:placeholder {
 .back-arrow {
     cursor: pointer;
     width: 5%;
+    margin: 10px;
 }
 
 .left-position {
