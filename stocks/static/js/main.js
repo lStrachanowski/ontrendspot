@@ -268,6 +268,7 @@ function extend_session(link) {
     window.location.href = "/extendsession/" + url;
 }
 
+// Copy link to clipboard
 let shareLink=(ticker)=>{
     base_url = 'http://127.0.0.1:8000/stocks/'
     navigator.clipboard.writeText(base_url+ticker)

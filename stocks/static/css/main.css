@@ -558,7 +558,7 @@ input:placeholder {
     justify-content: space-between;
     border-radius: 15px;
     border: 1px solid #EBE9E9;
-    box-shadow: 4px 4px 4px rgb(127 120 120 / 20%)
+    box-shadow: 2px 4px 12px rgba(0,0,0,.12);
 }
 
 .formation-container-max-width {
