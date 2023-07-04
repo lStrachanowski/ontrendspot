@@ -442,7 +442,7 @@ def candles_view(request, date):
                     {"day": candle_days[0]['day'], "stock_data": value})
     print(candle_data_down_for_template, candle_data_up_for_template)
 
-    context = { "time": time_value, "day": date,
+    context = {"day": date,
                "candle_data_up": candle_data_up_for_template,
                "candle_data_down": candle_data_down_for_template}
     return render(request, 'stocks/candlesdetails.html', context )
