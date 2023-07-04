@@ -137,9 +137,8 @@ def index(request):
                "candle_data_down": candle_data_down_for_template}
 
     if request.user.is_authenticated:
-        time_value = check_logout_time(request)
         context = {"day":  volume_days[0]["day"],
-                   "tickers": volume_days[0]["stock"],  "time": time_value,
+                   "tickers": volume_days[0]["stock"],
                    "smadata_15_45": sma_data_15_45,
                    "smadata_50_200": sma_data_50_200,
                    "candle_data_up": candle_data_up_for_template,
@@ -209,7 +208,6 @@ def logout_view(request):
 
 def register(request):
     if request.method == "GET":
-        check_logout_time(request)
         return render(request, 'stocks/register.html')
     if request.method == "POST":
         if 'register_button' in request.POST:
@@ -255,7 +253,6 @@ def register(request):
 
 def confirmation(request):
     if request.method == "GET":
-        check_logout_time(request)
         return render(request, 'stocks/confirmation.html')
     if request.method == "POST":
         response = redirect('/')
@@ -268,8 +265,7 @@ def update_name(request):
 
 @login_required(login_url='/login')
 def account(request):
-    time_value = check_logout_time(request)
-    context = {"time": time_value}
+    context = {"time": "test"}
     if request.method == "POST":
         if 'user_name_save' in request.POST:
             form = FieldCheck(request.POST)
@@ -320,13 +316,12 @@ def account(request):
                     f = {'message_text': 'Please enter correct current password.'}
                     return render(request, 'stocks/message.html', context=f)
             else:
-                f = {'form': form, 'time': time_value}
+                f = {'form': form}
                 return render(request, 'stocks/account.html', context=f)
     return render(request, 'stocks/account.html', context)
 
 
 def edit(request):
-    check_logout_time(request)
     return render(request, 'stocks/edit.html')
 
 
@@ -343,8 +338,8 @@ def list(request):
     volumen_dates = [str(key) for key in volumen_data.groups.keys()]
     volumen_dates.reverse()
 
-    time_value = check_logout_time(request)
-    context = {"time": time_value, "volumen_dates": volumen_dates,
+
+    context = {"volumen_dates": volumen_dates,
                "sma_15_45": get_unique_dates(sma_15_45_dates), "sma_50_200": get_unique_dates(sma_50_200_dates), "candle_dates":get_unique_dates(candle_days)}
     return render(request, 'stocks/list.html', context)
 
@@ -375,7 +370,7 @@ def show_more_list_values(request, link):
 
 
 def daydetails(request, date):
-    time_value = check_logout_time(request)
+
     stock_list = []
     graph = []
     daily_percent_change = []
@@ -392,7 +387,7 @@ def daydetails(request, date):
         graph.append(candle_chart(ticker, 90, True, 'fig'))
     stock_data = zip(stock_list, daily_percent_change, stock_close)
     context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "time": time_value, "day": date, "stocksQuantity":len(stock_list)}
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "day": date, "stocksQuantity":len(stock_list)}
     return render(request, 'stocks/daydetails.html', context)
 
 def mean_view(request, date, interval1, interval2):
@@ -414,13 +409,11 @@ def mean_view(request, date, interval1, interval2):
                 graph.append(rolling_mean_charts(ticker, 120, [interval1, interval2]))
             stock_list.append(ticker)
     stock_data = zip(stock_list, daily_percent_change, stock_close)
-    time_value = check_logout_time(request)
-    context = {"graphJSON": graph, "stockData": stock_data, "stocksTickers": stock_list, "time": time_value, "day": date, "stocksQuantity":len(stock_list)}
+    context = {"graphJSON": graph, "stockData": stock_data, "stocksTickers": stock_list, "day": date, "stocksQuantity":len(stock_list)}
     return render(request, 'stocks/meandetails.html', context )
 
 
 def candles_view(request, date):
-    time_value = check_logout_time(request)
     candle_data = read_daylist('C')
     candle_days = []
     candle_data_up_for_template = []
@@ -458,7 +451,6 @@ def stock(request, stockname):
     daily_percent_change = stock_changes(
         stockname, 2, 1).dropna().iloc[0].round(3)
     stock_close = get_stock_from_db(stockname, 1)['stock_close'].iloc[0]
-    time_value = check_logout_time(request)
     graphJSON = candle_chart(stockname, 90, True, 'json')
     histogramJSON = histogram(stockname, 90)
     rollingMeanJSON = rolling_mean_charts(stockname, 180, [15, 30, 45])
@@ -474,7 +466,6 @@ def stock(request, stockname):
                "mean_volume": mean_volumeJSON,
                "daily_returns": daily_returnsJSON,
                "stock": Stock.objects.get(stock_symbol=stockname.upper()),
-               "time": time_value,
                "daily_change": daily_percent_change,
                "stock_close": stock_close}
     return render(request, 'stocks/stock.html', context)
@@ -488,45 +479,5 @@ def csrf_failure(request, reason=""):
 
 
 def page_not_found(request, exception=None):
-    check_logout_time(request)
     return render(request, 'stocks/404.html', status=404)
 
-
-def logout_counter(request, set_time):
-    request.session['login_time'] = timezone.now().timestamp()
-    expiration = request.session['login_time'] + set_time
-    request.session['expiration_time'] = expiration
-
-
-def check_logout_time(request):
-    if request.user.is_authenticated:
-        time_left = request.session['expiration_time'] - \
-            timezone.now().timestamp()
-        if time_left > 0:
-            return round(time_left, 2)
-        else:
-            logout_view(request)
-
-
-def extend_session(request, link=''):
-    logout_counter(request, 900)
-    check_logout_time(request)
-    url_parts = link.split(",")
-    if len(url_parts) > 1:
-        return redirect("http://" + request.get_host()+'/'+url_parts[0]+'/'+url_parts[1])
-    elif len(url_parts) == 1:
-        return redirect("http://" + request.get_host()+'/'+url_parts[0])
-    else:
-        return redirect("http://" + request.get_host())
-
-
-def time_left(request):
-    if request.method == "GET":
-        if request.user.is_authenticated:
-            time_left_value = request.session['expiration_time'] - \
-                timezone.now().timestamp()
-            time_value = {'time_value': time_left_value}
-            return JsonResponse(time_value, safe=False)
-        else:
-            time_value = {"time_value": False}
-            return JsonResponse(time_value, safe=False)

@@ -17,7 +17,6 @@ let siteMenu = document.getElementById("siteMenu");
 let passwordField = document.getElementById("password_field");
 let errorMessage = document.getElementsByClassName("error_message");
 let numberOfVolumeElements = 5;
-counterValue = false;
 
 window.dispatchEvent(new Event('resize'));
 
@@ -172,11 +171,6 @@ xhttp.onreadystatechange = function () {
     if (document.getElementById("user_name") !== null) {
         updateUser();
     }
-    let url = location.protocol + '//' + location.host + "/checktime"
-    fetch(url)
-        .then((response) => response.json())
-        .then((data) => counterValue = data.time_value);
-    timeDisplay(counterValue);
 
     if (errorMessage.length > 0) {
         passwordPrompt.style.display = "flex";
@@ -220,7 +214,7 @@ function updateUser() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let user_name = JSON.parse(this.responseText)['user'];
-            let user_email = JSON.parse(this.responseText)['email']; 1``
+            let user_email = JSON.parse(this.responseText)['email']; 
             const current_user_name = document.getElementById("user_name")
             const current_email = document.getElementById("user_email")
             current_user_name.innerHTML = "Name : " + user_name;
@@ -231,42 +225,7 @@ function updateUser() {
     xhttp.send();
 }
 
-function timeDisplay(value) {
-    let clock = document.getElementById("clock");
-    let refresIcon = document.getElementById("refresh-icon");
-    let clockInterval = setInterval(() => {
-        if (value > 0) {
-            let minutes = Math.floor(value / 60);
-            let seconds = Math.floor(value - minutes * 60);
-            if (value < 870) {
-                if (clock) {
-                    clock.style.display = "block";
-                    refresIcon.style.display = "block";
-                }
-            }
-            if (seconds < 10) {
-                if (clock) {
-                    clock.innerHTML = minutes + ":0" + seconds;
-                }
-            }
-            else {
-                if (clock) {
-                    clock.innerHTML = minutes + ":" + seconds;
-                }
-            }
-            value -= 1
-        } else if (value != false && value <= 0) {
-            clearInterval(clockInterval);
-            document.location.reload(true);
-        }
-    }, 1000);
-}
 
-
-function extend_session(link) {
-    let url = link.split('/').filter((_, i) => i > 2).join(",");
-    window.location.href = "/extendsession/" + url;
-}
 
 // Copy link to clipboard
 let shareLink=(ticker)=>{

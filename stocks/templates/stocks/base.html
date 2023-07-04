@@ -63,12 +63,6 @@
       </a>
     </div>
 
-    {% if time %}
-    <div class="clock-font" id="clock"></div>
-      <img src="{% static '/img/refresh.svg' %}" class="clock-refresh-icon cursor" id="refresh-icon" onclick="extend_session(window.location.href)">
-    {% endif %}
-
-
     {% if user.is_authenticated %} 
     <div class="login-options" id="login-options">
       <a href="{% url 'logout' %}" class="login-link">Log out</a>
