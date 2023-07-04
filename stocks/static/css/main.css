@@ -474,6 +474,7 @@ input:placeholder {
 
 .button-style-more {
     width: 15%;
+    word-break: break-word;
 }
 
 .button-style:hover {
@@ -657,6 +658,7 @@ input:placeholder {
     flex-direction: row;
     font-family: Roboto-Regular;
     margin: 4% 3%;
+    font-size: 0.85rem;
 }
 
 .formation-content-list {
@@ -1228,10 +1230,6 @@ select {
 
     .formation-header-list {
         width: auto;
-    }
-
-    .formation-content {
-        font-size: 0.85em;
     }
 
     .button-style {
