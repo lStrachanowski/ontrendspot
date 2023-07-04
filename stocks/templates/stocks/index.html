@@ -69,16 +69,18 @@
                 </div>
                 {%for sma in smadata_15_45|slice:"5" %}
                 <div class="formation-content">
-                    <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>
+                    <div class="formation-stock-ticker cursor width-10" onclick='location.href="/stocks/{{sma.Ticker}}";'>
                         {{sma.Ticker}}</div>
+                  
+                    <div class="width-35">{{sma.Date}}</div>
+
                     {% if sma.UP == "True" %}
-                    <div class="formation-stock-ticker green-font-color">UP</div>
+                    <div class="formation-stock-ticker green-font-color width-30">UP</div>
                     {% endif %}
 
                     {% if sma.DOWN == "True" %}
-                    <div class="formation-stock-ticker red-font-color">DOWN</div>
+                    <div class="formation-stock-ticker red-font-color width-30">DOWN</div>
                     {% endif %}
-                    <div>{{sma.Date}}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -99,16 +101,18 @@
                     </div>
                     {%for sma in smadata_50_200|slice:"5" %}
                     <div class="formation-content">
-                        <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{sma.Ticker}}";'>
+                        <div class="formation-stock-ticker cursor width-10" onclick='location.href="/stocks/{{sma.Ticker}}";'>
                             {{sma.Ticker}}</div>
+                       
+                        <div class="width-35">{{sma.Date}}</div>
+
                         {% if sma.UP == "True" %}
-                        <div class="formation-stock-ticker green-font-color">UP</div>
+                        <div class="formation-stock-ticker green-font-color width-30">UP</div>
                         {% endif %}
 
                         {% if sma.DOWN == "True" %}
-                        <div class="formation-stock-ticker red-font-color">DOWN</div>
+                        <div class="formation-stock-ticker red-font-color width-30">DOWN</div>
                         {% endif %}
-                        <div>{{sma.Date}}</div>
                     </div>
                     {% endfor %}
                 </div>
@@ -141,9 +145,10 @@
                 {% for candle in candle_data_up|slice:"5" %}
                 {% if candle.stock_data.1.1 == 'UP' %}
                 <div class="formation-content">
-                    <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{candle.stock_data.0}}";'>{{candle.stock_data.0}}</div>
-                    <div>{{candle.stock_data.1.0}}</div>
-                    <div>{{candle.day}}</div> 
+                    <div class="formation-stock-ticker cursor width-10" onclick='location.href="/stocks/{{candle.stock_data.0}}";'>{{candle.stock_data.0}}</div>
+                    <div class="width-35">{{candle.day}}</div>
+                    <div class="width-55">{{candle.stock_data.1.0}}</div>
+                     
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -167,9 +172,10 @@
                     {% for candle in candle_data_down|slice:"5" %}
                     {% if candle.stock_data.1.1 == 'DOWN' %}
                     <div class="formation-content">
-                        <div class="formation-stock-ticker cursor" onclick='location.href="/stocks/{{candle.stock_data.0}}";'>{{candle.stock_data.0}}</div>
-                        <div>{{candle.stock_data.1.0}}</div>
-                        <div>{{candle.day}}</div>
+                        <div class="formation-stock-ticker cursor width-10" onclick='location.href="/stocks/{{candle.stock_data.0}}";'>{{candle.stock_data.0}}</div>
+                        <div class="width-35">{{candle.day}}</div>
+                        <div class="width-55">{{candle.stock_data.1.0}}</div>
+                        
                     </div>
                     {% endif %}
                     {% endfor %}

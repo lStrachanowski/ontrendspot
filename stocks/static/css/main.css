@@ -132,6 +132,28 @@ input:placeholder {
     visibility: hidden;
 }
 
+.width-35{
+    min-width: 35%;
+    text-align: center;
+}
+
+.width-30{
+    min-width: 30%;
+    text-align: center;
+}
+
+.width-55{
+    min-width: 55%;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.width-10{
+    min-width: 10%;
+    text-align: center;
+}
+
+
 @keyframes fadeOut {
     from {
         opacity: 1;
