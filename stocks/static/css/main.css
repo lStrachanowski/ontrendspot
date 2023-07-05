@@ -483,7 +483,6 @@ input:placeholder {
     display: flex;
     flex-direction: row;
     align-items: center;
-    min-height: 17vh;
 }
 
 .newsletter-container {
@@ -492,8 +491,8 @@ input:placeholder {
     width: 65%;
     align-items: center;
     background-color: #A9C1CA;
-    min-height: 17vh;
     justify-content: center;
+    align-self: stretch;
 }
 
 .newsletter-position {
@@ -501,6 +500,7 @@ input:placeholder {
     flex-direction: column;
     justify-content: center;
     width: 50%;
+    padding: 3%;
 }
 
 .newsletter-font {
@@ -515,7 +515,7 @@ input:placeholder {
     box-sizing: border-box;
     box-shadow: inset 2px 3px 4px rgba(0, 0, 0, 0.25);
     width: 100%;
-    height: 5vh;
+    height: 40px;
 }
 
 .button-with-shadow {
@@ -558,11 +558,11 @@ input:placeholder {
 
 .socialmedia-container {
     background-color: #61AEC9;
-    min-height: 17vh;
     width: 35%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    align-self: stretch;
 }
 
 .socialmedia-icon {
