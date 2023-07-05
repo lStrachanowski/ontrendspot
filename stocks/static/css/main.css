@@ -37,7 +37,7 @@ input:placeholder {
 
 .login-options {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 17%;
 }
 
@@ -890,8 +890,8 @@ select {
     min-height: auto;
 }
 
-.width-75 {
-    min-width: 75vw;
+.width-55 {
+    min-width: 55vw;
 }
 
 .width-10percent {
@@ -935,7 +935,7 @@ select {
 
 .account-center-text {
     align-items: center;
-    margin: 1% 15%;
+    margin: 1% 8%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;

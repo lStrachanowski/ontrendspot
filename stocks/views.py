@@ -159,7 +159,6 @@ def login_auth(request):
                 if user is not None:
                     if user.is_active:
                         login(request, user)
-                        logout_counter(request, 900)
                         response = redirect('/')
                         return response
                 else:
