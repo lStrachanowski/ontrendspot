@@ -132,14 +132,17 @@ input:placeholder {
 .width-35{
     min-width: 35%;
     text-align: center;
+    word-wrap: break-word;
 }
 
 .width-30{
     min-width: 30%;
     text-align: center;
+    word-wrap: break-word;
 }
 
 .width-55{
+    min-width: 55%;
     text-align: center;
     word-wrap: break-word;
 }
@@ -654,6 +657,7 @@ input:placeholder {
     font-family: Roboto-Regular;
     margin: 4% 3%;
     font-size: 0.85rem;
+    align-items: center;
 }
 
 .formation-content-list {
@@ -889,9 +893,6 @@ select {
     min-height: auto;
 }
 
-.width-55 {
-    min-width: 55vw;
-}
 
 .width-10percent {
     width: 10%;
