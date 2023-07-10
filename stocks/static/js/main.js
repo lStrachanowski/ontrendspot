@@ -198,7 +198,7 @@ function valueUpdate(value) {
         if (this.readyState == 4 && this.status == 200) {
             let elementLength = resultList.querySelectorAll(".button-lista").length;
             numberOfVolumeElements = elementLength;
-            let templateDates = JSON.parse(this.responseText)['values'].slice(numberOfVolumeElements , numberOfVolumeElements+6);
+            let templateDates = JSON.parse(this.responseText)['values'].slice(numberOfVolumeElements, numberOfVolumeElements + 6);
             templateDates.forEach(element => {
                 html += elementTemplate(element);
             });
@@ -214,7 +214,7 @@ function updateUser() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let user_name = JSON.parse(this.responseText)['user'];
-            let user_email = JSON.parse(this.responseText)['email']; 
+            let user_email = JSON.parse(this.responseText)['email'];
             const current_user_name = document.getElementById("user_name")
             const current_email = document.getElementById("user_email")
             current_user_name.innerHTML = "Name : " + user_name;
@@ -228,9 +228,22 @@ function updateUser() {
 
 
 // Copy link to clipboard
-let shareLink=(ticker)=>{
-    base_url = 'http://127.0.0.1:8000/stocks/'
-    navigator.clipboard.writeText(base_url+ticker)
-        .then(() => { alert(base_url+ticker + "\n Link skopiowany do showka."); })
-        .catch((error) => { alert(`Copy failed! ${error}`); });
+let shareLink = (ticker) => {
+    site_url = window.location.href;
+    base_url = window.location.origin;
+
+    if (site_url.split('/').includes("volume")) {
+        navigator.clipboard.writeText(base_url + "/stocks/" + ticker)
+            .then(() => { alert(base_url + "/stocks/" + ticker + "\n Link skopiowany do showka."); })
+            .catch((error) => { alert(`Copy failed! ${error}`); });
+    }
+
+    if (site_url.split('/').includes("mean")) {
+        site_url = site_url.split("#")[0];
+        navigator.clipboard.writeText(site_url + "#" + ticker)
+            .then(() => { alert(site_url  + "#" + ticker + "\n Link skopiowany do showka."); })
+            .catch((error) => { alert(`Copy failed! ${error}`); });
+        
+    }
+    
 }
