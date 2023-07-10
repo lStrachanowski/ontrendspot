@@ -1,10 +1,9 @@
 {% extends "stocks/base.html" %}
 {% load static %}
 {% block content %}
+<div class="index-mainbox base-position-index-image "></div>
 <div class="base-position base-position-index  darkgreen-color">
     <div class="loader" id="loader">Loading...</div>
-    <div class="index-mainbox">
-    </div>
     <h1>Wolumeny dnia</h1>
     <div class="index-stoc-container-wrapper content">
         {% for ticker in tickers %}
