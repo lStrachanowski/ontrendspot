@@ -125,6 +125,13 @@ input:placeholder {
     background-color: white;
 }
 
+.index-mainbox{
+    width: 100vw;
+    height: 92vh;
+    background-image: url('../img/blur.svg');
+    background-size: cover;
+}
+
 .index-button {
     visibility: hidden;
 }
@@ -254,7 +261,7 @@ input:placeholder {
 }
 
 .base-position-index {
-    padding: 1.5% 5% 1.5% 5%;
+    padding: 0% 5% 1.5% 5%;
 }
 
 .candle-result-position{
@@ -1089,7 +1096,7 @@ select {
     }
 
     .base-position {
-        padding: 1.5% 5% 1.5% 5%;
+        padding: 0% 5% 1.5% 5%;
       }
 
     .candle-result-position{

@@ -2,8 +2,10 @@
 {% load static %}
 {% block content %}
 <div class="base-position base-position-index  darkgreen-color">
-    <h1>Wolumeny dnia</h1>
     <div class="loader" id="loader">Loading...</div>
+    <div class="index-mainbox">
+    </div>
+    <h1>Wolumeny dnia</h1>
     <div class="index-stoc-container-wrapper content">
         {% for ticker in tickers %}
         <div class="index-stock-position">
@@ -19,10 +21,6 @@
                         <div class="stock-name-size">
                             <a href="/stocks/{{ticker}}">{{ticker}}</a>
                         </div>
-                        <div>
-                            comments (21)
-                        </div>
-
                     </div>
                 </div>
             </div>
