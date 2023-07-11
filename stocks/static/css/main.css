@@ -125,14 +125,9 @@ input:placeholder {
     background-color: white;
 }
 
-.index-mainbox{
-    width: 100vw;
-    height: 72vh;
-    background-image: url('../img/blur.svg');
-    background-size: cover;
-    max-width: 100%;
-    padding-left: 0%;
-    padding-right: 0%;
+.index-image{
+    width: 100%;
+    padding: 0;
 }
 
 .index-button {
@@ -267,9 +262,9 @@ input:placeholder {
     padding: 0% 5% 1.5% 5%;
 }
 
-/* .base-position-index-image {
-    padding: 0% 0% 1.5% 0% !important;
-} */
+.base-position-index-image {
+    padding: 0% !important;
+}
 
 .candle-result-position{
     display: flex;
