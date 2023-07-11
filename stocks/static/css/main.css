@@ -130,6 +130,22 @@ input:placeholder {
     padding: 0;
 }
 
+.index-image-text{
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translate(-70%, -50%);
+    font-family: Roboto-Regular;
+    font-weight: 700;
+    font-size: 3em;
+    color: rgb(255, 255, 255);
+    text-shadow: 0 5.36px 4.896px rgba(0, 0, 0, 0.2);
+    width: max-content;
+    line-height: 1.0;
+    text-align: end;
+    letter-spacing: .05em;
+}
+
 .index-button {
     visibility: hidden;
 }
@@ -264,6 +280,7 @@ input:placeholder {
 
 .base-position-index-image {
     padding: 0% !important;
+    position: relative;
 }
 
 .candle-result-position{
@@ -1082,6 +1099,9 @@ select {
 
 
 @media only screen and (max-width: 768px) {
+    .index-image-text{
+        font-size: 1.75em;
+    }
 
     .width-75{
         min-width: 75%;
