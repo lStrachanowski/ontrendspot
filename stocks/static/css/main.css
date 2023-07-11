@@ -127,7 +127,7 @@ input:placeholder {
 
 .index-mainbox{
     width: 100vw;
-    height: 92vh;
+    height: 72vh;
     background-image: url('../img/blur.svg');
     background-size: cover;
     max-width: 100%;
