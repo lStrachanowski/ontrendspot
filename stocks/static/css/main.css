@@ -121,6 +121,10 @@ input:placeholder {
     ;
 }
 
+.black{
+    color: #000000;
+}
+
 .white-background {
     background-color: white;
 }
@@ -137,7 +141,7 @@ input:placeholder {
     transform: translate(-70%, -50%);
     font-family: Roboto-Regular;
     font-weight: 700;
-    font-size: 3em;
+    font-size: 4em;
     color: rgb(255, 255, 255);
     text-shadow: 0 5.36px 4.896px rgba(0, 0, 0, 0.2);
     width: max-content;
