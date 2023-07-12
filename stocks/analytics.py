@@ -4,7 +4,7 @@ from .models import DataSource, Stock, DayList
 import datetime
 import talib
 import pathlib
-from datetime import timedelta, datetime, date
+from datetime import timedelta, datetime, date, timedelta
 from talib import abstract
 from .candlesNames import candle_name_table
 
@@ -484,3 +484,18 @@ def add_candle_data_to_db(period):
 
     t = pd.concat(result_data, ignore_index=True)
     add_daylist_to_db(rename_candles_to_db(t), 'C')
+
+
+def template_mean(ticker, current_date, range):
+    """
+    Returns lit with calculated mean volume values in given raage and from current date
+        Arguments:
+        ticker (str):  stock ticker
+        current_date (date): date since when caculation are performed
+        range (list): list with number of days to calculate
+    """
+    data = {"Ticker":ticker}
+    for value in range:
+        temp = get_stock_mean_volume_value(ticker, value, current_date)
+        data[value] = round(float(temp), 2)
+    return data

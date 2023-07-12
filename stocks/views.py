@@ -14,10 +14,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_daylist, add_daylist_to_db, get_key_dates,\
-    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates, candle_pattern, rename_candles_to_db, add_candle_data_to_db
+    sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates, candle_pattern, rename_candles_to_db,\
+    add_candle_data_to_db, template_mean
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -348,17 +349,17 @@ def show_more_list_values(request, link):
         volumen_data = read_daylist('V')
         dates = [str(key) for key in volumen_data.groups.keys()]
         dates.reverse()
-        print(dates)
+
     if link == "sma_15_45_list":
         crossing_data = read_daylist('M')
         sma_dates = get_crossing_dates(crossing_data)[0]
         dates = get_unique_dates(sma_dates)
-        print(dates)
+
     if link == "sma_50_200_list":
         crossing_data = read_daylist('M')
         sma_dates = get_crossing_dates(crossing_data)[1]
         dates = get_unique_dates(sma_dates)
-        print(dates)
+
     if link == "CandlePattern":
         candle_data = read_daylist('C')
         candle_days = [str(v[0]) for v in candle_data]
@@ -369,24 +370,27 @@ def show_more_list_values(request, link):
 
 
 def daydetails(request, date):
-
     stock_list = []
     graph = []
     daily_percent_change = []
     stock_close = []
+    mean_values_list = []
     data = read_daylist('V')
     for value in data:
         date_object = datetime.strptime(date, '%Y-%m-%d').date()
         if value[0] == date_object:
             stock_list = value[1]['stock_symbol'].tolist()
     for ticker in stock_list:
+        mean_data = template_mean(ticker, date , [1,5,30])
+        mean_values_list.append(mean_data)
         daily_percent_change.append(stock_changes(
             ticker, 2, 1).dropna().iloc[0].round(3))
         stock_close.append(get_stock_from_db(ticker, 1)['stock_close'].iloc[0])
         graph.append(candle_chart(ticker, 90, True, 'fig'))
+    print(mean_values_list[0])
     stock_data = zip(stock_list, daily_percent_change, stock_close)
     context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "day": date, "stocksQuantity":len(stock_list)}
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "day": date, "stocksQuantity":len(stock_list), "meanData": mean_values_list[0]}
     return render(request, 'stocks/daydetails.html', context)
 
 def mean_view(request, date, interval1, interval2):
@@ -439,7 +443,6 @@ def candles_view(request, date):
                 value[1][0] = candle_name_table[value[1][0]]
                 candle_data_down_for_template.append(
                     {"day": candle_days[0]['day'], "stock_data": value})
-    print(candle_data_down_for_template, candle_data_up_for_template)
 
     context = {"day": date,
                "candle_data_up": candle_data_up_for_template,
