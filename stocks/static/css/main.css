@@ -711,7 +711,7 @@ input:placeholder {
 }
 
 .day-text {
-    font-family: Roboto-Bold;
+    font-family: Roboto-Regular;
     font-size: 1.25em;
     padding: 0.5% 4%;
 }
@@ -752,6 +752,7 @@ input:placeholder {
 .day-data-position {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .share-size {

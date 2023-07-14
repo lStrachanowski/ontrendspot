@@ -32,17 +32,17 @@
         <div id="{{stock}}" class="index-stock-image min-height"></div>
     </div>
     <div class="day-data day-text">
-        <div class="day-data-position ">
-            <div>Średni wolumen dzisiaj : </div>
-            <div class="day-text-font day-text-font-margin"> {{means.1}} PLN</div>
-        </div>
-        <div class="day-data-position ">
-            <div>Średni wolumen 5 dni : </div>
-            <div class="day-text-font day-text-font-margin"> {{means.5}} PLN </div>
+        <div class="day-data-position">
+            <div >Średni wolumen dzisiaj : </div>
+            <div class="day-text-font day-text-font-margin"> {{means.1|floatformat:2}} PLN</div>
         </div>
         <div class="day-data-position">
-            <div>Sredni wolumen 30 dni : </div>
-            <div class="day-text-font day-text-font-margin"> {{means.30}} PLN</div>
+            <div >Dzisiejszy wolumen w stosunku do średniej z 5 dni : </div>
+            <div class="day-text-font day-text-font-margin"> {{means.5|floatformat:2}} %</div>
+        </div>
+        <div class="day-data-position">
+            Dzisiejszy wolumen w stosunku do średniej z 30 dni :
+            <div class="day-text-font day-text-font-margin"> {{means.30|floatformat:2}} %</div>
         </div>
         <div class="share-position">
             <img src="{% static 'img/share.svg' %} " class="share-size black-arroe" onclick='shareLink("{{stock}}")'>

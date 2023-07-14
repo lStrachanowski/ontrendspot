@@ -15,7 +15,7 @@ from .models import Stock, DataSource
 from .analytics import read_stock_from_file, add_to_database, get_stock_from_db, stocks_files_paths, update_database, add_stock_informations, \
     get_stock_mean_volume_value, percent_volume_change, get_stocks_mean_volumes, analyze_percent_changes, add_missing_stock_data, read_daylist, add_daylist_to_db, get_key_dates,\
     sma_calculation, sma_signals, get_tickers, get_sma_results_from_db, sma_template_data, sma_elements, get_unique_dates, get_crossing_dates, candle_pattern, rename_candles_to_db,\
-    add_candle_data_to_db, template_mean
+    add_candle_data_to_db, template_mean_volume
 from .charts import candle_chart, histogram, mean_volume_chart, rolling_mean_charts, rsi_chart, bollinger_bands_chart, mean_volume_chart, daily_returns_chart, stock_changes
 import pandas as pd
 from datetime import datetime, timedelta
@@ -381,15 +381,16 @@ def daydetails(request, date):
         if value[0] == date_object:
             stock_list = value[1]['stock_symbol'].tolist()
     for ticker in stock_list:
-        mean_data = template_mean(ticker, date , [1,5,30])
+        mean_data = template_mean_volume(ticker, date , [1,5,30])
         mean_values_list.append(mean_data)
         daily_percent_change.append(stock_changes(
             ticker, 2, 1).dropna().iloc[0].round(3))
         stock_close.append(get_stock_from_db(ticker, 1)['stock_close'].iloc[0])
         graph.append(candle_chart(ticker, 90, True, 'fig'))
+    print(mean_values_list)
     stock_data = zip(stock_list, daily_percent_change, stock_close, mean_values_list)
     context = {"graphJSON": json.dumps(
-        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "day": date, "stocksQuantity":len(stock_list)}
+        graph, cls=plotly.utils.PlotlyJSONEncoder), "charts": stock_data, "chartData": stock_list, "day": date, "stocksQuantity":len(stock_list),}
     return render(request, 'stocks/daydetails.html', context)
 
 def mean_view(request, date, interval1, interval2):

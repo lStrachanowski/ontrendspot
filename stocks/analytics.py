@@ -486,7 +486,7 @@ def add_candle_data_to_db(period):
     add_daylist_to_db(rename_candles_to_db(t), 'C')
 
 
-def template_mean(ticker, current_date, range):
+def template_mean_volume(ticker, current_date, range):
     """
     Returns lit with calculated mean volume values in given raage and from current date
         Arguments:
@@ -494,8 +494,14 @@ def template_mean(ticker, current_date, range):
         current_date (date): date since when caculation are performed
         range (list): list with number of days to calculate
     """
+    current_mean = 0
     data = {"Ticker":ticker}
     for value in range:
         temp = get_stock_mean_volume_value(ticker, value, current_date)
-        data[value] = round(float(temp), 2)
+        if value == 1:
+            current_mean = round(float(temp), 2)
+            data[value] = round(float(temp), 2)
+        else:
+            data[value] = (current_mean / round(float(temp), 2) ) * 100
+    print(data)
     return data
