@@ -34,15 +34,28 @@
     <div class="day-data day-text">
         <div class="day-data-position">
             <div >Średni wolumen dzisiaj : </div>
-            <div class="day-text-font day-text-font-margin"> {{means.1|floatformat:2}} PLN</div>
+            <div class="day-text-font day-text-font-margin"> 
+                {{means.1|floatformat:2}} PLN</div>
         </div>
         <div class="day-data-position">
-            <div >Dzisiejszy wolumen w stosunku do średniej z 5 dni : </div>
-            <div class="day-text-font day-text-font-margin"> {{means.5|floatformat:2}} %</div>
+            <div class="day-text-font day-text-font-margin"> 
+                Dzisiejszy wolumen w stosunku do średniej z 5 dni
+                {% if means.5 >= 0 %}
+                    jest większy o {{means.5|floatformat:2}} %
+                {% elif means.5 < 0 %}
+                    jest mniejszy o {{means.5|floatformat:2}} % 
+                {% endif %}
+            </div>
         </div>
         <div class="day-data-position">
-            Dzisiejszy wolumen w stosunku do średniej z 30 dni :
-            <div class="day-text-font day-text-font-margin"> {{means.30|floatformat:2}} %</div>
+            <div class="day-text-font day-text-font-margin"> 
+                Dzisiejszy wolumen w stosunku do średniej z 30 dni
+                {% if means.30 >= 0 %}
+                    jest większy o {{means.30|floatformat:2}} % 
+                {% elif means.30 < 0 %}
+                    jest mniejszy o {{means.30|floatformat:2}} % 
+                {% endif %}
+            </div>
         </div>
         <div class="share-position">
             <img src="{% static 'img/share.svg' %} " class="share-size black-arroe" onclick='shareLink("{{stock}}")'>
