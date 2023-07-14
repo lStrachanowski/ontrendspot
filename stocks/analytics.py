@@ -162,7 +162,7 @@ def rsi(stockname, period):
 
 def mean_volume(stockname, period):
     df = get_stock_from_db(stockname.upper(), period)
-    df['rolling_volume'] = df['volume'].rolling(30).mean().round(4).dropna()
+    df['rolling_volume'] = df['volume'].rolling(period).mean().round(4).dropna()
     df2 = df[['day', 'rolling_volume']]
     return df2
 
@@ -202,9 +202,9 @@ def get_stock_mean_volume_value(ticker, period, end_date):
     end_date_converted = datetime(int(end_date_value[0]), int(
         end_date_value[1]), int(end_date_value[2]))
     data_set = DataSource.objects.filter(
-        stock_symbol=ticker, day__lte=end_date_converted)
+        stock_symbol=ticker, day__lt=end_date_converted)
     df = convert_to_dataframe(data_set)[-period:]
-    df['volumen_value'] = df['stock_close'] * df['volume']
+    df['volumen_value'] = df['volume']
     df = df.groupby(by=['stock_symbol'])['volumen_value'].mean()
     return df
 
@@ -488,20 +488,18 @@ def add_candle_data_to_db(period):
 
 def template_mean_volume(ticker, current_date, range):
     """
-    Returns lit with calculated mean volume values in given raage and from current date
+    Returns list with calculated percent mean volume values in given range and from current date
         Arguments:
         ticker (str):  stock ticker
         current_date (date): date since when caculation are performed
         range (list): list with number of days to calculate
     """
-    current_mean = 0
+    curent_volume = get_stock_from_db(ticker, 1)['volume']
     data = {"Ticker":ticker}
     for value in range:
         temp = get_stock_mean_volume_value(ticker, value, current_date)
         if value == 1:
-            current_mean = round(float(temp), 2)
-            data[value] = round(float(temp), 2)
+            data[value] = curent_volume
         else:
-            data[value] = (current_mean / round(float(temp), 2) ) * 100
-    print(data)
+            data[value] = (curent_volume / round(float(temp), 2) ) * 100
     return data

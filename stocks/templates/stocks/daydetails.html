@@ -35,24 +35,27 @@
         <div class="day-data-position">
             <div >Średni wolumen dzisiaj : </div>
             <div class="day-text-font day-text-font-margin"> 
-                {{means.1|floatformat:2}} PLN</div>
+                {{means.1|floatformat:2}}</div>
         </div>
         <div class="day-data-position">
             <div class="day-text-font day-text-font-margin"> 
                 Dzisiejszy wolumen w stosunku do średniej z 5 dni
-                {% if means.5 >= 0 %}
+                {% if means.5|floatformat:2 >= 0 %}
                     jest większy o {{means.5|floatformat:2}} %
-                {% elif means.5 < 0 %}
+                    {% endif %}
+                {% if means.5|floatformat:2 < 0 %}
                     jest mniejszy o {{means.5|floatformat:2}} % 
-                {% endif %}
+                    {% endif %}
+                
             </div>
         </div>
         <div class="day-data-position">
             <div class="day-text-font day-text-font-margin"> 
                 Dzisiejszy wolumen w stosunku do średniej z 30 dni
-                {% if means.30 >= 0 %}
+                {% if means.30|floatformat:2 >= 0 %}
                     jest większy o {{means.30|floatformat:2}} % 
-                {% elif means.30 < 0 %}
+                {% endif %}   
+                {% if means.30|floatformat:2 < 0 %}
                     jest mniejszy o {{means.30|floatformat:2}} % 
                 {% endif %}
             </div>
